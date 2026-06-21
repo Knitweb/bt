@@ -21,7 +21,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Check out EURBT
+      - name: Check out BT
         uses: actions/checkout@v4
 
       - name: Configure Pages

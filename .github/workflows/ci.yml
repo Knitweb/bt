@@ -8,7 +8,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out EURBT
+      - name: Check out BT
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -20,8 +20,7 @@ jobs:
         run: python -m pip install --upgrade pip pytest -e .
 
       - name: Compile
-        run: python -m py_compile src/eurbt/*.py scripts/build_dex_research.py
+        run: python -m py_compile src/bt/*.py scripts/build_dex_research.py
 
       - name: Tests
         run: python -m pytest -q
-
