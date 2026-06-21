@@ -65,6 +65,20 @@ The receiver can show `instant_accepted` once the signature and actor registry c
 pass. That status is a receiver UX state, not a claim that every external settlement
 rail has finalised.
 
+## PLS Real-Funds Gate
+
+PLS markets use the same signed-order and deterministic matching core, but real-funds
+submission has an additional readiness gate. A market can accept signed dry-run orders
+when chains and assets are known. It must reject real-funds orders unless:
+
+- both assets have real-funds-eligible asset profiles;
+- the settlement route has a deployed adapter or escrow contract;
+- an audit or formal verification reference is attached;
+- chain receipt and confirmation checks are available for release decisions.
+
+This prevents the UI from treating a PLS offer as safe just because the local order
+signature and actor checks are valid.
+
 ## Serverless Target
 
 The target architecture avoids privileged hosts:

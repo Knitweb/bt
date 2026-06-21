@@ -9,7 +9,7 @@ from .actors import ActorRegistry
 from .canonical import canonical_bytes, peer_id, record_id
 from .keys import Keypair, verify
 from .models import Asset
-from .money import format_units, validate_atoms
+from .money import format_units, max_atoms_for_decimals, validate_atoms
 
 
 INSTANT_ACCEPTED = "instant_accepted"
@@ -29,7 +29,7 @@ class Transfer:
     def __post_init__(self) -> None:
         if not self.sender.startswith("peer_") or not self.receiver.startswith("peer_"):
             raise ValueError("sender and receiver must be peer ids")
-        validate_atoms(self.amount_atoms, field="amount_atoms")
+        validate_atoms(self.amount_atoms, field="amount_atoms", max_atoms=max_atoms_for_decimals(self.asset.decimals))
         if not self.nonce:
             raise ValueError("nonce is required")
         if isinstance(self.created_at, bool) or not isinstance(self.created_at, int):
@@ -129,4 +129,3 @@ def receive_transfer(signed: SignedTransfer, registry: ActorRegistry) -> Receipt
         status=INSTANT_ACCEPTED,
         reason=reason,
     )
-

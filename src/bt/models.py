@@ -7,7 +7,7 @@ from typing import Any
 
 from .canonical import canonical_bytes, peer_id, record_id
 from .keys import Keypair, verify
-from .money import BT_DECIMALS, format_units, parse_units, quote_amount_atoms, validate_atoms
+from .money import BT_DECIMALS, format_units, max_atoms_for_decimals, parse_units, quote_amount_atoms, validate_atoms
 
 
 BUY = "buy"
@@ -27,6 +27,7 @@ class Asset:
             raise ValueError("asset symbol and chain are required")
         if self.decimals < 0:
             raise ValueError("asset decimals must be non-negative")
+        max_atoms_for_decimals(self.decimals)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -94,11 +95,28 @@ class Order:
             raise ValueError("expires_at must be after created_at")
         if not 0 <= self.trust_min <= 100:
             raise ValueError("trust_min must be between 0 and 100")
-        validate_atoms(self.price_atoms, field="price_atoms")
-        validate_atoms(self.quantity_atoms, field="quantity_atoms")
-        validate_atoms(self.min_quantity_atoms, field="min_quantity_atoms", allow_zero=True)
+        validate_atoms(self.price_atoms, field="price_atoms", max_atoms=max_atoms_for_decimals(self.pair.quote.decimals))
+        validate_atoms(
+            self.quantity_atoms,
+            field="quantity_atoms",
+            max_atoms=max_atoms_for_decimals(self.pair.base.decimals),
+        )
+        validate_atoms(
+            self.min_quantity_atoms,
+            field="min_quantity_atoms",
+            max_atoms=max_atoms_for_decimals(self.pair.base.decimals),
+            allow_zero=True,
+        )
         if self.min_quantity_atoms > self.quantity_atoms:
             raise ValueError("min_quantity_atoms must be between zero and quantity_atoms")
+        quote_amount_atoms(
+            self.price_atoms,
+            self.quantity_atoms,
+            self.pair.base.decimals,
+            max_price_atoms=max_atoms_for_decimals(self.pair.quote.decimals),
+            max_quantity_atoms=max_atoms_for_decimals(self.pair.base.decimals),
+            max_quote_atoms=max_atoms_for_decimals(self.pair.quote.decimals),
+        )
 
     @classmethod
     def from_human(
@@ -120,9 +138,13 @@ class Order:
             maker=maker,
             pair=pair,
             side=side,
-            price_atoms=parse_units(price, pair.quote.decimals),
-            quantity_atoms=parse_units(quantity, pair.base.decimals),
-            min_quantity_atoms=parse_units(min_quantity, pair.base.decimals),
+            price_atoms=parse_units(price, pair.quote.decimals, max_atoms=max_atoms_for_decimals(pair.quote.decimals)),
+            quantity_atoms=parse_units(quantity, pair.base.decimals, max_atoms=max_atoms_for_decimals(pair.base.decimals)),
+            min_quantity_atoms=parse_units(
+                min_quantity,
+                pair.base.decimals,
+                max_atoms=max_atoms_for_decimals(pair.base.decimals),
+            ),
             expires_at=expires_at,
             nonce=nonce,
             created_at=created_at,
@@ -151,15 +173,24 @@ class Order:
 
     @classmethod
     def from_dict(cls, value: dict[str, Any]) -> "Order":
+        pair = Pair.from_dict(value["pair"])
         return cls(
             maker=str(value["maker"]),
-            pair=Pair.from_dict(value["pair"]),
+            pair=pair,
             side=str(value["side"]),
-            price_atoms=int(value["price_atoms"]) if "price_atoms" in value else parse_units(str(value["price"])),
-            quantity_atoms=int(value["quantity_atoms"]) if "quantity_atoms" in value else parse_units(str(value["quantity"])),
+            price_atoms=int(value["price_atoms"])
+            if "price_atoms" in value
+            else parse_units(str(value["price"]), pair.quote.decimals, max_atoms=max_atoms_for_decimals(pair.quote.decimals)),
+            quantity_atoms=int(value["quantity_atoms"])
+            if "quantity_atoms" in value
+            else parse_units(str(value["quantity"]), pair.base.decimals, max_atoms=max_atoms_for_decimals(pair.base.decimals)),
             min_quantity_atoms=int(value.get("min_quantity_atoms", 0))
             if "min_quantity_atoms" in value
-            else parse_units(str(value.get("min_quantity", "0"))),
+            else parse_units(
+                str(value.get("min_quantity", "0")),
+                pair.base.decimals,
+                max_atoms=max_atoms_for_decimals(pair.base.decimals),
+            ),
             expires_at=int(value["expires_at"]),
             nonce=str(value["nonce"]),
             created_at=int(value["created_at"]),
@@ -225,7 +256,14 @@ class Trade:
 
     @property
     def quote_quantity_atoms(self) -> int:
-        return quote_amount_atoms(self.price_atoms, self.quantity_atoms, self.pair.base.decimals)
+        return quote_amount_atoms(
+            self.price_atoms,
+            self.quantity_atoms,
+            self.pair.base.decimals,
+            max_price_atoms=max_atoms_for_decimals(self.pair.quote.decimals),
+            max_quantity_atoms=max_atoms_for_decimals(self.pair.base.decimals),
+            max_quote_atoms=max_atoms_for_decimals(self.pair.quote.decimals),
+        )
 
     def to_dict(self, include_id: bool = True) -> dict[str, Any]:
         data = {

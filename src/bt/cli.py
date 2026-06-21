@@ -7,10 +7,12 @@ import json
 
 from .actors import Actor, AGENT, PERSON, VOTEBANK_DAO
 from .basket import bt_genesis_spec
+from .chains import BT_ON_PULSE, PLS
 from .keys import Keypair
 from .market import BtMarket
 from .models import BUY, SELL, Asset, Order, Pair, SignedOrder
 from .p2p import Envelope
+from .readiness import REAL_FUNDS, SIGNED_DRY_RUN
 from .trust import Attestation, SignedAttestation
 
 
@@ -90,13 +92,87 @@ def build_demo() -> dict[str, object]:
     }
 
 
+def build_pls_demo() -> dict[str, object]:
+    now = 1_750_000_000
+    buyer = Keypair.generate()
+    seller = Keypair.generate()
+    auditor = Keypair.generate()
+    pair = Pair(PLS, BT_ON_PULSE)
+    market = BtMarket(pair)
+    market.register_actor(Actor("person:pls-buyer", PERSON, buyer.peer_id, identified=True))
+    market.register_actor(Actor("person:pls-seller", PERSON, seller.peer_id, identified=True))
+
+    for subject, note in (
+        (buyer.peer_id, "buyer has prior PulseChain settlement evidence"),
+        (seller.peer_id, "seller controls the PLS offer key and has no open disputes"),
+    ):
+        attestation = Attestation(
+            issuer=auditor.peer_id,
+            subject=subject,
+            kind="settlement_history",
+            score_delta=75,
+            issued_at=now,
+            expires_at=now + 86_400,
+            evidence=f"pls-demo://{subject}",
+            note=note,
+        )
+        market.submit_attestation(SignedAttestation.sign(attestation, auditor), now=now)
+
+    buy_order = Order.from_human(
+        maker=buyer.peer_id,
+        pair=pair,
+        side=BUY,
+        price="1.01",
+        quantity="500",
+        min_quantity="25",
+        trust_min=70,
+        created_at=now + 1,
+        expires_at=now + 3600,
+        nonce="pls-buyer-1",
+        settlement="pulsechain-escrow",
+    )
+    sell_order = Order.from_human(
+        maker=seller.peer_id,
+        pair=pair,
+        side=SELL,
+        price="1.00",
+        quantity="250",
+        min_quantity="25",
+        trust_min=70,
+        created_at=now + 2,
+        expires_at=now + 3600,
+        nonce="pls-seller-1",
+        settlement="pulsechain-escrow",
+    )
+    for keypair, order in ((buyer, buy_order), (seller, sell_order)):
+        market.submit_order(SignedOrder.sign(order, keypair), now=now)
+
+    trades = market.match(now=now + 3)
+    plans = [market.settlement_plan(trade).to_dict() for trade in trades]
+    dry_run = market.readiness_report(mode=SIGNED_DRY_RUN)
+    real_funds = market.readiness_report(mode=REAL_FUNDS)
+    return {
+        "pair": pair.symbol,
+        "dry_run_readiness": dry_run.to_dict(),
+        "real_funds_readiness": real_funds.to_dict(),
+        "trades": [trade.to_dict() for trade in trades],
+        "settlement_plans": plans,
+        "buyer_trust": market.explain_peer(buyer.peer_id, now=now + 3),
+        "seller_trust": market.explain_peer(seller.peer_id, now=now + 3),
+    }
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="bt")
     sub = parser.add_subparsers(dest="command")
     sub.add_parser("demo", help="run a local signed-order DEX demo")
+    sub.add_parser("pls-demo", help="run a PulseChain PLS signed-order safety demo")
     args = parser.parse_args(argv)
     if args.command == "demo":
         print(json.dumps(build_demo(), indent=2, sort_keys=True))
+        return 0
+    if args.command == "pls-demo":
+        print(json.dumps(build_pls_demo(), indent=2, sort_keys=True))
         return 0
     parser.print_help()
     return 0

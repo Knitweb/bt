@@ -107,6 +107,13 @@ basket spec ID and target atoms on every conforming node.
 `instant_accepted` means the transfer signature and actor registry checks passed. It
 does not imply chain finality, custody, redemption, or dispute expiry.
 
+### I9: Real-Funds Readiness Gate
+
+A real-funds order cannot be accepted unless the pair has supported chains, real-funds
+eligible asset profiles, a configured settlement adapter, and an audit or formal
+verification reference. Signed dry-run orders may be accepted without those production
+artifacts, but must be labelled as dry-run.
+
 ## Proof Obligations
 
 - Show that `normalise_weights` always sums to `1_000_000` for positive inputs.
@@ -114,4 +121,4 @@ does not imply chain finality, custody, redemption, or dispute expiry.
 - Show that stale vBank points retain bounded influence and cannot dominate fresh
   high-participation points.
 - Show that no unsigned or non-DAO basket spec can pass verification.
-
+- Show that `submit_real_funds_order` cannot bypass readiness blockers.

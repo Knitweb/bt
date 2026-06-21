@@ -6,6 +6,7 @@ from .actors import Actor, ActorRegistry
 from .models import Pair, SignedOrder, Trade
 from .orderbook import OrderBook
 from .p2p import Envelope, PeerStore
+from .readiness import REAL_FUNDS, DexReadinessReport, assess_pair_readiness
 from .settlement import SettlementPlan, plan_settlement
 from .trust import SignedAttestation, TrustBook
 
@@ -24,6 +25,37 @@ class BtMarket:
     def submit_order(self, signed_order: SignedOrder, now: int | None = None) -> str:
         self.actor_registry.require_transactor(signed_order.order.maker)
         return self.orderbook.add(signed_order, now=now)
+
+    def submit_real_funds_order(
+        self,
+        signed_order: SignedOrder,
+        *,
+        settlement_contract: str,
+        audit_reference: str,
+        now: int | None = None,
+    ) -> str:
+        report = self.readiness_report(
+            mode=REAL_FUNDS,
+            settlement_contract=settlement_contract,
+            audit_reference=audit_reference,
+        )
+        if not report.real_funds_ready:
+            raise ValueError(report.explain())
+        return self.submit_order(signed_order, now=now)
+
+    def readiness_report(
+        self,
+        *,
+        mode: str = "signed_dry_run",
+        settlement_contract: str = "",
+        audit_reference: str = "",
+    ) -> DexReadinessReport:
+        return assess_pair_readiness(
+            self.pair,
+            mode=mode,
+            settlement_contract=settlement_contract,
+            audit_reference=audit_reference,
+        )
 
     def submit_attestation(self, signed_attestation: SignedAttestation, now: int | None = None) -> str:
         return self.trust_book.add(signed_attestation, now=now)

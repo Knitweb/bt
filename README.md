@@ -31,6 +31,7 @@ EUR as its display numeraire, but the repository and package identity are BT.
 - `docs/BASKET_POLICY.md` explains the anchor-currency plus trade, crypto, and commodity basket.
 - `docs/FORMAL_SPEC.md` defines the current protocol invariants.
 - `docs/ACADEMIC_ROADMAP.md` lists the research work needed before production claims.
+- `docs/PLS_READINESS.md` explains what is still blocking real PLS trading.
 - `data/dex_top100_2026-06-21.json` stores the generated top-100 matrix.
 
 ## Website
@@ -51,6 +52,7 @@ Data source: DeFiLlama DEX overview snapshot from `https://api.llama.fi/overview
 python -m pip install -e .
 python -m pytest -q
 bt demo
+bt pls-demo
 ```
 
 ## Design Position

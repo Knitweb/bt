@@ -11,10 +11,10 @@
       <header class="topbar">
         <div>
           <h1>BT</h1>
-          <p class="subline">Integer-settled P2P DEX market</p>
+          <p class="subline">PulseChain PLS signed-order DEX market</p>
         </div>
         <div class="status-strip" aria-label="market status">
-          <span><strong id="midPrice">--</strong> BTC/BT</span>
+          <span><strong id="midPrice">--</strong> PLS/BT</span>
           <span><strong id="basketIndex">--</strong> basket</span>
           <span><strong id="trustFloor">--</strong> trust floor</span>
         </div>
@@ -24,7 +24,7 @@
         <section class="market-panel">
           <div class="panel-head">
             <div>
-              <h2>BTC / BT</h2>
+              <h2>PLS / BT</h2>
               <p id="marketMode">local signed-order session</p>
             </div>
             <button id="seedButton" type="button">Refresh Session</button>
@@ -45,22 +45,22 @@
             <label>
               Side
               <select id="sideInput">
-                <option value="buy">Buy BTC</option>
-                <option value="sell">Sell BTC</option>
+                <option value="buy">Buy PLS</option>
+                <option value="sell">Sell PLS</option>
               </select>
             </label>
             <label>
               Price
-              <input id="priceInput" name="price" inputmode="decimal" value="61000" />
+              <input id="priceInput" name="price" inputmode="decimal" value="1.01" />
             </label>
             <label>
               Quantity
-              <input id="quantityInput" name="quantity" inputmode="decimal" value="0.02" />
+              <input id="quantityInput" name="quantity" inputmode="decimal" value="100" />
             </label>
             <label>
               Minimum Trust
-              <input id="trustInput" name="trust" type="range" min="0" max="100" value="50" />
-              <output id="trustOutput">50</output>
+              <input id="trustInput" name="trust" type="range" min="0" max="100" value="70" />
+              <output id="trustOutput">70</output>
             </label>
             <button type="submit">Sign Order</button>
           </form>
@@ -81,7 +81,7 @@
               <h3>Asks</h3>
               <table>
                 <thead>
-                  <tr><th>Price</th><th>BTC</th><th>Trust</th></tr>
+                  <tr><th>Price</th><th>PLS</th><th>Trust</th></tr>
                 </thead>
                 <tbody id="asksBody"></tbody>
               </table>
@@ -90,12 +90,20 @@
               <h3>Bids</h3>
               <table>
                 <thead>
-                  <tr><th>Price</th><th>BTC</th><th>Trust</th></tr>
+                  <tr><th>Price</th><th>PLS</th><th>Trust</th></tr>
                 </thead>
                 <tbody id="bidsBody"></tbody>
               </table>
             </div>
           </div>
+        </section>
+
+        <section class="safety-panel">
+          <div class="panel-head compact">
+            <h2>PLS Safety</h2>
+            <span>real funds blocked</span>
+          </div>
+          <div id="safetyList" class="safety-list"></div>
         </section>
 
         <section class="trust-panel">
@@ -113,7 +121,7 @@
           </div>
           <table>
             <thead>
-              <tr><th>Price</th><th>BTC</th><th>BT</th><th>Status</th></tr>
+              <tr><th>Price</th><th>PLS</th><th>BT</th><th>Status</th></tr>
             </thead>
             <tbody id="tradesBody"></tbody>
           </table>
@@ -121,12 +129,13 @@
       </section>
 
       <footer class="footer">
-        <span>Local browser sandbox. Integer atoms, authorised actors, no custody, no redemption claim.</span>
+        <span>Local browser sandbox. Signed PLS orders, integer atoms, no custody, no redemption claim.</span>
         <a href="./DEX_RESEARCH.md">DEX research</a>
         <a href="./BASKET_POLICY.md">Basket policy</a>
         <a href="./INTEGER_TRANSACTIONS.md">Integer policy</a>
         <a href="./FORMAL_SPEC.md">Formal spec</a>
         <a href="./ACADEMIC_ROADMAP.md">Research roadmap</a>
+        <a href="./PLS_READINESS.md">PLS readiness</a>
         <a href="https://github.com/Knitweb/bt">GitHub</a>
       </footer>
     </main>

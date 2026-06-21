@@ -1,5 +1,7 @@
 const state = {
-  pair: "BTC/BT",
+  pair: "PLS/BT",
+  baseSymbol: "PLS",
+  quoteSymbol: "BT",
   peers: [],
   orders: [],
   trades: [],
@@ -9,6 +11,23 @@ const state = {
     { name: "Trade FX", weight: 0.24, value: 99.4, color: "#a58cff" },
     { name: "Crypto trade", weight: 0.18, value: 103.2, color: "#39c980" },
     { name: "Commodities", weight: 0.20, value: 101.8, color: "#e8b74d" },
+  ],
+  safety: [
+    {
+      tone: "ok",
+      title: "Signed PLS dry-run ready",
+      text: "Orders are signed locally, matched deterministically, and checked against identified actor and trust evidence.",
+    },
+    {
+      tone: "block",
+      title: "Real PLS funds blocked",
+      text: "No audited PulseChain escrow adapter is configured, so this page will not claim production settlement safety.",
+    },
+    {
+      tone: "ok",
+      title: "PLS integer model",
+      text: "The Python core stores PLS with 18-decimal integer atoms; the browser sandbox keeps display amounts compact.",
+    },
   ],
 };
 
@@ -108,11 +127,12 @@ function basketIndex() {
 }
 
 async function makeOrder(wallet, side, price, quantity, trustMin, nonce) {
+  const minQuantity = Math.min(Number(quantity), 10);
   const payload = {
     created_at: nowSeconds(),
     expires_at: nowSeconds() + 3600,
     maker: wallet.peer,
-    min_quantity_atoms: String(parseAtoms("0.005")),
+    min_quantity_atoms: String(parseAtoms(String(minQuantity))),
     nonce,
     pair: state.pair,
     price_atoms: String(parseAtoms(price)),
@@ -210,14 +230,14 @@ function drawMarket() {
     ctx.stroke();
   }
 
-  const mid = Number(document.getElementById("midPrice").dataset.value || 61000);
+  const mid = Number(document.getElementById("midPrice").dataset.value || 1.01);
   const points = Array.from({ length: 90 }, (_, index) => {
-    const drift = Math.sin(index / 8) * 160 + Math.cos(index / 13) * 90;
-    const basketPull = (basketIndex() - 100) * 22;
+    const drift = Math.sin(index / 8) * 0.018 + Math.cos(index / 13) * 0.011;
+    const basketPull = (basketIndex() - 100) * 0.0022;
     return mid + drift + basketPull;
   });
-  const min = Math.min(...points) - 120;
-  const max = Math.max(...points) + 120;
+  const min = Math.min(...points) - 0.02;
+  const max = Math.max(...points) + 0.02;
   ctx.strokeStyle = "#55c5df";
   ctx.lineWidth = 3;
   ctx.beginPath();
@@ -233,12 +253,12 @@ function drawMarket() {
   const bids = state.orders.filter((order) => order.payload.side === "buy" && order.status === "open").slice(0, 12);
   const barWidth = width / 32;
   bids.forEach((order, index) => {
-    const h = Math.max(14, Number(order.remainingAtoms) / 65000);
+    const h = Math.min(180, Math.max(14, Number(order.remainingAtoms / SCALE) * 0.85));
     ctx.fillStyle = "rgba(57, 201, 128, 0.65)";
     ctx.fillRect(width / 2 - (index + 1) * barWidth, height - h - 18, barWidth - 5, h);
   });
   asks.forEach((order, index) => {
-    const h = Math.max(14, Number(order.remainingAtoms) / 65000);
+    const h = Math.min(180, Math.max(14, Number(order.remainingAtoms / SCALE) * 0.85));
     ctx.fillStyle = "rgba(255, 109, 101, 0.65)";
     ctx.fillRect(width / 2 + index * barWidth + 5, height - h - 18, barWidth - 5, h);
   });
@@ -298,6 +318,15 @@ function renderTrust() {
   `).join("");
 }
 
+function renderSafety() {
+  document.getElementById("safetyList").innerHTML = state.safety.map((item) => `
+    <article class="safety-item safety-${item.tone}">
+      <strong>${item.title}</strong>
+      <p>${item.text}</p>
+    </article>
+  `).join("");
+}
+
 function renderSettlement() {
   const latest = state.trades.at(-1);
   const node = document.getElementById("settlementText");
@@ -305,14 +334,14 @@ function renderSettlement() {
     node.textContent = "Waiting for a matched trade.";
     return;
   }
-  node.textContent = `${latest.ask.payload.maker.slice(0, 13)} locks ${formatAtoms(latest.quantityAtoms)} BTC; ${latest.bid.payload.maker.slice(0, 13)} is instant accepted for ${formatAtoms(latest.quoteAtoms)} BT after authorised actor signature.`;
+  node.textContent = `${latest.ask.payload.maker.slice(0, 13)} signs a ${formatAtoms(latest.quantityAtoms)} PLS lock plan; ${latest.bid.payload.maker.slice(0, 13)} is instant accepted for ${formatAtoms(latest.quoteAtoms)} BT only as a signed dry-run until PulseChain escrow is audited.`;
 }
 
 function renderTopline() {
   const open = state.orders.filter((order) => order.status === "open");
   const bestBid = Math.max(...open.filter((order) => order.payload.side === "buy").map((order) => Number(BigInt(order.payload.price_atoms)) / 100000000), 0);
   const bestAsk = Math.min(...open.filter((order) => order.payload.side === "sell").map((order) => Number(BigInt(order.payload.price_atoms)) / 100000000), 999999);
-  const mid = bestBid && bestAsk < 999999 ? (bestBid + bestAsk) / 2 : 61000;
+  const mid = bestBid && bestAsk < 999999 ? (bestBid + bestAsk) / 2 : 1.01;
   const midNode = document.getElementById("midPrice");
   midNode.textContent = fmt(mid, 2);
   midNode.dataset.value = String(mid);
@@ -327,27 +356,28 @@ function render() {
   renderBasket();
   renderTables();
   renderTrust();
+  renderSafety();
   renderSettlement();
   drawMarket();
 }
 
 async function seed() {
   state.peers = [
-    await newWallet("Amsterdam person", 82, "Identified person with reserve evidence.", "person"),
-    await newWallet("Lisbon agent", 67, "Agent with an identified owner person.", "owned agent"),
+    await newWallet("Amsterdam person", 82, "Identified person with PulseChain reserve evidence.", "person"),
+    await newWallet("Lisbon agent", 76, "Agent with an identified owner person and prior PLS settlement history.", "owned agent"),
     await newWallet("VoteBank DAO", 88, "DAO actor authorised by vBank governance.", "votebank dao"),
   ];
-  state.wallet = await newWallet("Browser person", 72, "Local identified session key.", "person");
+  state.wallet = await newWallet("Browser person", 72, "Local identified PLS session key.", "person");
   state.peers.push(state.wallet);
   document.getElementById("walletBadge").textContent = state.wallet.peer.slice(0, 18);
 
   const [amsterdam, lisbon, tallinn] = state.peers;
   state.orders = [
-    await makeOrder(amsterdam, "sell", 60940, 0.018, 45, "seed-1"),
-    await makeOrder(lisbon, "sell", 61080, 0.044, 55, "seed-2"),
-    await makeOrder(tallinn, "sell", 61240, 0.026, 40, "seed-3"),
-    await makeOrder(lisbon, "buy", 60780, 0.031, 50, "seed-4"),
-    await makeOrder(amsterdam, "buy", 60620, 0.025, 55, "seed-5"),
+    await makeOrder(amsterdam, "sell", 1.00, 250, 70, "seed-1"),
+    await makeOrder(lisbon, "sell", 1.02, 180, 72, "seed-2"),
+    await makeOrder(tallinn, "sell", 1.04, 120, 65, "seed-3"),
+    await makeOrder(lisbon, "buy", 1.01, 260, 70, "seed-4"),
+    await makeOrder(amsterdam, "buy", 0.99, 150, 75, "seed-5"),
   ];
   render();
 }

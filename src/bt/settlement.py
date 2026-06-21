@@ -10,9 +10,10 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
+from .chains import PULSECHAIN, get_chain_profile
 from .canonical import record_id
-from .models import Asset, Trade
-from .money import format_units, validate_atoms
+from .models import Asset, Pair, Trade
+from .money import format_units, max_atoms_for_decimals, validate_atoms
 
 
 @dataclass(frozen=True)
@@ -24,7 +25,7 @@ class SettlementLeg:
     condition: str
 
     def __post_init__(self) -> None:
-        validate_atoms(self.amount_atoms, field="amount_atoms")
+        validate_atoms(self.amount_atoms, field="amount_atoms", max_atoms=max_atoms_for_decimals(self.asset.decimals))
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -90,9 +91,43 @@ class SettlementPlan:
         return plan
 
 
-def plan_settlement(trade: Trade, route: str = "crypto-escrow-plus-anchor-proof") -> SettlementPlan:
+def route_for_pair(pair: Pair) -> str:
+    base_chain = pair.base.chain.lower()
+    quote_chain = pair.quote.chain.lower()
+    if base_chain == quote_chain == PULSECHAIN:
+        return "pulsechain-audited-escrow-required"
+    if base_chain == PULSECHAIN or quote_chain == PULSECHAIN:
+        return "pulsechain-cross-chain-adapter-required"
+    return "crypto-escrow-plus-anchor-proof"
+
+
+def plan_settlement(trade: Trade, route: str = "") -> SettlementPlan:
     base = trade.pair.base
     quote = trade.pair.quote
+    route = route or route_for_pair(trade.pair)
+    base_chain = get_chain_profile(base.chain)
+    quote_chain = get_chain_profile(quote.chain)
+    same_chain = base.chain.lower() == quote.chain.lower()
+    if same_chain and base_chain is not None:
+        lock_condition = (
+            f"seller locks {base.symbol} in a non-custodial {base_chain.display_name} escrow "
+            f"until {base_chain.finality_blocks} confirmation blocks are observed"
+        )
+        pay_condition = (
+            f"buyer locks {quote.symbol} in the same escrow or proves the agreed quote-side transfer "
+            f"after {base_chain.finality_blocks} confirmation blocks"
+        )
+    else:
+        lock_condition = "seller locks the base asset in a non-custodial escrow or HTLC"
+        pay_condition = f"buyer locks {quote.symbol} or proves the agreed quote-side payment"
+    risk_notes = [
+        "This plan is non-custodial only after a chain/payment adapter enforces every leg.",
+        "External fiat or payment rails can still create chargeback and compliance risk.",
+    ]
+    if base.chain.lower() == PULSECHAIN or quote.chain.lower() == PULSECHAIN:
+        risk_notes.append("Native PLS should not be accepted with real funds until a deployed PulseChain adapter and audit reference are configured.")
+    if base_chain is None or quote_chain is None:
+        risk_notes.append("At least one chain has no registered ChainProfile, so the plan is a dry-run artifact only.")
     return SettlementPlan(
         trade_id=trade.trade_id,
         route=route,
@@ -102,14 +137,14 @@ def plan_settlement(trade: Trade, route: str = "crypto-escrow-plus-anchor-proof"
                 party=trade.sell_maker,
                 asset=base,
                 amount_atoms=trade.quantity_atoms,
-                condition="seller locks the base asset in a non-custodial escrow or HTLC",
+                condition=lock_condition,
             ),
             SettlementLeg(
                 action="lock-or-pay",
                 party=trade.buy_maker,
                 asset=quote,
                 amount_atoms=trade.quote_quantity_atoms,
-                condition="buyer locks BT on-chain or proves the agreed anchor-currency payment",
+                condition=pay_condition,
             ),
             SettlementLeg(
                 action="release",
@@ -119,8 +154,5 @@ def plan_settlement(trade: Trade, route: str = "crypto-escrow-plus-anchor-proof"
                 condition="base asset releases only after the quote-side proof is accepted",
             ),
         ),
-        risk_notes=(
-            "This plan is non-custodial only after a chain/payment adapter enforces every leg.",
-            "External fiat or payment rails can still create chargeback and compliance risk.",
-        ),
+        risk_notes=tuple(risk_notes),
     )

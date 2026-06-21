@@ -13,8 +13,23 @@ BT_DECIMALS = 8
 BT_SCALE = 10**BT_DECIMALS
 BT_MAX_MAJOR_UNITS = 888_888
 BT_MAX_ATOMS = BT_MAX_MAJOR_UNITS * BT_SCALE
+MAX_DECIMALS = 36
 
 _AMOUNT_RE = re.compile(r"^(?P<int>\d+)(?P<frac>[.,]\d+)?$")
+
+
+def validate_decimals(decimals: int) -> int:
+    if isinstance(decimals, bool) or not isinstance(decimals, int):
+        raise TypeError("decimals must be an integer")
+    if not 0 <= decimals <= MAX_DECIMALS:
+        raise ValueError(f"decimals must be between 0 and {MAX_DECIMALS}")
+    return decimals
+
+
+def max_atoms_for_decimals(decimals: int) -> int:
+    """Return the ordinary transaction cap for an asset's own decimal scale."""
+
+    return BT_MAX_MAJOR_UNITS * 10**validate_decimals(decimals)
 
 
 def parse_units(value: str, decimals: int = BT_DECIMALS, max_atoms: int | None = BT_MAX_ATOMS) -> int:
@@ -26,6 +41,7 @@ def parse_units(value: str, decimals: int = BT_DECIMALS, max_atoms: int | None =
 
     if not isinstance(value, str):
         raise TypeError("money values must be parsed from strings")
+    validate_decimals(decimals)
     text = value.strip().replace("_", "")
     match = _AMOUNT_RE.match(text)
     if not match:
@@ -43,6 +59,7 @@ def parse_units(value: str, decimals: int = BT_DECIMALS, max_atoms: int | None =
 def format_units(atoms: int, decimals: int = BT_DECIMALS) -> str:
     if isinstance(atoms, bool) or not isinstance(atoms, int):
         raise TypeError("atoms must be an integer")
+    validate_decimals(decimals)
     sign = "-" if atoms < 0 else ""
     atoms = abs(atoms)
     scale = 10**decimals
@@ -60,10 +77,20 @@ def validate_atoms(value: int, *, field: str, max_atoms: int | None = BT_MAX_ATO
     return value
 
 
-def quote_amount_atoms(price_atoms: int, quantity_atoms: int, base_decimals: int = BT_DECIMALS) -> int:
-    validate_atoms(price_atoms, field="price_atoms")
-    validate_atoms(quantity_atoms, field="quantity_atoms")
-    scale = 10**base_decimals
+def quote_amount_atoms(
+    price_atoms: int,
+    quantity_atoms: int,
+    base_decimals: int = BT_DECIMALS,
+    *,
+    max_price_atoms: int | None = BT_MAX_ATOMS,
+    max_quantity_atoms: int | None = BT_MAX_ATOMS,
+    max_quote_atoms: int | None = None,
+) -> int:
+    validate_atoms(price_atoms, field="price_atoms", max_atoms=max_price_atoms)
+    validate_atoms(quantity_atoms, field="quantity_atoms", max_atoms=max_quantity_atoms)
+    scale = 10**validate_decimals(base_decimals)
     # Round up by one quote atom on non-divisible fills so sellers are not underpaid.
-    return (price_atoms * quantity_atoms + scale - 1) // scale
-
+    quote_atoms = (price_atoms * quantity_atoms + scale - 1) // scale
+    if max_quote_atoms is not None:
+        validate_atoms(quote_atoms, field="quote_atoms", max_atoms=max_quote_atoms)
+    return quote_atoms
