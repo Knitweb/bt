@@ -32,6 +32,8 @@ EUR as its display numeraire, but the repository and package identity are BT.
 - `docs/FORMAL_SPEC.md` defines the current protocol invariants.
 - `docs/ACADEMIC_ROADMAP.md` lists the research work needed before production claims.
 - `docs/PULSE_READINESS.md` explains what is still blocking real PULSE trading.
+- `docs/DECENTRALIZED_MARKET_CORRECTNESS.md` defines the next correctness and UX targets.
+- `docs/SOVEREIGN_DISTRIBUTION.md` explains how BT survives loss of GitHub as a platform.
 - `data/dex_top100_2026-06-21.json` stores the generated top-100 matrix.
 
 ## Website
@@ -53,6 +55,8 @@ python -m pip install -e .
 python -m pytest -q
 bt demo
 bt pulse-demo
+python scripts/make_source_bundle.py
+git bundle verify dist/bt-<commit>.bundle
 ```
 
 ## Design Position
@@ -65,3 +69,7 @@ not depend on one host.
 BT starts with signed order gossip plus deterministic local state. Future settlement
 adapters can settle matched trades through Knitweb records, Bitcoin-style HTLCs, or
 other verified networks without changing the order format.
+
+The project should also be distributed as signed Git commits, source bundles, and
+non-GitHub mirrors. A GitHub URL is a public convenience route, not the canonical
+identity of a BT release.

@@ -29,6 +29,34 @@ const state = {
       text: "The Python core stores PULSE with 18-decimal integer atoms; the browser sandbox keeps display amounts compact.",
     },
   ],
+  proof: [
+    {
+      title: "Replayable market",
+      text: "The same signed orders, trust floors, and actor records should rebuild the same book and fills on every conforming node.",
+    },
+    {
+      title: "Fairness mode",
+      text: "This prototype uses deterministic price-time priority; production markets should add batch auctions or commit-reveal for high-value flow.",
+    },
+    {
+      title: "Instant is not final",
+      text: "The receiver can see a signed acceptance immediately, but finality only exists after a settlement receipt is verified.",
+    },
+  ],
+  sovereign: [
+    {
+      title: "Release identity",
+      text: "A valid release is the commit, signed tag when present, bundle hash, and manifest; a GitHub URL is only one route.",
+    },
+    {
+      title: "Offline recovery",
+      text: "The source bundle script creates a self-contained Git bundle that can be verified and cloned without GitHub.",
+    },
+    {
+      title: "Mirror plan",
+      text: "BT should publish Forgejo, bare Git, Radicle, IPFS, BitTorrent, and Software Heritage identifiers for each major release.",
+    },
+  ],
 };
 
 const encoder = new TextEncoder();
@@ -327,6 +355,21 @@ function renderSafety() {
   `).join("");
 }
 
+function renderProofPanels() {
+  document.getElementById("proofList").innerHTML = state.proof.map((item) => `
+    <article class="proof-item">
+      <strong>${item.title}</strong>
+      <p>${item.text}</p>
+    </article>
+  `).join("");
+  document.getElementById("sovereignList").innerHTML = state.sovereign.map((item) => `
+    <article class="proof-item">
+      <strong>${item.title}</strong>
+      <p>${item.text}</p>
+    </article>
+  `).join("");
+}
+
 function renderSettlement() {
   const latest = state.trades.at(-1);
   const node = document.getElementById("settlementText");
@@ -357,6 +400,7 @@ function render() {
   renderTables();
   renderTrust();
   renderSafety();
+  renderProofPanels();
   renderSettlement();
   drawMarket();
 }

@@ -114,6 +114,13 @@ eligible asset profiles, a configured settlement adapter, and an audit or formal
 verification reference. Signed dry-run orders may be accepted without those production
 artifacts, but must be labelled as dry-run.
 
+### I10: Source And Event Availability
+
+A conforming BT deployment cannot depend on one forge, website, relay, or matching
+server for source recovery or market replay. Release identity is the Git commit,
+optional signed tag, bundle hash, and manifest. Market identity is the signed event
+log that reconstructs actor state, orders, fills, settlement state, and basket state.
+
 ## Proof Obligations
 
 - Show that `normalise_weights` always sums to `1_000_000` for positive inputs.
@@ -122,3 +129,5 @@ artifacts, but must be labelled as dry-run.
   high-participation points.
 - Show that no unsigned or non-DAO basket spec can pass verification.
 - Show that `submit_real_funds_order` cannot bypass readiness blockers.
+- Show that a BT release and event log can be verified from at least one non-GitHub
+  route.

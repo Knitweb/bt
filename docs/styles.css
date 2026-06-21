@@ -128,9 +128,10 @@ h3 {
   grid-template-columns: minmax(0, 1.4fr) minmax(330px, 0.6fr);
   grid-template-areas:
     "market ticket"
-    "book safety"
+    "proof safety"
     "book trust"
-    "trades trust";
+    "book sovereign"
+    "trades sovereign";
   gap: 14px;
   padding-top: 14px;
 }
@@ -139,6 +140,8 @@ h3 {
 .ticket-panel,
 .book-panel,
 .safety-panel,
+.proof-panel,
+.sovereign-panel,
 .trust-panel,
 .trades-panel {
   background: var(--panel);
@@ -165,6 +168,14 @@ h3 {
 
 .safety-panel {
   grid-area: safety;
+}
+
+.proof-panel {
+  grid-area: proof;
+}
+
+.sovereign-panel {
+  grid-area: sovereign;
 }
 
 .trades-panel {
@@ -320,6 +331,12 @@ th {
   padding: 12px;
 }
 
+.proof-list {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+}
+
 .trust-card {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -338,11 +355,26 @@ th {
   background: #171d25;
 }
 
+.proof-item {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px;
+  display: grid;
+  gap: 6px;
+  background: #171d25;
+}
+
 .safety-item strong {
   font-size: 14px;
 }
 
-.safety-item p {
+.proof-item strong {
+  color: var(--cyan);
+  font-size: 14px;
+}
+
+.safety-item p,
+.proof-item p {
   color: var(--muted);
   font-size: 13px;
 }
@@ -414,6 +446,8 @@ th {
       "market"
       "ticket"
       "safety"
+      "proof"
+      "sovereign"
       "book"
       "trust"
       "trades";
