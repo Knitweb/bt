@@ -22,14 +22,14 @@ def test_orderbook_matches_crossed_orders_deterministically(pair, buyer, seller)
     trades = book.match(now=12)
 
     assert len(trades) == 1
-    assert trades[0].price == buy.order.price
-    assert trades[0].quantity == sell.order.quantity
+    assert trades[0].price_atoms == buy.order.price_atoms
+    assert trades[0].quantity_atoms == sell.order.quantity_atoms
     assert trades[0].buy_maker == buyer.peer_id
     assert trades[0].sell_maker == seller.peer_id
 
     remaining_buy = book.open_orders(now=12)[0]
     assert remaining_buy.order_id == buy.order_id
-    assert remaining_buy.remaining == buy.order.quantity - sell.order.quantity
+    assert remaining_buy.remaining_atoms == buy.order.quantity_atoms - sell.order.quantity_atoms
 
 
 def test_orderbook_prefers_best_sell_price(pair, buyer, seller):

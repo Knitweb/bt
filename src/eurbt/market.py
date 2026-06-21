@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from .actors import Actor, ActorRegistry
 from .models import Pair, SignedOrder, Trade
 from .orderbook import OrderBook
 from .p2p import Envelope, PeerStore
@@ -10,13 +11,18 @@ from .trust import SignedAttestation, TrustBook
 
 
 class EurbtMarket:
-    def __init__(self, pair: Pair, trust_book: TrustBook | None = None) -> None:
+    def __init__(self, pair: Pair, trust_book: TrustBook | None = None, actor_registry: ActorRegistry | None = None) -> None:
         self.pair = pair
         self.orderbook = OrderBook(pair)
         self.trust_book = trust_book or TrustBook()
+        self.actor_registry = actor_registry or ActorRegistry()
         self.peer_store = PeerStore()
 
+    def register_actor(self, actor: Actor) -> None:
+        self.actor_registry.add(actor)
+
     def submit_order(self, signed_order: SignedOrder, now: int | None = None) -> str:
+        self.actor_registry.require_transactor(signed_order.order.maker)
         return self.orderbook.add(signed_order, now=now)
 
     def submit_attestation(self, signed_attestation: SignedAttestation, now: int | None = None) -> str:
@@ -40,4 +46,3 @@ class EurbtMarket:
 
     def explain_peer(self, peer_id: str, now: int | None = None) -> str:
         return self.trust_book.explain(peer_id, now=now)
-

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from decimal import Decimal
 
 from .models import BUY, SELL, Pair, SignedOrder, Trade
 from .trust import TrustBook
@@ -12,7 +11,7 @@ from .trust import TrustBook
 @dataclass
 class BookEntry:
     signed_order: SignedOrder
-    remaining: Decimal
+    remaining_atoms: int
 
     @property
     def order_id(self) -> str:
@@ -37,16 +36,16 @@ class OrderBook:
         if verify_signature and not signed_order.verify():
             raise ValueError("order signature is invalid")
         if signed_order.order_id not in self._entries:
-            self._entries[signed_order.order_id] = BookEntry(signed_order, order.quantity)
+            self._entries[signed_order.order_id] = BookEntry(signed_order, order.quantity_atoms)
         return signed_order.order_id
 
     def open_orders(self, side: str | None = None, now: int | None = None) -> list[BookEntry]:
         entries = []
         for entry in self._entries.values():
             order = entry.signed_order.order
-            if entry.remaining <= 0:
+            if entry.remaining_atoms <= 0:
                 continue
-            if entry.remaining < order.min_quantity:
+            if entry.remaining_atoms < order.min_quantity_atoms:
                 continue
             if now is not None and order.expires_at <= now:
                 continue
@@ -60,11 +59,11 @@ class OrderBook:
         while True:
             buys = sorted(
                 self.open_orders(BUY, now),
-                key=lambda entry: (-entry.signed_order.order.price, entry.signed_order.order.created_at, entry.order_id),
+                key=lambda entry: (-entry.signed_order.order.price_atoms, entry.signed_order.order.created_at, entry.order_id),
             )
             sells = sorted(
                 self.open_orders(SELL, now),
-                key=lambda entry: (entry.signed_order.order.price, entry.signed_order.order.created_at, entry.order_id),
+                key=lambda entry: (entry.signed_order.order.price_atoms, entry.signed_order.order.created_at, entry.order_id),
             )
             matched = self._next_match(buys, sells, trust_book)
             if matched is None:
@@ -72,24 +71,24 @@ class OrderBook:
             buy, sell = matched
             buy_order = buy.signed_order.order
             sell_order = sell.signed_order.order
-            if buy_order.price < sell_order.price:
+            if buy_order.price_atoms < sell_order.price_atoms:
                 break
 
-            quantity = min(buy.remaining, sell.remaining)
+            quantity_atoms = min(buy.remaining_atoms, sell.remaining_atoms)
 
             resting = buy_order if (buy_order.created_at, buy.order_id) <= (sell_order.created_at, sell.order_id) else sell_order
             trade = Trade(
                 pair=self.pair,
-                price=resting.price,
-                quantity=quantity,
+                price_atoms=resting.price_atoms,
+                quantity_atoms=quantity_atoms,
                 buy_order_id=buy.order_id,
                 sell_order_id=sell.order_id,
                 buy_maker=buy_order.maker,
                 sell_maker=sell_order.maker,
                 created_at=max(buy_order.created_at, sell_order.created_at),
             )
-            buy.remaining -= quantity
-            sell.remaining -= quantity
+            buy.remaining_atoms -= quantity_atoms
+            sell.remaining_atoms -= quantity_atoms
             trades.append(trade)
         return trades
 
@@ -101,10 +100,10 @@ class OrderBook:
     ) -> tuple[BookEntry, BookEntry] | None:
         for buy in buys:
             for sell in sells:
-                if buy.signed_order.order.price < sell.signed_order.order.price:
+                if buy.signed_order.order.price_atoms < sell.signed_order.order.price_atoms:
                     continue
-                quantity = min(buy.remaining, sell.remaining)
-                if quantity < buy.signed_order.order.min_quantity or quantity < sell.signed_order.order.min_quantity:
+                quantity_atoms = min(buy.remaining_atoms, sell.remaining_atoms)
+                if quantity_atoms < buy.signed_order.order.min_quantity_atoms or quantity_atoms < sell.signed_order.order.min_quantity_atoms:
                     continue
                 if self._trust_allows(buy, sell, trust_book):
                     return buy, sell

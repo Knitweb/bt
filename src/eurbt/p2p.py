@@ -14,7 +14,7 @@ from .canonical import canonical_bytes, peer_id, record_id
 from .keys import Keypair, verify
 
 
-MESSAGE_TYPES = {"order", "attestation", "trade", "settlement-plan"}
+MESSAGE_TYPES = {"order", "attestation", "trade", "settlement-plan", "transfer"}
 
 
 @dataclass(frozen=True)

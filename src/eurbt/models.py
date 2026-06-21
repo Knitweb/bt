@@ -3,11 +3,11 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from decimal import Decimal, InvalidOperation
 from typing import Any
 
 from .canonical import canonical_bytes, peer_id, record_id
 from .keys import Keypair, verify
+from .money import BT_DECIMALS, format_units, parse_units, quote_amount_atoms, validate_atoms
 
 
 BUY = "buy"
@@ -15,29 +15,12 @@ SELL = "sell"
 SIDES = {BUY, SELL}
 
 
-def to_decimal(value: Decimal | str | int) -> Decimal:
-    if isinstance(value, Decimal):
-        result = value
-    else:
-        try:
-            result = Decimal(str(value))
-        except InvalidOperation as exc:
-            raise ValueError(f"invalid decimal value: {value!r}") from exc
-    if not result.is_finite():
-        raise ValueError(f"decimal value must be finite: {value!r}")
-    return result
-
-
-def decimal_text(value: Decimal) -> str:
-    return format(value.normalize(), "f")
-
-
 @dataclass(frozen=True)
 class Asset:
     symbol: str
     chain: str
     address: str = ""
-    decimals: int = 18
+    decimals: int = BT_DECIMALS
 
     def __post_init__(self) -> None:
         if not self.symbol or not self.chain:
@@ -89,12 +72,12 @@ class Order:
     maker: str
     pair: Pair
     side: str
-    price: Decimal
-    quantity: Decimal
+    price_atoms: int
+    quantity_atoms: int
     expires_at: int
     nonce: str
     created_at: int
-    min_quantity: Decimal = Decimal("0")
+    min_quantity_atoms: int = 0
     trust_min: int = 0
     settlement: str = "atomic-swap"
 
@@ -111,10 +94,41 @@ class Order:
             raise ValueError("expires_at must be after created_at")
         if not 0 <= self.trust_min <= 100:
             raise ValueError("trust_min must be between 0 and 100")
-        if self.price <= 0 or self.quantity <= 0:
-            raise ValueError("price and quantity must be positive")
-        if self.min_quantity < 0 or self.min_quantity > self.quantity:
-            raise ValueError("min_quantity must be between zero and quantity")
+        validate_atoms(self.price_atoms, field="price_atoms")
+        validate_atoms(self.quantity_atoms, field="quantity_atoms")
+        validate_atoms(self.min_quantity_atoms, field="min_quantity_atoms", allow_zero=True)
+        if self.min_quantity_atoms > self.quantity_atoms:
+            raise ValueError("min_quantity_atoms must be between zero and quantity_atoms")
+
+    @classmethod
+    def from_human(
+        cls,
+        *,
+        maker: str,
+        pair: Pair,
+        side: str,
+        price: str,
+        quantity: str,
+        expires_at: int,
+        nonce: str,
+        created_at: int,
+        min_quantity: str = "0",
+        trust_min: int = 0,
+        settlement: str = "atomic-swap",
+    ) -> "Order":
+        return cls(
+            maker=maker,
+            pair=pair,
+            side=side,
+            price_atoms=parse_units(price, pair.quote.decimals),
+            quantity_atoms=parse_units(quantity, pair.base.decimals),
+            min_quantity_atoms=parse_units(min_quantity, pair.base.decimals),
+            expires_at=expires_at,
+            nonce=nonce,
+            created_at=created_at,
+            trust_min=trust_min,
+            settlement=settlement,
+        )
 
     @property
     def order_id(self) -> str:
@@ -125,11 +139,11 @@ class Order:
             "created_at": self.created_at,
             "expires_at": self.expires_at,
             "maker": self.maker,
-            "min_quantity": decimal_text(self.min_quantity),
+            "min_quantity_atoms": self.min_quantity_atoms,
             "nonce": self.nonce,
             "pair": self.pair.to_dict(),
-            "price": decimal_text(self.price),
-            "quantity": decimal_text(self.quantity),
+            "price_atoms": self.price_atoms,
+            "quantity_atoms": self.quantity_atoms,
             "settlement": self.settlement,
             "side": self.side,
             "trust_min": self.trust_min,
@@ -141,9 +155,11 @@ class Order:
             maker=str(value["maker"]),
             pair=Pair.from_dict(value["pair"]),
             side=str(value["side"]),
-            price=to_decimal(value["price"]),
-            quantity=to_decimal(value["quantity"]),
-            min_quantity=to_decimal(value.get("min_quantity", "0")),
+            price_atoms=int(value["price_atoms"]) if "price_atoms" in value else parse_units(str(value["price"])),
+            quantity_atoms=int(value["quantity_atoms"]) if "quantity_atoms" in value else parse_units(str(value["quantity"])),
+            min_quantity_atoms=int(value.get("min_quantity_atoms", 0))
+            if "min_quantity_atoms" in value
+            else parse_units(str(value.get("min_quantity", "0"))),
             expires_at=int(value["expires_at"]),
             nonce=str(value["nonce"]),
             created_at=int(value["created_at"]),
@@ -195,8 +211,8 @@ class SignedOrder:
 @dataclass(frozen=True)
 class Trade:
     pair: Pair
-    price: Decimal
-    quantity: Decimal
+    price_atoms: int
+    quantity_atoms: int
     buy_order_id: str
     sell_order_id: str
     buy_maker: str
@@ -208,8 +224,8 @@ class Trade:
         return record_id("trd", self.to_dict(include_id=False))
 
     @property
-    def quote_quantity(self) -> Decimal:
-        return self.price * self.quantity
+    def quote_quantity_atoms(self) -> int:
+        return quote_amount_atoms(self.price_atoms, self.quantity_atoms, self.pair.base.decimals)
 
     def to_dict(self, include_id: bool = True) -> dict[str, Any]:
         data = {
@@ -217,9 +233,12 @@ class Trade:
             "buy_order_id": self.buy_order_id,
             "created_at": self.created_at,
             "pair": self.pair.to_dict(),
-            "price": decimal_text(self.price),
-            "quantity": decimal_text(self.quantity),
-            "quote_quantity": decimal_text(self.quote_quantity),
+            "price_atoms": self.price_atoms,
+            "price_display": format_units(self.price_atoms, self.pair.quote.decimals),
+            "quantity_atoms": self.quantity_atoms,
+            "quantity_display": format_units(self.quantity_atoms, self.pair.base.decimals),
+            "quote_quantity_atoms": self.quote_quantity_atoms,
+            "quote_quantity_display": format_units(self.quote_quantity_atoms, self.pair.quote.decimals),
             "sell_maker": self.sell_maker,
             "sell_order_id": self.sell_order_id,
         }
@@ -231,8 +250,8 @@ class Trade:
     def from_dict(cls, value: dict[str, Any]) -> "Trade":
         trade = cls(
             pair=Pair.from_dict(value["pair"]),
-            price=to_decimal(value["price"]),
-            quantity=to_decimal(value["quantity"]),
+            price_atoms=int(value["price_atoms"]),
+            quantity_atoms=int(value["quantity_atoms"]),
             buy_order_id=str(value["buy_order_id"]),
             sell_order_id=str(value["sell_order_id"]),
             buy_maker=str(value["buy_maker"]),

@@ -1,0 +1,404 @@
+:root {
+  color-scheme: dark;
+  --bg: #111318;
+  --panel: #1a1e25;
+  --panel-2: #202732;
+  --line: #333b47;
+  --text: #eef3f8;
+  --muted: #a8b3c2;
+  --buy: #39c980;
+  --sell: #ff6d65;
+  --gold: #e8b74d;
+  --cyan: #55c5df;
+  --violet: #a58cff;
+  --button: #f2f5f8;
+  --button-text: #111318;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  min-height: 40px;
+  border: 0;
+  border-radius: 6px;
+  padding: 0 14px;
+  background: var(--button);
+  color: var(--button-text);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.shell {
+  width: min(1480px, 100%);
+  margin: 0 auto;
+  padding: 18px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 70px;
+  border-bottom: 1px solid var(--line);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: 31px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+h2 {
+  font-size: 18px;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+
+h3 {
+  font-size: 13px;
+  line-height: 1.2;
+  color: var(--muted);
+  letter-spacing: 0;
+}
+
+.subline,
+.panel-head p,
+.footer,
+.settlement p {
+  color: var(--muted);
+}
+
+.status-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(128px, 1fr));
+  gap: 8px;
+}
+
+.status-strip span,
+.panel-head span,
+.trust-chip {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px 10px;
+  background: var(--panel-2);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.status-strip strong {
+  display: block;
+  color: var(--text);
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(330px, 0.6fr);
+  grid-template-areas:
+    "market ticket"
+    "book trust"
+    "trades trust";
+  gap: 14px;
+  padding-top: 14px;
+}
+
+.market-panel,
+.ticket-panel,
+.book-panel,
+.trust-panel,
+.trades-panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.market-panel {
+  grid-area: market;
+}
+
+.ticket-panel {
+  grid-area: ticket;
+}
+
+.book-panel {
+  grid-area: book;
+}
+
+.trust-panel {
+  grid-area: trust;
+}
+
+.trades-panel {
+  grid-area: trades;
+}
+
+.panel-head {
+  min-height: 64px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.panel-head.compact {
+  min-height: 52px;
+}
+
+#marketCanvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1180 / 360;
+  background: #151922;
+}
+
+.basket-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(120px, 1fr));
+  gap: 10px;
+  padding: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.basket-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px;
+  background: #171d25;
+}
+
+.basket-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.basket-card strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 19px;
+}
+
+.ticket {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+input,
+select {
+  min-height: 40px;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0 10px;
+  background: #10141b;
+  color: var(--text);
+}
+
+input[type="range"] {
+  padding: 0;
+  accent-color: var(--cyan);
+}
+
+output {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.settlement {
+  border-top: 1px solid var(--line);
+  padding: 14px;
+  display: grid;
+  gap: 8px;
+}
+
+.book-lanes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.book-lanes > div:first-child {
+  border-right: 1px solid var(--line);
+}
+
+.book-lanes h3 {
+  padding: 10px 12px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+th,
+td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+th:first-child,
+td:first-child {
+  text-align: left;
+}
+
+th {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.price-buy {
+  color: var(--buy);
+}
+
+.price-sell {
+  color: var(--sell);
+}
+
+.trust-list {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+}
+
+.trust-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px;
+  display: grid;
+  gap: 8px;
+  background: #171d25;
+}
+
+.trust-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.meter {
+  height: 8px;
+  border-radius: 999px;
+  background: #0f1319;
+  overflow: hidden;
+}
+
+.meter span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--sell), var(--gold), var(--buy));
+}
+
+.peer-id {
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0 0;
+  font-size: 13px;
+}
+
+.footer a {
+  color: var(--cyan);
+  text-decoration: none;
+}
+
+@media (max-width: 980px) {
+  .topbar {
+    align-items: stretch;
+    flex-direction: column;
+    padding-bottom: 14px;
+  }
+
+  .status-strip,
+  .basket-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .workspace {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "market"
+      "ticket"
+      "book"
+      "trust"
+      "trades";
+  }
+
+  .book-lanes {
+    grid-template-columns: 1fr;
+  }
+
+  .book-lanes > div:first-child {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 540px) {
+  .shell {
+    padding: 10px;
+  }
+
+  .panel-head,
+  .footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+

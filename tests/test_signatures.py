@@ -14,7 +14,7 @@ def test_signed_order_verifies_and_detects_tampering(pair, buyer):
     assert signed.verify()
 
     payload = signed.to_dict()
-    payload["order"]["quantity"] = "2"
+    payload["order"]["quantity_atoms"] = payload["order"]["quantity_atoms"] + 1
     with pytest.raises(ValueError, match="order id"):
         SignedOrder.from_dict(payload)
 

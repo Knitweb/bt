@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EURBT DEX</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <h1>EURBT</h1>
+          <p class="subline">Integer-settled P2P DEX market</p>
+        </div>
+        <div class="status-strip" aria-label="market status">
+          <span><strong id="midPrice">--</strong> BTC/EURBT</span>
+          <span><strong id="basketIndex">--</strong> basket</span>
+          <span><strong id="trustFloor">--</strong> trust floor</span>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <section class="market-panel">
+          <div class="panel-head">
+            <div>
+              <h2>BTC / EURBT</h2>
+              <p id="marketMode">local signed-order session</p>
+            </div>
+            <button id="seedButton" type="button">Refresh Session</button>
+          </div>
+
+          <canvas id="marketCanvas" width="1180" height="360" aria-label="market depth and basket signal"></canvas>
+
+          <div class="basket-grid" id="basketGrid"></div>
+        </section>
+
+        <aside class="ticket-panel">
+          <div class="panel-head compact">
+            <h2>Order</h2>
+            <span id="walletBadge">wallet pending</span>
+          </div>
+
+          <form id="orderForm" class="ticket">
+            <label>
+              Side
+              <select id="sideInput">
+                <option value="buy">Buy BTC</option>
+                <option value="sell">Sell BTC</option>
+              </select>
+            </label>
+            <label>
+              Price
+              <input id="priceInput" name="price" inputmode="decimal" value="61000" />
+            </label>
+            <label>
+              Quantity
+              <input id="quantityInput" name="quantity" inputmode="decimal" value="0.02" />
+            </label>
+            <label>
+              Minimum Trust
+              <input id="trustInput" name="trust" type="range" min="0" max="100" value="50" />
+              <output id="trustOutput">50</output>
+            </label>
+            <button type="submit">Sign Order</button>
+          </form>
+
+          <div class="settlement">
+            <h3>Settlement</h3>
+            <p id="settlementText">Waiting for a matched trade.</p>
+          </div>
+        </aside>
+
+        <section class="book-panel">
+          <div class="panel-head compact">
+            <h2>Order Book</h2>
+            <span id="bookCount">0 orders</span>
+          </div>
+          <div class="book-lanes">
+            <div>
+              <h3>Asks</h3>
+              <table>
+                <thead>
+                  <tr><th>Price</th><th>BTC</th><th>Trust</th></tr>
+                </thead>
+                <tbody id="asksBody"></tbody>
+              </table>
+            </div>
+            <div>
+              <h3>Bids</h3>
+              <table>
+                <thead>
+                  <tr><th>Price</th><th>BTC</th><th>Trust</th></tr>
+                </thead>
+                <tbody id="bidsBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="trust-panel">
+          <div class="panel-head compact">
+            <h2>Trust</h2>
+            <span id="peerCount">0 peers</span>
+          </div>
+          <div id="trustList" class="trust-list"></div>
+        </section>
+
+        <section class="trades-panel">
+          <div class="panel-head compact">
+            <h2>Trades</h2>
+            <span id="tradeCount">0 fills</span>
+          </div>
+          <table>
+            <thead>
+              <tr><th>Price</th><th>BTC</th><th>EURBT</th><th>Status</th></tr>
+            </thead>
+            <tbody id="tradesBody"></tbody>
+          </table>
+        </section>
+      </section>
+
+      <footer class="footer">
+        <span>Local browser sandbox. Integer atoms, authorised actors, no custody, no redemption claim.</span>
+        <a href="./DEX_RESEARCH.md">DEX research</a>
+        <a href="./INTEGER_TRANSACTIONS.md">Integer policy</a>
+        <a href="https://github.com/Knitweb/eurbt">GitHub</a>
+      </footer>
+    </main>
+    <script src="./app.js" defer></script>
+  </body>
+</html>

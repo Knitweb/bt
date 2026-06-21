@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import argparse
 import json
-from decimal import Decimal
 
+from .actors import Actor, AGENT, PERSON
 from .keys import Keypair
 from .market import EurbtMarket
 from .models import BUY, SELL, Asset, Order, Pair, SignedOrder
@@ -20,9 +20,11 @@ def build_demo() -> dict[str, object]:
     auditor = Keypair.generate()
 
     btc = Asset("BTC", "bitcoin", decimals=8)
-    eurbt = Asset("EURBT", "ethereum", address="demo:eurbt", decimals=18)
+    eurbt = Asset("EURBT", "ethereum", address="demo:eurbt", decimals=8)
     pair = Pair(btc, eurbt)
     market = EurbtMarket(pair)
+    market.register_actor(Actor("person:buyer", PERSON, buyer.peer_id, identified=True))
+    market.register_actor(Actor("agent:seller", AGENT, seller.peer_id, owner_person_id="person:seller-owner", identified=True))
 
     for subject, note in (
         (buyer.peer_id, "buyer has completed small euro settlements before"),
@@ -42,25 +44,25 @@ def build_demo() -> dict[str, object]:
         envelope = Envelope.sign("attestation", signed.to_dict(), auditor, created_at=now, nonce=f"att-{subject}")
         market.ingest_envelope(envelope, now=now)
 
-    buy_order = Order(
+    buy_order = Order.from_human(
         maker=buyer.peer_id,
         pair=pair,
         side=BUY,
-        price=Decimal("61000"),
-        quantity=Decimal("0.05"),
-        min_quantity=Decimal("0.01"),
+        price="61000",
+        quantity="0.05",
+        min_quantity="0.01",
         trust_min=50,
         created_at=now + 1,
         expires_at=now + 3600,
         nonce="buyer-1",
     )
-    sell_order = Order(
+    sell_order = Order.from_human(
         maker=seller.peer_id,
         pair=pair,
         side=SELL,
-        price=Decimal("60950"),
-        quantity=Decimal("0.03"),
-        min_quantity=Decimal("0.01"),
+        price="60950",
+        quantity="0.03",
+        min_quantity="0.01",
         trust_min=50,
         created_at=now + 2,
         expires_at=now + 3600,
@@ -96,4 +98,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

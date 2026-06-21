@@ -1,9 +1,8 @@
 from __future__ import annotations
 
-from decimal import Decimal
-
 import pytest
 
+from eurbt.money import parse_units
 from eurbt.keys import Keypair
 from eurbt.models import BUY, SELL, Asset, Order, Pair
 
@@ -43,9 +42,9 @@ def make_order(
         maker=keypair.peer_id,
         pair=pair,
         side=side,
-        price=Decimal(price),
-        quantity=Decimal(quantity),
-        min_quantity=Decimal(min_quantity),
+        price_atoms=parse_units(price, pair.quote.decimals),
+        quantity_atoms=parse_units(quantity, pair.base.decimals),
+        min_quantity_atoms=parse_units(min_quantity, pair.base.decimals),
         trust_min=trust_min,
         created_at=created_at,
         expires_at=created_at + 1000,

@@ -8,11 +8,11 @@ HTLCs, SEPA proof workflows, or Pulse/Knitweb records.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from decimal import Decimal
 from typing import Any
 
 from .canonical import record_id
-from .models import Asset, Trade, decimal_text, to_decimal
+from .models import Asset, Trade
+from .money import format_units, validate_atoms
 
 
 @dataclass(frozen=True)
@@ -20,13 +20,17 @@ class SettlementLeg:
     action: str
     party: str
     asset: Asset
-    amount: Decimal
+    amount_atoms: int
     condition: str
+
+    def __post_init__(self) -> None:
+        validate_atoms(self.amount_atoms, field="amount_atoms")
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "action": self.action,
-            "amount": decimal_text(self.amount),
+            "amount_atoms": self.amount_atoms,
+            "amount_display": format_units(self.amount_atoms, self.asset.decimals),
             "asset": self.asset.to_dict(),
             "condition": self.condition,
             "party": self.party,
@@ -38,7 +42,7 @@ class SettlementLeg:
             action=str(value["action"]),
             party=str(value["party"]),
             asset=Asset.from_dict(value["asset"]),
-            amount=to_decimal(value["amount"]),
+            amount_atoms=int(value["amount_atoms"]),
             condition=str(value["condition"]),
         )
 
@@ -67,7 +71,7 @@ class SettlementPlan:
 
     def explain(self) -> str:
         steps = [
-            f"{index + 1}. {leg.party} must {leg.action} {decimal_text(leg.amount)} {leg.asset.symbol}: {leg.condition}"
+            f"{index + 1}. {leg.party} must {leg.action} {format_units(leg.amount_atoms, leg.asset.decimals)} {leg.asset.symbol}: {leg.condition}"
             for index, leg in enumerate(self.legs)
         ]
         notes = " ".join(self.risk_notes)
@@ -97,21 +101,21 @@ def plan_settlement(trade: Trade, route: str = "crypto-escrow-plus-euro-proof") 
                 action="lock",
                 party=trade.sell_maker,
                 asset=base,
-                amount=trade.quantity,
+                amount_atoms=trade.quantity_atoms,
                 condition="seller locks the base asset in a non-custodial escrow or HTLC",
             ),
             SettlementLeg(
                 action="lock-or-pay",
                 party=trade.buy_maker,
                 asset=quote,
-                amount=trade.quote_quantity,
+                amount_atoms=trade.quote_quantity_atoms,
                 condition="buyer locks EURBT on-chain or proves an agreed euro rail payment",
             ),
             SettlementLeg(
                 action="release",
                 party=trade.sell_maker,
                 asset=base,
-                amount=trade.quantity,
+                amount_atoms=trade.quantity_atoms,
                 condition="base asset releases only after the quote-side proof is accepted",
             ),
         ),
@@ -120,4 +124,3 @@ def plan_settlement(trade: Trade, route: str = "crypto-escrow-plus-euro-proof") 
             "Fiat euro rails can still create chargeback and compliance risk.",
         ),
     )
-
