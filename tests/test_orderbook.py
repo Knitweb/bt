@@ -78,3 +78,32 @@ def test_orderbook_skips_pair_that_cannot_satisfy_minimum_fill(pair, buyer, sell
 
     assert len(trades) == 1
     assert trades[0].sell_order_id == viable.order_id
+
+
+def test_orderbook_prevents_self_trade(pair, buyer, seller):
+    # Regression: a single maker posting a crossing buy and sell must not
+    # match against themselves (wash trading / fake volume). A genuine
+    # counterparty sell at the same price must still match.
+    book = OrderBook(pair)
+    buy = SignedOrder.sign(
+        make_order(buyer, pair, price="100", quantity="1", created_at=10, nonce="buy"),
+        buyer,
+    )
+    self_sell = SignedOrder.sign(
+        make_order(buyer, pair, side=SELL, price="99", quantity="1", created_at=11, nonce="self-sell"),
+        buyer,
+    )
+    book.add(buy)
+    book.add(self_sell)
+    assert book.match(now=12) == []
+
+    # A real counterparty crossing the same buy still trades.
+    real_sell = SignedOrder.sign(
+        make_order(seller, pair, side=SELL, price="99", quantity="1", created_at=12, nonce="real-sell"),
+        seller,
+    )
+    book.add(real_sell)
+    trades = book.match(now=13)
+    assert len(trades) == 1
+    assert trades[0].sell_order_id == real_sell.order_id
+    assert trades[0].sell_maker == seller.peer_id

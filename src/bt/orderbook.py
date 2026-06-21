@@ -100,6 +100,11 @@ class OrderBook:
     ) -> tuple[BookEntry, BookEntry] | None:
         for buy in buys:
             for sell in sells:
+                # Self-trade / wash-trade prevention: a single maker must not
+                # match their own crossing buy and sell (fake volume / price
+                # and trust-history manipulation).
+                if buy.maker == sell.maker:
+                    continue
                 if buy.signed_order.order.price_atoms < sell.signed_order.order.price_atoms:
                     continue
                 quantity_atoms = min(buy.remaining_atoms, sell.remaining_atoms)
