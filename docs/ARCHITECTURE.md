@@ -65,9 +65,9 @@ The receiver can show `instant_accepted` once the signature and actor registry c
 pass. That status is a receiver UX state, not a claim that every external settlement
 rail has finalised.
 
-## PLS Real-Funds Gate
+## PULSE Real-Funds Gate
 
-PLS markets use the same signed-order and deterministic matching core, but real-funds
+PULSE markets use the same signed-order and deterministic matching core, but real-funds
 submission has an additional readiness gate. A market can accept signed dry-run orders
 when chains and assets are known. It must reject real-funds orders unless:
 
@@ -76,14 +76,14 @@ when chains and assets are known. It must reject real-funds orders unless:
 - an audit or formal verification reference is attached;
 - chain receipt and confirmation checks are available for release decisions.
 
-This prevents the UI from treating a PLS offer as safe just because the local order
+This prevents the UI from treating a PULSE offer as safe just because the local order
 signature and actor checks are valid.
 
 ## Serverless Target
 
 The target architecture avoids privileged hosts:
 
-- order propagation can happen over gossip, DHT, mailbox relays, or Knitweb/Pulse;
+- order propagation can happen over gossip, DHT, mailbox relays, or Knitweb;
 - matching is local and deterministic;
 - settlement plans are signed artifacts that any adapter can inspect;
 - relays may exist, but they are replaceable caches, not authorities.

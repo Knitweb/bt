@@ -8,7 +8,7 @@ from typing import Any
 from .models import Asset, Pair
 
 
-PULSECHAIN = "pulsechain"
+KNITWEB = "knitweb"
 ETHEREUM = "ethereum"
 BITCOIN = "bitcoin"
 
@@ -58,17 +58,17 @@ class AssetProfile:
 
 
 CHAIN_PROFILES = {
-    PULSECHAIN: ChainProfile(
-        key=PULSECHAIN,
-        display_name="PulseChain",
-        chain_id=369,
-        native_symbol="PLS",
+    KNITWEB: ChainProfile(
+        key=KNITWEB,
+        display_name="Knitweb",
+        chain_id=None,
+        native_symbol="PULSE",
         native_decimals=18,
         finality_blocks=12,
         expected_finality_seconds=120,
-        evm=True,
+        evm=False,
         supports_contract_locks=True,
-        explorer_tx_url="https://scan.pulsechain.com/tx/{tx_hash}",
+        explorer_tx_url="",
     ),
     ETHEREUM: ChainProfile(
         key=ETHEREUM,
@@ -97,9 +97,8 @@ CHAIN_PROFILES = {
 }
 
 
-PLS = Asset("PLS", PULSECHAIN, decimals=18)
-BT_ON_PULSE = Asset("BT", PULSECHAIN, address="demo:bt", decimals=8)
-WPLS_PLACEHOLDER = Asset("WPLS", PULSECHAIN, address="placeholder:wpls", decimals=18)
+PULSE = Asset("PULSE", KNITWEB, decimals=18)
+BT_ON_KNITWEB = Asset("BT", KNITWEB, address="demo:bt", decimals=8)
 
 
 def asset_key(asset: Asset) -> tuple[str, str, str]:
@@ -107,23 +106,17 @@ def asset_key(asset: Asset) -> tuple[str, str, str]:
 
 
 ASSET_PROFILES = {
-    asset_key(PLS): AssetProfile(
-        asset=PLS,
+    asset_key(PULSE): AssetProfile(
+        asset=PULSE,
         real_funds_eligible=True,
         grade="native-chain-asset",
-        note="Native PLS can be locked by a PulseChain adapter without token allowance risk.",
+        note="Native PULSE can be locked by a Knitweb adapter without token allowance risk.",
     ),
-    asset_key(BT_ON_PULSE): AssetProfile(
-        asset=BT_ON_PULSE,
+    asset_key(BT_ON_KNITWEB): AssetProfile(
+        asset=BT_ON_KNITWEB,
         real_funds_eligible=False,
         grade="demo-protocol-asset",
-        note="BT is a protocol unit here; no production PulseChain token contract is registered.",
-    ),
-    asset_key(WPLS_PLACEHOLDER): AssetProfile(
-        asset=WPLS_PLACEHOLDER,
-        real_funds_eligible=False,
-        grade="placeholder-contract",
-        note="WPLS needs a verified production contract address before real-funds trading.",
+        note="BT is a protocol unit here; no production Knitweb token contract is registered.",
     ),
 }
 
@@ -143,9 +136,9 @@ def get_asset_profile(asset: Asset) -> AssetProfile | None:
     return ASSET_PROFILES.get(asset_key(asset))
 
 
-def is_pls_asset(asset: Asset) -> bool:
-    return asset.chain.lower() == PULSECHAIN and asset.symbol.upper() == "PLS" and not asset.address
+def is_pulse_asset(asset: Asset) -> bool:
+    return asset.chain.lower() == KNITWEB and asset.symbol.upper() == "PULSE" and not asset.address
 
 
-def pair_contains_pls(pair: Pair) -> bool:
-    return is_pls_asset(pair.base) or is_pls_asset(pair.quote)
+def pair_contains_pulse(pair: Pair) -> bool:
+    return is_pulse_asset(pair.base) or is_pulse_asset(pair.quote)

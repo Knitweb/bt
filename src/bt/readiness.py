@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from .chains import get_asset_profile, get_chain_profile, pair_contains_pls
+from .chains import get_asset_profile, get_chain_profile, pair_contains_pulse
 from .models import Pair
 
 
@@ -96,11 +96,11 @@ def assess_pair_readiness(
                 severity=INFO if chain is not None else BLOCKER,
                 passed=chain is not None,
                 message=(
-                    f"{asset.chain} is registered as a supported chain for {side} {asset.symbol}."
+                    f"{asset.chain} is registered as a supported network for {side} {asset.symbol}."
                     if chain is not None
-                    else f"{asset.chain} is not registered as a supported chain for {side} {asset.symbol}."
+                    else f"{asset.chain} is not registered as a supported network for {side} {asset.symbol}."
                 ),
-                remedy="" if chain is not None else "Add a ChainProfile before accepting orders on this chain.",
+                remedy="" if chain is not None else "Add a network profile before accepting orders on this network.",
             )
         )
         profile = get_asset_profile(asset)
@@ -135,13 +135,13 @@ def assess_pair_readiness(
             )
 
     same_chain = pair.base.chain.lower() == pair.quote.chain.lower()
-    if same_chain and base_chain and base_chain.evm and base_chain.supports_contract_locks:
+    if same_chain and base_chain and base_chain.supports_contract_locks:
         checks.append(
             ReadinessCheck(
                 code="settlement_route",
                 severity=INFO,
                 passed=True,
-                message=f"{pair.symbol} can use a same-chain escrow route on {base_chain.display_name}.",
+                message=f"{pair.symbol} can use a same-network escrow route on {base_chain.display_name}.",
             )
         )
     else:
@@ -150,18 +150,18 @@ def assess_pair_readiness(
                 code="settlement_route",
                 severity=BLOCKER if mode == REAL_FUNDS else WARNING,
                 passed=False,
-                message=f"{pair.symbol} needs a cross-chain or non-EVM settlement adapter.",
+                message=f"{pair.symbol} needs a cross-network settlement adapter.",
                 remedy="Add a tested HTLC/bridge adapter before accepting real-funds orders.",
             )
         )
 
     checks.append(
         ReadinessCheck(
-            code="pls_market",
-            severity=INFO if pair_contains_pls(pair) else WARNING,
-            passed=pair_contains_pls(pair),
-            message="Pair contains native PLS." if pair_contains_pls(pair) else "Pair does not contain native PLS.",
-            remedy="Use PLS as base or quote for a PulseChain-focused market.",
+            code="pulse_market",
+            severity=INFO if pair_contains_pulse(pair) else WARNING,
+            passed=pair_contains_pulse(pair),
+            message="Pair contains native PULSE." if pair_contains_pulse(pair) else "Pair does not contain native PULSE.",
+            remedy="Use PULSE as base or quote for a Knitweb-focused market.",
         )
     )
 
@@ -172,7 +172,7 @@ def assess_pair_readiness(
                 severity=BLOCKER,
                 passed=bool(settlement_contract and not settlement_contract.startswith("demo:")),
                 message="A production settlement contract is registered." if settlement_contract else "No production settlement contract is registered.",
-                remedy="Deploy and configure the audited PulseChain escrow/HTLC contract address.",
+                remedy="Deploy and configure the audited Knitweb escrow/HTLC contract address.",
             )
         )
         checks.append(

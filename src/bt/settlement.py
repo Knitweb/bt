@@ -2,7 +2,7 @@
 
 These records describe how a matched trade should settle. They do not move funds.
 Adapters can later turn a plan into EVM transactions, XRPL Offers, Sui PTBs, Bitcoin
-HTLCs, SEPA proof workflows, or Pulse/Knitweb records.
+HTLCs, SEPA proof workflows, or Knitweb records.
 """
 
 from __future__ import annotations
@@ -10,7 +10,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from .chains import PULSECHAIN, get_chain_profile
+from .chains import KNITWEB, get_chain_profile
 from .canonical import record_id
 from .models import Asset, Pair, Trade
 from .money import format_units, max_atoms_for_decimals, validate_atoms
@@ -94,10 +94,10 @@ class SettlementPlan:
 def route_for_pair(pair: Pair) -> str:
     base_chain = pair.base.chain.lower()
     quote_chain = pair.quote.chain.lower()
-    if base_chain == quote_chain == PULSECHAIN:
-        return "pulsechain-audited-escrow-required"
-    if base_chain == PULSECHAIN or quote_chain == PULSECHAIN:
-        return "pulsechain-cross-chain-adapter-required"
+    if base_chain == quote_chain == KNITWEB:
+        return "knitweb-audited-escrow-required"
+    if base_chain == KNITWEB or quote_chain == KNITWEB:
+        return "knitweb-cross-chain-adapter-required"
     return "crypto-escrow-plus-anchor-proof"
 
 
@@ -111,23 +111,23 @@ def plan_settlement(trade: Trade, route: str = "") -> SettlementPlan:
     if same_chain and base_chain is not None:
         lock_condition = (
             f"seller locks {base.symbol} in a non-custodial {base_chain.display_name} escrow "
-            f"until {base_chain.finality_blocks} confirmation blocks are observed"
+            f"until {base_chain.finality_blocks} settlement confirmations are observed"
         )
         pay_condition = (
             f"buyer locks {quote.symbol} in the same escrow or proves the agreed quote-side transfer "
-            f"after {base_chain.finality_blocks} confirmation blocks"
+            f"after {base_chain.finality_blocks} settlement confirmations"
         )
     else:
         lock_condition = "seller locks the base asset in a non-custodial escrow or HTLC"
         pay_condition = f"buyer locks {quote.symbol} or proves the agreed quote-side payment"
     risk_notes = [
-        "This plan is non-custodial only after a chain/payment adapter enforces every leg.",
+        "This plan is non-custodial only after a network/payment adapter enforces every leg.",
         "External fiat or payment rails can still create chargeback and compliance risk.",
     ]
-    if base.chain.lower() == PULSECHAIN or quote.chain.lower() == PULSECHAIN:
-        risk_notes.append("Native PLS should not be accepted with real funds until a deployed PulseChain adapter and audit reference are configured.")
+    if base.chain.lower() == KNITWEB or quote.chain.lower() == KNITWEB:
+        risk_notes.append("Native PULSE should not be accepted with real funds until a deployed Knitweb adapter and audit reference are configured.")
     if base_chain is None or quote_chain is None:
-        risk_notes.append("At least one chain has no registered ChainProfile, so the plan is a dry-run artifact only.")
+        risk_notes.append("At least one network has no registered profile, so the plan is a dry-run artifact only.")
     return SettlementPlan(
         trade_id=trade.trade_id,
         route=route,

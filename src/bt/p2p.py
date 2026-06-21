@@ -1,7 +1,7 @@
 """Signed P2P message envelopes.
 
 The store is intentionally transport-neutral. A node can move these records over a
-DHT, local mesh, mailbox relay, Pulse/Knitweb fabric, or plain files without changing
+DHT, local mesh, mailbox relay, Knitweb fabric, or plain files without changing
 the signed payload.
 """
 

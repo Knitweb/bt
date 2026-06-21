@@ -24,11 +24,11 @@ def test_quote_amount_atoms_rounds_up_to_quote_atom():
     assert quote_amount_atoms(3, 1) == 1
 
 
-def test_pls_style_eighteen_decimal_atoms_use_asset_scale():
-    pls_atoms = parse_units("1.000000000000000001", decimals=18, max_atoms=max_atoms_for_decimals(18))
+def test_pulse_style_eighteen_decimal_atoms_use_asset_scale():
+    pulse_atoms = parse_units("1.000000000000000001", decimals=18, max_atoms=max_atoms_for_decimals(18))
 
-    assert pls_atoms == 1_000_000_000_000_000_001
-    assert format_units(pls_atoms, decimals=18) == "1.000000000000000001"
+    assert pulse_atoms == 1_000_000_000_000_000_001
+    assert format_units(pulse_atoms, decimals=18) == "1.000000000000000001"
     assert parse_units("888888.000000000000000000", decimals=18, max_atoms=max_atoms_for_decimals(18)) == max_atoms_for_decimals(18)
     with pytest.raises(ValueError, match="exceeds"):
         parse_units("888888.000000000000000001", decimals=18, max_atoms=max_atoms_for_decimals(18))

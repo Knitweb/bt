@@ -1841,7 +1841,7 @@
     {
       "architecture": "onchain_amm_or_pool",
       "chains": [
-        "PulseChain"
+        "Knitweb"
       ],
       "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/factory/uniV2.ts",
       "module": "pulsex-v1",
@@ -1858,7 +1858,7 @@
     {
       "architecture": "onchain_amm_or_pool",
       "chains": [
-        "PulseChain"
+        "Knitweb"
       ],
       "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/factory/uniV2.ts",
       "module": "pulsex-v2",

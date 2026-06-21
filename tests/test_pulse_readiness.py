@@ -3,7 +3,7 @@ from __future__ import annotations
 import pytest
 
 from bt.actors import PERSON, Actor
-from bt.chains import BT_ON_PULSE, PLS
+from bt.chains import BT_ON_KNITWEB, PULSE
 from bt.market import BtMarket
 from bt.models import BUY, SELL, Order, Pair, SignedOrder, Trade
 from bt.money import parse_units
@@ -11,12 +11,12 @@ from bt.readiness import REAL_FUNDS, SIGNED_DRY_RUN, assess_pair_readiness
 from bt.settlement import plan_settlement
 
 
-def pls_pair() -> Pair:
-    return Pair(PLS, BT_ON_PULSE)
+def pulse_pair() -> Pair:
+    return Pair(PULSE, BT_ON_KNITWEB)
 
 
-def test_pls_order_preserves_eighteen_decimal_quantity(buyer):
-    pair = pls_pair()
+def test_pulse_order_preserves_eighteen_decimal_quantity(buyer):
+    pair = pulse_pair()
 
     order = Order.from_human(
         maker=buyer.peer_id,
@@ -27,7 +27,7 @@ def test_pls_order_preserves_eighteen_decimal_quantity(buyer):
         min_quantity="0.100000000000000000",
         created_at=100,
         expires_at=200,
-        nonce="pls-sell",
+        nonce="pulse-sell",
     )
 
     assert order.quantity_atoms == 1_000_000_000_000_000_001
@@ -35,8 +35,8 @@ def test_pls_order_preserves_eighteen_decimal_quantity(buyer):
     assert order.price_atoms == parse_units("1.01", pair.quote.decimals)
 
 
-def test_pls_pair_is_ready_for_signed_dry_run_but_not_real_funds():
-    pair = pls_pair()
+def test_pulse_pair_is_ready_for_signed_dry_run_but_not_real_funds():
+    pair = pulse_pair()
 
     dry_run = assess_pair_readiness(pair, mode=SIGNED_DRY_RUN)
     real_funds = assess_pair_readiness(pair, mode=REAL_FUNDS)
@@ -49,8 +49,8 @@ def test_pls_pair_is_ready_for_signed_dry_run_but_not_real_funds():
     assert any(check.code == "audit_reference" for check in real_funds.blockers)
 
 
-def test_market_blocks_real_funds_pls_order_without_adapter_evidence(buyer):
-    pair = pls_pair()
+def test_market_blocks_real_funds_pulse_order_without_adapter_evidence(buyer):
+    pair = pulse_pair()
     market = BtMarket(pair)
     market.register_actor(Actor("person:buyer", PERSON, buyer.peer_id, identified=True))
     order = SignedOrder.sign(
@@ -71,8 +71,8 @@ def test_market_blocks_real_funds_pls_order_without_adapter_evidence(buyer):
         market.submit_real_funds_order(order, settlement_contract="", audit_reference="", now=101)
 
 
-def test_pls_settlement_plan_uses_pulsechain_route(buyer, seller):
-    pair = pls_pair()
+def test_pulse_settlement_plan_uses_knitweb_route(buyer, seller):
+    pair = pulse_pair()
     trade = Trade(
         pair=pair,
         price_atoms=parse_units("1.00", pair.quote.decimals),
@@ -86,6 +86,6 @@ def test_pls_settlement_plan_uses_pulsechain_route(buyer, seller):
 
     plan = plan_settlement(trade)
 
-    assert plan.route == "pulsechain-audited-escrow-required"
-    assert "PulseChain escrow" in plan.legs[0].condition
-    assert any("Native PLS" in note for note in plan.risk_notes)
+    assert plan.route == "knitweb-audited-escrow-required"
+    assert "Knitweb escrow" in plan.legs[0].condition
+    assert any("Native PULSE" in note for note in plan.risk_notes)

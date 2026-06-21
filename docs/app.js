@@ -1,6 +1,6 @@
 const state = {
-  pair: "PLS/BT",
-  baseSymbol: "PLS",
+  pair: "PULSE/BT",
+  baseSymbol: "PULSE",
   quoteSymbol: "BT",
   peers: [],
   orders: [],
@@ -15,18 +15,18 @@ const state = {
   safety: [
     {
       tone: "ok",
-      title: "Signed PLS dry-run ready",
+      title: "Signed PULSE dry-run ready",
       text: "Orders are signed locally, matched deterministically, and checked against identified actor and trust evidence.",
     },
     {
       tone: "block",
-      title: "Real PLS funds blocked",
-      text: "No audited PulseChain escrow adapter is configured, so this page will not claim production settlement safety.",
+      title: "Real PULSE funds blocked",
+      text: "No audited Knitweb escrow adapter is configured, so this page will not claim production settlement safety.",
     },
     {
       tone: "ok",
-      title: "PLS integer model",
-      text: "The Python core stores PLS with 18-decimal integer atoms; the browser sandbox keeps display amounts compact.",
+      title: "PULSE integer model",
+      text: "The Python core stores PULSE with 18-decimal integer atoms; the browser sandbox keeps display amounts compact.",
     },
   ],
 };
@@ -334,7 +334,7 @@ function renderSettlement() {
     node.textContent = "Waiting for a matched trade.";
     return;
   }
-  node.textContent = `${latest.ask.payload.maker.slice(0, 13)} signs a ${formatAtoms(latest.quantityAtoms)} PLS lock plan; ${latest.bid.payload.maker.slice(0, 13)} is instant accepted for ${formatAtoms(latest.quoteAtoms)} BT only as a signed dry-run until PulseChain escrow is audited.`;
+  node.textContent = `${latest.ask.payload.maker.slice(0, 13)} signs a ${formatAtoms(latest.quantityAtoms)} PULSE lock plan; ${latest.bid.payload.maker.slice(0, 13)} is instant accepted for ${formatAtoms(latest.quoteAtoms)} BT only as a signed dry-run until Knitweb escrow is audited.`;
 }
 
 function renderTopline() {
@@ -363,11 +363,11 @@ function render() {
 
 async function seed() {
   state.peers = [
-    await newWallet("Amsterdam person", 82, "Identified person with PulseChain reserve evidence.", "person"),
-    await newWallet("Lisbon agent", 76, "Agent with an identified owner person and prior PLS settlement history.", "owned agent"),
+    await newWallet("Amsterdam person", 82, "Identified person with Knitweb reserve evidence.", "person"),
+    await newWallet("Lisbon agent", 76, "Agent with an identified owner person and prior PULSE settlement history.", "owned agent"),
     await newWallet("VoteBank DAO", 88, "DAO actor authorised by vBank governance.", "votebank dao"),
   ];
-  state.wallet = await newWallet("Browser person", 72, "Local identified PLS session key.", "person");
+  state.wallet = await newWallet("Browser person", 72, "Local identified PULSE session key.", "person");
   state.peers.push(state.wallet);
   document.getElementById("walletBadge").textContent = state.wallet.peer.slice(0, 18);
 

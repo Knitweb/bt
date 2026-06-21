@@ -12,7 +12,7 @@ from .basket import (
     derive_weights_from_vbank_series,
     bt_genesis_spec,
 )
-from .chains import BT_ON_PULSE, PLS, AssetProfile, ChainProfile
+from .chains import BT_ON_KNITWEB, PULSE, AssetProfile, ChainProfile
 from .keys import Keypair
 from .market import BtMarket
 from .models import Asset, Order, Pair, SignedOrder, Trade
@@ -28,7 +28,7 @@ __all__ = [
     "Actor",
     "ActorRegistry",
     "Attestation",
-    "BT_ON_PULSE",
+    "BT_ON_KNITWEB",
     "BasketComponent",
     "BasketSpec",
     "ChainProfile",
@@ -40,7 +40,7 @@ __all__ = [
     "Order",
     "Pair",
     "PeerStore",
-    "PLS",
+    "PULSE",
     "ReadinessCheck",
     "SettlementPlan",
     "Receipt",

@@ -7,7 +7,7 @@ import json
 
 from .actors import Actor, AGENT, PERSON, VOTEBANK_DAO
 from .basket import bt_genesis_spec
-from .chains import BT_ON_PULSE, PLS
+from .chains import BT_ON_KNITWEB, PULSE
 from .keys import Keypair
 from .market import BtMarket
 from .models import BUY, SELL, Asset, Order, Pair, SignedOrder
@@ -92,19 +92,19 @@ def build_demo() -> dict[str, object]:
     }
 
 
-def build_pls_demo() -> dict[str, object]:
+def build_pulse_demo() -> dict[str, object]:
     now = 1_750_000_000
     buyer = Keypair.generate()
     seller = Keypair.generate()
     auditor = Keypair.generate()
-    pair = Pair(PLS, BT_ON_PULSE)
+    pair = Pair(PULSE, BT_ON_KNITWEB)
     market = BtMarket(pair)
-    market.register_actor(Actor("person:pls-buyer", PERSON, buyer.peer_id, identified=True))
-    market.register_actor(Actor("person:pls-seller", PERSON, seller.peer_id, identified=True))
+    market.register_actor(Actor("person:pulse-buyer", PERSON, buyer.peer_id, identified=True))
+    market.register_actor(Actor("person:pulse-seller", PERSON, seller.peer_id, identified=True))
 
     for subject, note in (
-        (buyer.peer_id, "buyer has prior PulseChain settlement evidence"),
-        (seller.peer_id, "seller controls the PLS offer key and has no open disputes"),
+        (buyer.peer_id, "buyer has prior Knitweb settlement evidence"),
+        (seller.peer_id, "seller controls the PULSE offer key and has no open disputes"),
     ):
         attestation = Attestation(
             issuer=auditor.peer_id,
@@ -113,7 +113,7 @@ def build_pls_demo() -> dict[str, object]:
             score_delta=75,
             issued_at=now,
             expires_at=now + 86_400,
-            evidence=f"pls-demo://{subject}",
+            evidence=f"pulse-demo://{subject}",
             note=note,
         )
         market.submit_attestation(SignedAttestation.sign(attestation, auditor), now=now)
@@ -128,8 +128,8 @@ def build_pls_demo() -> dict[str, object]:
         trust_min=70,
         created_at=now + 1,
         expires_at=now + 3600,
-        nonce="pls-buyer-1",
-        settlement="pulsechain-escrow",
+        nonce="pulse-buyer-1",
+        settlement="knitweb-escrow",
     )
     sell_order = Order.from_human(
         maker=seller.peer_id,
@@ -141,8 +141,8 @@ def build_pls_demo() -> dict[str, object]:
         trust_min=70,
         created_at=now + 2,
         expires_at=now + 3600,
-        nonce="pls-seller-1",
-        settlement="pulsechain-escrow",
+        nonce="pulse-seller-1",
+        settlement="knitweb-escrow",
     )
     for keypair, order in ((buyer, buy_order), (seller, sell_order)):
         market.submit_order(SignedOrder.sign(order, keypair), now=now)
@@ -166,13 +166,13 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="bt")
     sub = parser.add_subparsers(dest="command")
     sub.add_parser("demo", help="run a local signed-order DEX demo")
-    sub.add_parser("pls-demo", help="run a PulseChain PLS signed-order safety demo")
+    sub.add_parser("pulse-demo", help="run a Knitweb PULSE signed-order safety demo")
     args = parser.parse_args(argv)
     if args.command == "demo":
         print(json.dumps(build_demo(), indent=2, sort_keys=True))
         return 0
-    if args.command == "pls-demo":
-        print(json.dumps(build_pls_demo(), indent=2, sort_keys=True))
+    if args.command == "pulse-demo":
+        print(json.dumps(build_pulse_demo(), indent=2, sort_keys=True))
         return 0
     parser.print_help()
     return 0

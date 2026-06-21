@@ -143,8 +143,8 @@ Reference outside the top-100: Bisq is the cleanest strict-P2P model for fiat/cr
 | 93 | Katana DEX | $1,163,941 | Ronin | `onchain_amm_or_pool` | 1 | 4 | no |
 | 94 | Hydration DEX | $1,147,129 | Hydration | `onchain_amm_or_pool` | 1 | 4 | no |
 | 95 | Kodiak V3 | $1,106,237 | Berachain | `onchain_amm_or_pool` | 1 | 4 | no |
-| 96 | PulseX V1 | $1,104,830 | PulseChain | `onchain_amm_or_pool` | 1 | 4 | no |
-| 97 | PulseX V2 | $1,070,860 | PulseChain | `onchain_amm_or_pool` | 1 | 4 | no |
+| 96 | PulseX V1 | $1,104,830 | Knitweb | `onchain_amm_or_pool` | 1 | 4 | no |
+| 97 | PulseX V2 | $1,070,860 | Knitweb | `onchain_amm_or_pool` | 1 | 4 | no |
 | 98 | SparkDEX V3.1 | $1,067,906 | Flare | `onchain_amm_or_pool` | 1 | 4 | no |
 | 99 | Quickswap V4 | $1,064,016 | Soneium, Base, Somnia | `onchain_amm_or_pool` | 1 | 4 | no |
 | 100 | Hybra V4 | $1,037,267 | Hyperliquid L1 | `onchain_amm_or_pool` | 1 | 4 | no |
