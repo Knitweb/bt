@@ -88,3 +88,46 @@ def test_votebank_dao_actor_can_transact(pair, buyer):
     order = SignedOrder.sign(make_order(buyer, pair, nonce="dao"), buyer)
 
     assert market.submit_order(order) == order.order_id
+
+
+def test_ingest_rejects_envelope_sender_maker_mismatch(pair, buyer, seller):
+    # SECURITY regression: a peer may not relay another peer's validly-signed
+    # order in an envelope it signed itself. buyer's order, wrapped + signed by
+    # seller, has a valid envelope sig AND a valid order sig — but the sender
+    # (seller) does not match the order maker (buyer), so it must be refused
+    # before it enters the peer store.
+    market = BtMarket(pair)
+    now = 100
+    market.register_actor(Actor("person:buyer", PERSON, buyer.peer_id, identified=True))
+
+    order = SignedOrder.sign(make_order(buyer, pair, nonce="buy"), buyer)
+    forged = Envelope.sign("order", order.to_dict(), seller, created_at=order.order.created_at, nonce="buy")
+
+    with pytest.raises(ValueError, match="sender does not match order maker"):
+        market.ingest_envelope(forged, now=now)
+    # The forgery never reached the order book.
+    assert market.match(now=now + 1) == []
+
+
+def test_ingest_rejects_attestation_sender_issuer_mismatch(pair, buyer, seller, auditor):
+    # Same binding for attestations: only the issuer may relay their own
+    # attestation. auditor's attestation wrapped + signed by seller is refused.
+    market = BtMarket(pair)
+    now = 100
+    attestation = Attestation(
+        issuer=auditor.peer_id,
+        subject=buyer.peer_id,
+        kind="settlement_history",
+        score_delta=50,
+        issued_at=now,
+        expires_at=now + 1000,
+        evidence=f"demo://{buyer.peer_id}",
+        note="demo",
+    )
+    signed = SignedAttestation.sign(attestation, auditor)
+    forged = Envelope.sign("attestation", signed.to_dict(), seller, created_at=now, nonce="att")
+
+    with pytest.raises(ValueError, match="sender does not match attestation issuer"):
+        market.ingest_envelope(forged, now=now)
+    # The forged attestation never reached the trust book: subject score is unchanged (0).
+    assert market.trust_book.score(buyer.peer_id, now=now) == 0

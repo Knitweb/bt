@@ -61,13 +61,30 @@ class BtMarket:
         return self.trust_book.add(signed_attestation, now=now)
 
     def ingest_envelope(self, envelope: Envelope, now: int | None = None) -> bool:
+        # SECURITY: bind the envelope sender to the inner payload's authority.
+        # peer_store.ingest verifies the envelope signature (→ sender) and the
+        # inner order/attestation signature is verified downstream, but without
+        # this check peer X could relay peer Y's validly-signed order/attestation
+        # in an envelope X signed: both signatures verify, yet the message would be
+        # recorded and reputation-/attribution-keyed to the wrong peer (sender X,
+        # author Y). Reject the mismatch before it ever enters the peer store.
+        parsed: SignedOrder | SignedAttestation | None = None
+        if envelope.message_type == "order":
+            parsed = SignedOrder.from_dict(envelope.payload)
+            if envelope.sender != parsed.order.maker:
+                raise ValueError("envelope sender does not match order maker")
+        elif envelope.message_type == "attestation":
+            parsed = SignedAttestation.from_dict(envelope.payload)
+            if envelope.sender != parsed.attestation.issuer:
+                raise ValueError("envelope sender does not match attestation issuer")
+
         inserted = self.peer_store.ingest(envelope)
         if not inserted:
             return False
-        if envelope.message_type == "order":
-            self.submit_order(SignedOrder.from_dict(envelope.payload), now=now)
-        elif envelope.message_type == "attestation":
-            self.submit_attestation(SignedAttestation.from_dict(envelope.payload), now=now)
+        if isinstance(parsed, SignedOrder):
+            self.submit_order(parsed, now=now)
+        elif isinstance(parsed, SignedAttestation):
+            self.submit_attestation(parsed, now=now)
         return True
 
     def match(self, now: int | None = None) -> list[Trade]:
