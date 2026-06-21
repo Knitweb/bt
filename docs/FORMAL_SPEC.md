@@ -1,13 +1,13 @@
-# EURBT Formal Specification Draft
+# BT Formal Specification Draft
 
 This document captures the protocol invariants that should be tested or proven before
-EURBT is treated as more than a prototype.
+BT is treated as more than a prototype.
 
 ## Types
 
 ### Atom
 
-An atom is a signed-host-language integer constrained by EURBT validation rules.
+An atom is a signed-host-language integer constrained by BT validation rules.
 
 ```text
 1 unit = 100_000_000 atoms
@@ -73,9 +73,9 @@ integer atoms. A float cannot be accepted as transaction input.
 
 ### I2: Basket Completeness
 
-Every valid EURBT basket spec includes:
+Every valid BT basket spec includes:
 
-- `eur_anchor`
+- `currency_anchor`
 - `fiat_trade`
 - `crypto_trade`
 - `commodity`

@@ -2,11 +2,11 @@ from __future__ import annotations
 
 import pytest
 
-from eurbt.actors import PERSON, VOTEBANK_DAO, Actor, ActorRegistry
-from eurbt.basket import (
+from bt.actors import PERSON, VOTEBANK_DAO, Actor, ActorRegistry
+from bt.basket import (
     COMMODITY,
     CRYPTO_TRADE,
-    EUR_ANCHOR,
+    CURRENCY_ANCHOR,
     FIAT_TRADE,
     BasketComponent,
     BasketSpec,
@@ -16,9 +16,9 @@ from eurbt.basket import (
     VBankWeightPoint,
     component_from_claim,
     derive_weights_from_vbank_series,
-    eurbt_genesis_spec,
+    bt_genesis_spec,
 )
-from eurbt.money import BT_SCALE
+from bt.money import BT_SCALE
 
 
 def registry_with_votebank(votebank) -> ActorRegistry:
@@ -54,22 +54,22 @@ def component(keypair, claim_type: str, weight_ppm: int, value_atoms: int = BT_S
     )
 
 
-def test_eurbt_genesis_spec_is_votebank_signed_and_deterministic(auditor):
+def test_bt_genesis_spec_is_votebank_signed_and_deterministic(auditor):
     registry = registry_with_votebank(auditor)
 
-    signed = eurbt_genesis_spec(auditor, registry, now=100)
+    signed = bt_genesis_spec(auditor, registry, now=100)
 
     assert signed.verify(registry)
     assert signed.spec.anchor_currency == "EUR"
-    assert signed.spec.currency_code == "EURBT"
+    assert signed.spec.currency_code == "BT"
     assert {component.component_type: component.weight_ppm for component in signed.spec.components} == {
         COMMODITY: 200_000,
         CRYPTO_TRADE: 168_949,
-        EUR_ANCHOR: 391_051,
+        CURRENCY_ANCHOR: 391_051,
         FIAT_TRADE: 240_000,
     }
     assert signed.spec.target_index_atoms() == 100_756_637
-    assert "EURBT target is 1.00756637" in signed.spec.explain()
+    assert "BT target is 1.00756637" in signed.spec.explain()
 
 
 def test_vbank_timeseries_recency_drives_dynamic_weights():
@@ -77,7 +77,7 @@ def test_vbank_timeseries_recency_drives_dynamic_weights():
     older = VBankWeightPoint(
         point_id="old",
         observed_at=now - 900,
-        weights_ppm={EUR_ANCHOR: 800_000, FIAT_TRADE: 100_000, CRYPTO_TRADE: 50_000, COMMODITY: 50_000},
+        weights_ppm={CURRENCY_ANCHOR: 800_000, FIAT_TRADE: 100_000, CRYPTO_TRADE: 50_000, COMMODITY: 50_000},
         participation_ppm=1_000_000,
         confidence_ppm=1_000_000,
         source="vbank://old",
@@ -85,7 +85,7 @@ def test_vbank_timeseries_recency_drives_dynamic_weights():
     fresh = VBankWeightPoint(
         point_id="fresh",
         observed_at=now,
-        weights_ppm={EUR_ANCHOR: 200_000, FIAT_TRADE: 300_000, CRYPTO_TRADE: 300_000, COMMODITY: 200_000},
+        weights_ppm={CURRENCY_ANCHOR: 200_000, FIAT_TRADE: 300_000, CRYPTO_TRADE: 300_000, COMMODITY: 200_000},
         participation_ppm=1_000_000,
         confidence_ppm=1_000_000,
         source="vbank://fresh",
@@ -95,7 +95,7 @@ def test_vbank_timeseries_recency_drives_dynamic_weights():
 
     assert sum(weights.values()) == 1_000_000
     assert weights[CRYPTO_TRADE] > 250_000
-    assert weights[EUR_ANCHOR] < 300_000
+    assert weights[CURRENCY_ANCHOR] < 300_000
 
 
 def test_vbank_timeseries_participation_and_confidence_affect_influence():
@@ -103,7 +103,7 @@ def test_vbank_timeseries_participation_and_confidence_affect_influence():
     weak = VBankWeightPoint(
         point_id="weak",
         observed_at=now,
-        weights_ppm={EUR_ANCHOR: 900_000, FIAT_TRADE: 50_000, CRYPTO_TRADE: 25_000, COMMODITY: 25_000},
+        weights_ppm={CURRENCY_ANCHOR: 900_000, FIAT_TRADE: 50_000, CRYPTO_TRADE: 25_000, COMMODITY: 25_000},
         participation_ppm=100_000,
         confidence_ppm=100_000,
         source="vbank://weak",
@@ -111,7 +111,7 @@ def test_vbank_timeseries_participation_and_confidence_affect_influence():
     strong = VBankWeightPoint(
         point_id="strong",
         observed_at=now,
-        weights_ppm={EUR_ANCHOR: 200_000, FIAT_TRADE: 300_000, CRYPTO_TRADE: 250_000, COMMODITY: 250_000},
+        weights_ppm={CURRENCY_ANCHOR: 200_000, FIAT_TRADE: 300_000, CRYPTO_TRADE: 250_000, COMMODITY: 250_000},
         participation_ppm=1_000_000,
         confidence_ppm=1_000_000,
         source="vbank://strong",
@@ -119,13 +119,13 @@ def test_vbank_timeseries_participation_and_confidence_affect_influence():
 
     weights = derive_weights_from_vbank_series((weak, strong), now=now)
 
-    assert weights[EUR_ANCHOR] < 210_000
+    assert weights[CURRENCY_ANCHOR] < 210_000
     assert weights[FIAT_TRADE] > 295_000
 
 
 def test_basket_requires_all_core_component_types(auditor):
     components = (
-        component(auditor, EUR_ANCHOR, 400_000),
+        component(auditor, CURRENCY_ANCHOR, 400_000),
         component(auditor, FIAT_TRADE, 300_000),
         component(auditor, CRYPTO_TRADE, 300_000),
     )
@@ -133,7 +133,7 @@ def test_basket_requires_all_core_component_types(auditor):
     with pytest.raises(ValueError, match="commodity"):
         BasketSpec(
             basket_id="bad",
-            currency_code="EURBT",
+            currency_code="BT",
             anchor_currency="EUR",
             components=components,
             created_by=auditor.peer_id,
@@ -143,7 +143,7 @@ def test_basket_requires_all_core_component_types(auditor):
 
 def test_basket_rejects_non_one_million_weight_sum(auditor):
     components = (
-        component(auditor, EUR_ANCHOR, 250_000),
+        component(auditor, CURRENCY_ANCHOR, 250_000),
         component(auditor, FIAT_TRADE, 250_000),
         component(auditor, CRYPTO_TRADE, 250_000),
         component(auditor, COMMODITY, 249_999),
@@ -152,8 +152,48 @@ def test_basket_rejects_non_one_million_weight_sum(auditor):
     with pytest.raises(ValueError, match="weights"):
         BasketSpec(
             basket_id="bad-weights",
-            currency_code="EURBT",
+            currency_code="BT",
             anchor_currency="EUR",
+            components=components,
+            created_by=auditor.peer_id,
+            created_at=100,
+        )
+
+
+def test_basket_allows_dao_approved_alternate_anchor_currency(auditor):
+    components = (
+        component(auditor, CURRENCY_ANCHOR, 250_000),
+        component(auditor, FIAT_TRADE, 250_000),
+        component(auditor, CRYPTO_TRADE, 250_000),
+        component(auditor, COMMODITY, 250_000),
+    )
+
+    spec = BasketSpec(
+        basket_id="bt-usd-research",
+        currency_code="BT",
+        anchor_currency="USD",
+        components=components,
+        created_by=auditor.peer_id,
+        created_at=100,
+    )
+
+    assert spec.anchor_currency == "USD"
+    assert "USD-anchored atoms" in spec.explain()
+
+
+def test_basket_rejects_missing_anchor_currency(auditor):
+    components = (
+        component(auditor, CURRENCY_ANCHOR, 250_000),
+        component(auditor, FIAT_TRADE, 250_000),
+        component(auditor, CRYPTO_TRADE, 250_000),
+        component(auditor, COMMODITY, 250_000),
+    )
+
+    with pytest.raises(ValueError, match="anchor_currency"):
+        BasketSpec(
+            basket_id="bt-missing-anchor",
+            currency_code="BT",
+            anchor_currency="",
             components=components,
             created_by=auditor.peer_id,
             created_at=100,
@@ -164,14 +204,14 @@ def test_only_votebank_dao_can_sign_basket_spec(auditor, buyer):
     registry = ActorRegistry()
     registry.add(Actor("person:buyer", PERSON, buyer.peer_id, identified=True))
     components = (
-        component(auditor, EUR_ANCHOR, 250_000),
+        component(auditor, CURRENCY_ANCHOR, 250_000),
         component(auditor, FIAT_TRADE, 250_000),
         component(auditor, CRYPTO_TRADE, 250_000),
         component(auditor, COMMODITY, 250_000),
     )
     spec = BasketSpec(
         basket_id="person-update",
-        currency_code="EURBT",
+        currency_code="BT",
         anchor_currency="EUR",
         components=components,
         created_by=buyer.peer_id,

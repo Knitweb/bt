@@ -1,13 +1,16 @@
-# EURBT Basket Policy
+# BT Basket Policy
 
-EURBT is not a simple euro peg. The euro is the anchor and display numeraire, while
-the target value is calculated from a trade-weighted basket.
+BT is not a simple single-currency peg. The basket has an explicit anchor currency
+and display numeraire, while the target value is calculated from trade, crypto, and
+commodity signals. The first seed configuration uses EUR, but the protocol field is
+`anchor_currency` so a future DAO-approved basket can target another national
+currency or a broader market numeraire.
 
 ## Required Components
 
-Every valid EURBT basket spec must include:
+Every valid BT basket spec must include:
 
-- `eur_anchor`: euro baseline;
+- `currency_anchor`: selected anchor-currency baseline;
 - `fiat_trade`: trade-weighted fiat pressure;
 - `crypto_trade`: crypto trade and liquidity demand;
 - `commodity`: tradable commodity value.
@@ -26,7 +29,7 @@ Each time-series point contains:
 - confidence ppm;
 - source, usually a vBank result, election, poll, or DAO record.
 
-The EURBT engine applies recency, participation, and confidence influence, then
+The BT engine applies recency, participation, and confidence influence, then
 normalises the result to exactly `1_000_000` ppm. Fresh high-participation vBank
 points therefore steer the basket more than older or weakly-supported points.
 
@@ -41,7 +44,7 @@ Default seed time-series points currently derive approximately:
 
 | Component | Weight |
 | --- | ---: |
-| EUR anchor | 391051 ppm |
+| EUR seed anchor | 391051 ppm |
 | Fiat trade | 240000 ppm |
 | Crypto trade | 168949 ppm |
 | Commodities | 200000 ppm |

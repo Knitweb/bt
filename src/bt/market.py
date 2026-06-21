@@ -1,4 +1,4 @@
-"""High-level EURBT market facade."""
+"""High-level BT market facade."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from .settlement import SettlementPlan, plan_settlement
 from .trust import SignedAttestation, TrustBook
 
 
-class EurbtMarket:
+class BtMarket:
     def __init__(self, pair: Pair, trust_book: TrustBook | None = None, actor_registry: ActorRegistry | None = None) -> None:
         self.pair = pair
         self.orderbook = OrderBook(pair)

@@ -149,12 +149,12 @@ Reference outside the top-100: Bisq is the cleanest strict-P2P model for fiat/cr
 | 99 | Quickswap V4 | $1,064,016 | Soneium, Base, Somnia | `onchain_amm_or_pool` | 1 | 4 | no |
 | 100 | Hybra V4 | $1,037,267 | Hyperliquid L1 | `onchain_amm_or_pool` | 1 | 4 | no |
 
-## EURBT Design Implications
+## BT Design Implications
 
 1. Start with signed peer orders, not pools. AMMs are useful later, but they are not direct P2P.
 2. Make relays replaceable. A relay can cache messages, but it must never be the market authority.
 3. Keep matching deterministic and local. Every node should be able to recompute candidate fills.
-4. Use trust attestations instead of vague verification badges. Euro markets need reserve, settlement, and dispute context in common language.
+4. Use trust attestations instead of vague verification badges. Anchor-currency markets need reserve, settlement, and dispute context in common language.
 5. Separate settlement planning from execution. The core can generate auditable plans before any chain adapter moves funds.
 
 ## Sources

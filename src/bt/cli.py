@@ -6,9 +6,9 @@ import argparse
 import json
 
 from .actors import Actor, AGENT, PERSON, VOTEBANK_DAO
-from .basket import eurbt_genesis_spec
+from .basket import bt_genesis_spec
 from .keys import Keypair
-from .market import EurbtMarket
+from .market import BtMarket
 from .models import BUY, SELL, Asset, Order, Pair, SignedOrder
 from .p2p import Envelope
 from .trust import Attestation, SignedAttestation
@@ -22,16 +22,16 @@ def build_demo() -> dict[str, object]:
     votebank = Keypair.generate()
 
     btc = Asset("BTC", "bitcoin", decimals=8)
-    eurbt = Asset("EURBT", "ethereum", address="demo:eurbt", decimals=8)
-    pair = Pair(btc, eurbt)
-    market = EurbtMarket(pair)
+    bt = Asset("BT", "ethereum", address="demo:bt", decimals=8)
+    pair = Pair(btc, bt)
+    market = BtMarket(pair)
     market.register_actor(Actor("person:buyer", PERSON, buyer.peer_id, identified=True))
     market.register_actor(Actor("agent:seller", AGENT, seller.peer_id, owner_person_id="person:seller-owner", identified=True))
     market.register_actor(Actor("dao:vbank", VOTEBANK_DAO, votebank.peer_id, identified=True))
-    basket = eurbt_genesis_spec(votebank, market.actor_registry, now)
+    basket = bt_genesis_spec(votebank, market.actor_registry, now)
 
     for subject, note in (
-        (buyer.peer_id, "buyer has completed small euro settlements before"),
+        (buyer.peer_id, "buyer has completed small anchor-currency settlements before"),
         (seller.peer_id, "seller published recent reserve evidence for BTC liquidity"),
     ):
         attestation = Attestation(
@@ -91,7 +91,7 @@ def build_demo() -> dict[str, object]:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="eurbt")
+    parser = argparse.ArgumentParser(prog="bt")
     sub = parser.add_subparsers(dest="command")
     sub.add_parser("demo", help="run a local signed-order DEX demo")
     args = parser.parse_args(argv)

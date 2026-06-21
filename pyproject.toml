@@ -3,9 +3,9 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "eurbt"
+name = "bt"
 version = "0.1.0"
-description = "A Python-first trusted, serverless-leaning P2P DEX prototype for euro crypto markets."
+description = "A Python-first trusted, serverless-leaning P2P DEX and knowledge-weighted basket prototype."
 requires-python = ">=3.12"
 readme = "README.md"
 license = { text = "Proprietary" }
@@ -15,11 +15,10 @@ dependencies = [
 ]
 
 [project.scripts]
-eurbt = "eurbt.cli:main"
+bt = "bt.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-

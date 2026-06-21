@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from eurbt.models import SELL, SignedOrder
-from eurbt.orderbook import OrderBook
+from bt.models import SELL, SignedOrder
+from bt.orderbook import OrderBook
 
 from .conftest import make_order
 

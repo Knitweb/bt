@@ -1,4 +1,4 @@
-"""EURBT DEX protocol core."""
+"""BT DEX protocol core."""
 
 from .actors import Actor, ActorRegistry
 from .basket import (
@@ -10,10 +10,10 @@ from .basket import (
     VBankWeightPoint,
     default_vbank_weight_series,
     derive_weights_from_vbank_series,
-    eurbt_genesis_spec,
+    bt_genesis_spec,
 )
 from .keys import Keypair
-from .market import EurbtMarket
+from .market import BtMarket
 from .models import Asset, Order, Pair, SignedOrder, Trade
 from .p2p import Envelope, PeerStore
 from .settlement import SettlementPlan, plan_settlement
@@ -28,7 +28,7 @@ __all__ = [
     "BasketComponent",
     "BasketSpec",
     "Envelope",
-    "EurbtMarket",
+    "BtMarket",
     "KnowledgeClaim",
     "Keypair",
     "Order",
@@ -47,7 +47,7 @@ __all__ = [
     "VBankWeightPoint",
     "default_vbank_weight_series",
     "derive_weights_from_vbank_series",
-    "eurbt_genesis_spec",
+    "bt_genesis_spec",
     "plan_settlement",
     "receive_transfer",
 ]

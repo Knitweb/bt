@@ -90,7 +90,7 @@ class SettlementPlan:
         return plan
 
 
-def plan_settlement(trade: Trade, route: str = "crypto-escrow-plus-euro-proof") -> SettlementPlan:
+def plan_settlement(trade: Trade, route: str = "crypto-escrow-plus-anchor-proof") -> SettlementPlan:
     base = trade.pair.base
     quote = trade.pair.quote
     return SettlementPlan(
@@ -109,7 +109,7 @@ def plan_settlement(trade: Trade, route: str = "crypto-escrow-plus-euro-proof") 
                 party=trade.buy_maker,
                 asset=quote,
                 amount_atoms=trade.quote_quantity_atoms,
-                condition="buyer locks EURBT on-chain or proves an agreed euro rail payment",
+                condition="buyer locks BT on-chain or proves the agreed anchor-currency payment",
             ),
             SettlementLeg(
                 action="release",
@@ -121,6 +121,6 @@ def plan_settlement(trade: Trade, route: str = "crypto-escrow-plus-euro-proof") 
         ),
         risk_notes=(
             "This plan is non-custodial only after a chain/payment adapter enforces every leg.",
-            "Fiat euro rails can still create chargeback and compliance risk.",
+            "External fiat or payment rails can still create chargeback and compliance risk.",
         ),
     )

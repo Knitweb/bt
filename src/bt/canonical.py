@@ -1,4 +1,4 @@
-"""Canonical JSON helpers for signed EURBT records."""
+"""Canonical JSON helpers for signed BT records."""
 
 from __future__ import annotations
 

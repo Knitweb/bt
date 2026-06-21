@@ -1,7 +1,7 @@
-"""Integer money helpers for EURBT.
+"""Integer money helpers for BT.
 
-EURBT transaction values use fixed-point integer atoms. The canonical scale is
-eight decimals, so 1.00000000 EURBT is stored as 100_000_000 atoms.
+BT transaction values use fixed-point integer atoms. The canonical scale is
+eight decimals, so 1.00000000 BT is stored as 100_000_000 atoms.
 """
 
 from __future__ import annotations

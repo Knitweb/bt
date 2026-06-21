@@ -3,18 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>EURBT DEX</title>
+    <title>BT DEX</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <main class="shell">
       <header class="topbar">
         <div>
-          <h1>EURBT</h1>
+          <h1>BT</h1>
           <p class="subline">Integer-settled P2P DEX market</p>
         </div>
         <div class="status-strip" aria-label="market status">
-          <span><strong id="midPrice">--</strong> BTC/EURBT</span>
+          <span><strong id="midPrice">--</strong> BTC/BT</span>
           <span><strong id="basketIndex">--</strong> basket</span>
           <span><strong id="trustFloor">--</strong> trust floor</span>
         </div>
@@ -24,7 +24,7 @@
         <section class="market-panel">
           <div class="panel-head">
             <div>
-              <h2>BTC / EURBT</h2>
+              <h2>BTC / BT</h2>
               <p id="marketMode">local signed-order session</p>
             </div>
             <button id="seedButton" type="button">Refresh Session</button>
@@ -113,7 +113,7 @@
           </div>
           <table>
             <thead>
-              <tr><th>Price</th><th>BTC</th><th>EURBT</th><th>Status</th></tr>
+              <tr><th>Price</th><th>BTC</th><th>BT</th><th>Status</th></tr>
             </thead>
             <tbody id="tradesBody"></tbody>
           </table>
@@ -127,7 +127,7 @@
         <a href="./INTEGER_TRANSACTIONS.md">Integer policy</a>
         <a href="./FORMAL_SPEC.md">Formal spec</a>
         <a href="./ACADEMIC_ROADMAP.md">Research roadmap</a>
-        <a href="https://github.com/Knitweb/eurbt">GitHub</a>
+        <a href="https://github.com/Knitweb/bt">GitHub</a>
       </footer>
     </main>
     <script src="./app.js" defer></script>

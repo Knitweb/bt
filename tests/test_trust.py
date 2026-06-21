@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from eurbt.trust import Attestation, SignedAttestation, TrustBook
+from bt.trust import Attestation, SignedAttestation, TrustBook
 
 
 def test_trust_book_scores_and_explains_signed_evidence(auditor, seller):

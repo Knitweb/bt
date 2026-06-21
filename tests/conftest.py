@@ -2,14 +2,14 @@ from __future__ import annotations
 
 import pytest
 
-from eurbt.money import parse_units
-from eurbt.keys import Keypair
-from eurbt.models import BUY, SELL, Asset, Order, Pair
+from bt.money import parse_units
+from bt.keys import Keypair
+from bt.models import BUY, SELL, Asset, Order, Pair
 
 
 @pytest.fixture
 def pair() -> Pair:
-    return Pair(Asset("BTC", "bitcoin", decimals=8), Asset("EURBT", "ethereum", "demo:eurbt"))
+    return Pair(Asset("BTC", "bitcoin", decimals=8), Asset("BT", "ethereum", "demo:bt"))
 
 
 @pytest.fixture

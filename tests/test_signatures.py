@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from eurbt.models import SignedOrder
+from bt.models import SignedOrder
 
 from .conftest import make_order
 

@@ -1,4 +1,4 @@
-"""Explainable trust attestations for euro crypto markets."""
+"""Explainable trust attestations for BT markets."""
 
 from __future__ import annotations
 

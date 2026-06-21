@@ -2,28 +2,28 @@ from __future__ import annotations
 
 import pytest
 
-from eurbt.actors import PERSON, VOTEBANK_DAO, Actor, ActorRegistry
-from eurbt.basket import (
+from bt.actors import PERSON, VOTEBANK_DAO, Actor, ActorRegistry
+from bt.basket import (
     COMMODITY,
     CRYPTO_TRADE,
-    EUR_ANCHOR,
+    CURRENCY_ANCHOR,
     FIAT_TRADE,
     VBankWeightPoint,
     derive_weights_from_vbank_series,
-    eurbt_genesis_spec,
+    bt_genesis_spec,
     normalise_weights,
 )
-from eurbt.models import SignedOrder
-from eurbt.money import BT_MAX_ATOMS, BT_SCALE, parse_units, quote_amount_atoms
+from bt.models import SignedOrder
+from bt.money import BT_MAX_ATOMS, BT_SCALE, parse_units, quote_amount_atoms
 
 from .conftest import make_order
 
 
 def test_invariant_normalise_weights_always_sums_to_weight_scale():
-    weights = normalise_weights({EUR_ANCHOR: 3, FIAT_TRADE: 2, CRYPTO_TRADE: 1, COMMODITY: 1})
+    weights = normalise_weights({CURRENCY_ANCHOR: 3, FIAT_TRADE: 2, CRYPTO_TRADE: 1, COMMODITY: 1})
 
     assert sum(weights.values()) == 1_000_000
-    assert weights[EUR_ANCHOR] >= weights[FIAT_TRADE] >= weights[CRYPTO_TRADE]
+    assert weights[CURRENCY_ANCHOR] >= weights[FIAT_TRADE] >= weights[CRYPTO_TRADE]
 
 
 def test_invariant_money_rejects_float_and_caps_maximum():
@@ -47,8 +47,8 @@ def test_invariant_replay_same_inputs_same_basket_spec_id(auditor):
     registry.add(Actor("dao:vbank", VOTEBANK_DAO, auditor.peer_id, identified=True))
     now = 100
 
-    first = eurbt_genesis_spec(auditor, registry, now=now)
-    second = eurbt_genesis_spec(auditor, registry, now=now)
+    first = bt_genesis_spec(auditor, registry, now=now)
+    second = bt_genesis_spec(auditor, registry, now=now)
 
     assert first.spec_id == second.spec_id
     assert first.spec.target_index_atoms() == second.spec.target_index_atoms()
@@ -59,7 +59,7 @@ def test_invariant_fresh_high_participation_vbank_point_dominates_stale_low_qual
     stale = VBankWeightPoint(
         point_id="stale",
         observed_at=now - 10_000,
-        weights_ppm={EUR_ANCHOR: 900_000, FIAT_TRADE: 50_000, CRYPTO_TRADE: 25_000, COMMODITY: 25_000},
+        weights_ppm={CURRENCY_ANCHOR: 900_000, FIAT_TRADE: 50_000, CRYPTO_TRADE: 25_000, COMMODITY: 25_000},
         participation_ppm=100_000,
         confidence_ppm=100_000,
         source="vbank://stale",
@@ -67,7 +67,7 @@ def test_invariant_fresh_high_participation_vbank_point_dominates_stale_low_qual
     fresh = VBankWeightPoint(
         point_id="fresh",
         observed_at=now,
-        weights_ppm={EUR_ANCHOR: 200_000, FIAT_TRADE: 300_000, CRYPTO_TRADE: 250_000, COMMODITY: 250_000},
+        weights_ppm={CURRENCY_ANCHOR: 200_000, FIAT_TRADE: 300_000, CRYPTO_TRADE: 250_000, COMMODITY: 250_000},
         participation_ppm=1_000_000,
         confidence_ppm=1_000_000,
         source="vbank://fresh",
@@ -75,15 +75,15 @@ def test_invariant_fresh_high_participation_vbank_point_dominates_stale_low_qual
 
     weights = derive_weights_from_vbank_series((stale, fresh), now=now, window_seconds=1_000)
 
-    assert weights[EUR_ANCHOR] < 205_000
+    assert weights[CURRENCY_ANCHOR] < 205_000
     assert weights[FIAT_TRADE] > 298_000
     assert weights[COMMODITY] > 247_000
 
 
 def test_invariant_market_requires_actor_authority(pair, buyer):
-    from eurbt.market import EurbtMarket
+    from bt.market import BtMarket
 
-    market = EurbtMarket(pair)
+    market = BtMarket(pair)
     order = SignedOrder.sign(make_order(buyer, pair), buyer)
 
     with pytest.raises(ValueError, match="not registered"):

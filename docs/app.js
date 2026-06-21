@@ -1,11 +1,11 @@
 const state = {
-  pair: "BTC/EURBT",
+  pair: "BTC/BT",
   peers: [],
   orders: [],
   trades: [],
   wallet: null,
   basket: [
-    { name: "EUR anchor", weight: 0.38, value: 100.0, color: "#55c5df" },
+    { name: "EUR seed anchor", weight: 0.38, value: 100.0, color: "#55c5df" },
     { name: "Trade FX", weight: 0.24, value: 99.4, color: "#a58cff" },
     { name: "Crypto trade", weight: 0.18, value: 103.2, color: "#39c980" },
     { name: "Commodities", weight: 0.20, value: 101.8, color: "#e8b74d" },
@@ -245,7 +245,7 @@ function drawMarket() {
 
   ctx.fillStyle = "#eef3f8";
   ctx.font = "20px system-ui, sans-serif";
-  ctx.fillText(`EURBT basket ${fmt(basketIndex(), 2)}`, 24, 34);
+  ctx.fillText(`BT basket ${fmt(basketIndex(), 2)}`, 24, 34);
   ctx.fillStyle = "#a8b3c2";
   ctx.font = "14px system-ui, sans-serif";
   ctx.fillText("signed local order flow", 24, 58);
@@ -305,7 +305,7 @@ function renderSettlement() {
     node.textContent = "Waiting for a matched trade.";
     return;
   }
-  node.textContent = `${latest.ask.payload.maker.slice(0, 13)} locks ${formatAtoms(latest.quantityAtoms)} BTC; ${latest.bid.payload.maker.slice(0, 13)} is instant accepted for ${formatAtoms(latest.quoteAtoms)} EURBT after authorised actor signature.`;
+  node.textContent = `${latest.ask.payload.maker.slice(0, 13)} locks ${formatAtoms(latest.quantityAtoms)} BTC; ${latest.bid.payload.maker.slice(0, 13)} is instant accepted for ${formatAtoms(latest.quoteAtoms)} BT after authorised actor signature.`;
 }
 
 function renderTopline() {

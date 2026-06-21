@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from eurbt.money import BT_MAX_ATOMS, BT_SCALE, format_units, parse_units, quote_amount_atoms
+from bt.money import BT_MAX_ATOMS, BT_SCALE, format_units, parse_units, quote_amount_atoms
 
 
 def test_parse_units_uses_eight_decimal_integer_atoms():

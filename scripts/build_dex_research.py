@@ -309,7 +309,7 @@ def write_markdown(rows: list[dict[str, Any]], repo_root: Path) -> None:
     lines.extend(
         [
             "",
-            "## EURBT Design Implications",
+            "## BT Design Implications",
             "",
             "1. Start with signed peer orders, not pools. AMMs are useful later, but they are not direct P2P.",
             "2. Make relays replaceable. A relay can cache messages, but it must never be the market authority.",

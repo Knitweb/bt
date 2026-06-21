@@ -1,4 +1,4 @@
-"""Market records for signed EURBT orders and deterministic trades."""
+"""Market records for signed BT orders and deterministic trades."""
 
 from __future__ import annotations
 
@@ -85,7 +85,7 @@ class Order:
         if self.side not in SIDES:
             raise ValueError("order side must be buy or sell")
         if not self.maker.startswith("peer_"):
-            raise ValueError("maker must be a EURBT peer id")
+            raise ValueError("maker must be a BT peer id")
         if not self.nonce:
             raise ValueError("nonce is required")
         if isinstance(self.expires_at, bool) or isinstance(self.created_at, bool):

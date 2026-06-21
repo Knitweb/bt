@@ -1,7 +1,7 @@
-# EURBT
+# BT
 
-EURBT is a Python-first research/prototype codebase for the first working Knitweb
-euro crypto market DEX.
+BT is a Python-first research/prototype codebase for the Knitweb basket-trust
+monetary protocol and P2P DEX.
 The goal is a market that is as decentralized as possible while still giving users
 plain-language trust signals before they trade.
 
@@ -9,7 +9,7 @@ This repository starts from a current DEX architecture review instead of copying
 today's default AMM pattern. The short finding is that most high-volume "DEX" venues
 are not true peer-to-peer networks. They are usually peer-to-pool smart contracts,
 chain-level order books, appchain order books, or intent/RFQ systems with solver
-infrastructure. EURBT therefore uses:
+infrastructure. BT therefore uses:
 
 - signed, portable orders;
 - integer transaction amounts with 8-decimal fixed-point atoms;
@@ -17,16 +17,18 @@ infrastructure. EURBT therefore uses:
 - P2P message envelopes that can be gossiped without a central API;
 - authorised actors: identified people, agents with owner persons, and the VoteBank DAO;
 - human-readable trust explanations;
-- settlement plans that separate non-custodial crypto locks from fiat/euro rails.
+- settlement plans that separate non-custodial crypto locks from anchor-currency
+  payment proofs.
 
 The code does not move real funds yet. It is the protocol core and test harness for
-building toward a serverless euro DEX.
+building toward a serverless, dynamically anchored DEX. The first seed basket uses
+EUR as its display numeraire, but the repository and package identity are BT.
 
 ## Research
 
 - `docs/DEX_RESEARCH.md` explains the top-100 DEX snapshot and classification.
 - `docs/INTEGER_TRANSACTIONS.md` explains the integer base and actor transaction policy.
-- `docs/BASKET_POLICY.md` explains the EUR anchor plus trade, crypto, and commodity basket.
+- `docs/BASKET_POLICY.md` explains the anchor-currency plus trade, crypto, and commodity basket.
 - `docs/FORMAL_SPEC.md` defines the current protocol invariants.
 - `docs/ACADEMIC_ROADMAP.md` lists the research work needed before production claims.
 - `data/dex_top100_2026-06-21.json` stores the generated top-100 matrix.
@@ -38,7 +40,7 @@ GitHub Pages serves the browser DEX from `docs/`.
 Expected public URL after Pages deployment:
 
 ```text
-https://knitweb.github.io/eurbt/
+https://knitweb.github.io/bt/
 ```
 
 Data source: DeFiLlama DEX overview snapshot from `https://api.llama.fi/overview/dexs`.
@@ -48,7 +50,7 @@ Data source: DeFiLlama DEX overview snapshot from `https://api.llama.fi/overview
 ```bash
 python -m pip install -e .
 python -m pytest -q
-eurbt demo
+bt demo
 ```
 
 ## Design Position
@@ -58,6 +60,6 @@ a privileged website, matching server, solver API, or custodial operator. A bloc
 or validator network can still be part of settlement, but the user-facing market should
 not depend on one host.
 
-EURBT starts with signed order gossip plus deterministic local state. A future chain
+BT starts with signed order gossip plus deterministic local state. A future chain
 adapter can settle matched trades on EVM, XRPL, Sui, Bitcoin-style HTLCs, or Pulse/Knitweb
 records without changing the order format.

@@ -20,12 +20,12 @@ from .money import BT_SCALE, format_units, validate_atoms
 
 WEIGHT_SCALE = 1_000_000
 DEFAULT_WEIGHT_WINDOW_SECONDS = 30 * 86_400
-EUR_ANCHOR = "eur_anchor"
+CURRENCY_ANCHOR = "currency_anchor"
 FIAT_TRADE = "fiat_trade"
 CRYPTO_TRADE = "crypto_trade"
 COMMODITY = "commodity"
 INFLATION = "inflation"
-REQUIRED_COMPONENTS = {EUR_ANCHOR, FIAT_TRADE, CRYPTO_TRADE, COMMODITY}
+REQUIRED_COMPONENTS = {CURRENCY_ANCHOR, FIAT_TRADE, CRYPTO_TRADE, COMMODITY}
 COMPONENT_TYPES = REQUIRED_COMPONENTS | {INFLATION}
 
 
@@ -86,7 +86,7 @@ def normalise_weights(raw_weights: dict[str, int]) -> dict[str, int]:
 
 @dataclass(frozen=True)
 class VBankWeightPoint:
-    """One vBank time-series point for EURBT basket weights."""
+    """One vBank time-series point for BT basket weights."""
 
     point_id: str
     observed_at: int
@@ -325,8 +325,8 @@ class BasketSpec:
     created_at: int
 
     def __post_init__(self) -> None:
-        if self.anchor_currency != "EUR":
-            raise ValueError("EURBT basket anchor_currency must be EUR")
+        if not self.anchor_currency or not self.anchor_currency.isalpha():
+            raise ValueError("anchor_currency must be a non-empty alphabetic currency code")
         if not self.currency_code or not self.basket_id:
             raise ValueError("basket_id and currency_code are required")
         if not self.created_by.startswith("peer_"):
@@ -447,11 +447,11 @@ def component_from_claim(
     )
 
 
-def eurbt_genesis_claims(issuer: Keypair, now: int) -> tuple[SignedKnowledgeClaim, ...]:
+def bt_genesis_claims(issuer: Keypair, now: int) -> tuple[SignedKnowledgeClaim, ...]:
     examples = (
-        (EUR_ANCHOR, "EUR anchor", BT_SCALE, "ecb://eur-anchor", "Euro numeraire baseline"),
+        (CURRENCY_ANCHOR, "EUR seed anchor", BT_SCALE, "ecb://eur-anchor", "Current EUR numeraire baseline"),
         (FIAT_TRADE, "Trade weighted fiat basket", 99_400_000, "ecb://effective-exchange-rates", "Trade weighted fiat pressure"),
-        (CRYPTO_TRADE, "Crypto trade basket", 103_200_000, "eurbt://crypto-volume", "Crypto trade demand against EURBT"),
+        (CRYPTO_TRADE, "Crypto trade basket", 103_200_000, "bt://crypto-volume", "Crypto trade demand against BT"),
         (COMMODITY, "Tradable commodity basket", 101_800_000, "worldbank://commodity-markets", "Liquid commodity value pressure"),
     )
     signed: list[SignedKnowledgeClaim] = []
@@ -474,46 +474,46 @@ def eurbt_genesis_claims(issuer: Keypair, now: int) -> tuple[SignedKnowledgeClai
 def default_vbank_weight_series(now: int) -> tuple[VBankWeightPoint, ...]:
     return (
         VBankWeightPoint(
-            point_id="vbank:eurbt:genesis:baseline",
+            point_id="vbank:bt:genesis:baseline",
             observed_at=now - 14 * 86_400,
             weights_ppm={
-                EUR_ANCHOR: 420_000,
+                CURRENCY_ANCHOR: 420_000,
                 FIAT_TRADE: 240_000,
                 CRYPTO_TRADE: 140_000,
                 COMMODITY: 200_000,
             },
             participation_ppm=720_000,
             confidence_ppm=850_000,
-            source="vbank://eurbt/genesis/baseline",
+            source="vbank://bt/genesis/baseline",
         ),
         VBankWeightPoint(
-            point_id="vbank:eurbt:genesis:latest",
+            point_id="vbank:bt:genesis:latest",
             observed_at=now,
             weights_ppm={
-                EUR_ANCHOR: 380_000,
+                CURRENCY_ANCHOR: 380_000,
                 FIAT_TRADE: 240_000,
                 CRYPTO_TRADE: 180_000,
                 COMMODITY: 200_000,
             },
             participation_ppm=900_000,
             confidence_ppm=950_000,
-            source="vbank://eurbt/genesis/latest",
+            source="vbank://bt/genesis/latest",
         ),
     )
 
 
-def eurbt_genesis_spec(
+def bt_genesis_spec(
     votebank: Keypair,
     registry: ActorRegistry,
     now: int,
     vbank_series: tuple[VBankWeightPoint, ...] | None = None,
 ) -> SignedBasketSpec:
-    claims = eurbt_genesis_claims(votebank, now)
+    claims = bt_genesis_claims(votebank, now)
     weights = derive_weights_from_vbank_series(vbank_series or default_vbank_weight_series(now), now=now)
     components = tuple(
         component_from_claim(
             claim,
-            component_id=f"eurbt:{claim.claim.claim_type}",
+            component_id=f"bt:{claim.claim.claim_type}",
             label=claim.claim.subject,
             weight_ppm=weights[claim.claim.claim_type],
             now=now,
@@ -521,8 +521,8 @@ def eurbt_genesis_spec(
         for claim in claims
     )
     spec = BasketSpec(
-        basket_id="eurbt-genesis",
-        currency_code="EURBT",
+        basket_id="bt-genesis",
+        currency_code="BT",
         anchor_currency="EUR",
         components=components,
         created_by=votebank.peer_id,

@@ -1,19 +1,20 @@
-# EURBT Academic Realisation Roadmap
+# BT Academic Realisation Roadmap
 
-EURBT should be treated as a research protocol until its monetary, governance,
+BT should be treated as a research protocol until its monetary, governance,
 market, legal, and operational claims are tested. The goal is not to claim that a
 stable coin is already safe, but to make every stabilisation claim auditable and
 falsifiable.
 
 ## Research Question
 
-Can a euro-anchored, knowledge-weighted basket token provide a more transparent
-settlement unit for P2P crypto markets than a single-asset stablecoin, while avoiding
-hidden float arithmetic, opaque governance, and central matching infrastructure?
+Can a dynamically anchored, knowledge-weighted basket token provide a more
+transparent settlement unit for P2P crypto markets than a single-asset stablecoin,
+while avoiding hidden float arithmetic, opaque governance, and central matching
+infrastructure?
 
 ## Current Hypothesis
 
-EURBT can be made academically credible if:
+BT can be made academically credible if:
 
 1. all monetary amounts are integer atoms;
 2. basket weights are derived from signed vBank time-series records;
@@ -56,12 +57,12 @@ Deliverables:
 
 - signed `vbank-weight-point` records from vBank poll/election outputs;
 - provenance mapping from poll CIDs to component weights;
-- replay tool that rebuilds EURBT basket weights over time;
+- replay tool that rebuilds BT basket weights over time;
 - conflict-resolution rule for competing vBank series.
 
 Exit criteria:
 
-- a third party can recompute the current EURBT basket from archived vBank records.
+- a third party can recompute the current BT basket from archived vBank records.
 
 ### WP3: Knowledge Claim Quality
 
@@ -113,7 +114,7 @@ Deliverables:
 
 Exit criteria:
 
-- a clean checkout can reproduce the documented EURBT target values.
+- a clean checkout can reproduce the documented BT target values.
 
 ## Primary External References
 
@@ -122,4 +123,3 @@ Exit criteria:
 - Bank for International Settlements, Annual Economic Report 2025.
 - European Central Bank, effective exchange rate statistics.
 - World Bank, Commodity Markets data.
-

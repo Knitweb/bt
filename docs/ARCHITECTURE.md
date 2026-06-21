@@ -1,6 +1,6 @@
-# EURBT Architecture
+# BT Architecture
 
-EURBT separates the DEX into four layers:
+BT separates the DEX into four layers:
 
 1. **Signed market intent**: a maker signs an order that can be verified anywhere.
 2. **Integer transaction base**: balances, fills, transfers, and settlement amounts
@@ -13,17 +13,17 @@ EURBT separates the DEX into four layers:
 6. **Settlement adapters**: matched trades produce explicit settlement plans; chain or
    payment integrations execute those plans later.
 
-The basket policy is implemented in `src/eurbt/basket.py`. Weights are derived from
+The basket policy is implemented in `src/bt/basket.py`. Weights are derived from
 vBank time-series points instead of fixed config.
 
 ## Why Not Just AMM
 
 AMMs are highly serverless at the settlement layer, but they are not user-to-user P2P:
 traders swap against a pool and inherit LP, MEV, oracle, routing, and slippage risks.
-For a euro market, the trust problem is broader because fiat rails, stablecoin issuers,
-and redemption promises must be explained to users.
+For an anchor-currency market, the trust problem is broader because fiat rails,
+stablecoin issuers, and redemption promises must be explained to users.
 
-EURBT therefore starts with signed maker/taker intent and trust attestations. Liquidity
+BT therefore starts with signed maker/taker intent and trust attestations. Liquidity
 can later be pooled, but the base primitive stays portable and peer-verifiable.
 
 ## Integer Base
@@ -76,7 +76,7 @@ The target architecture avoids privileged hosts:
 
 ## Non-Goals For This First Version
 
-- No real EUR token issuance.
+- No real BT token issuance.
 - No custody.
 - No production chain transactions.
-- No legal claim that a euro token is regulated, backed, or redeemable.
+- No legal claim that BT is regulated, backed, or redeemable.

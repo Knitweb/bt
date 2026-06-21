@@ -1,6 +1,6 @@
 # Integer Transaction Policy
 
-EURBT stores all transaction values as integers. Floats are not valid transaction
+BT stores all transaction values as integers. Floats are not valid transaction
 data.
 
 ## Decision
@@ -14,7 +14,7 @@ This fits comfortably in signed 64-bit integers, while leaving enough precision 
 small crypto fills and fiat-like display values.
 
 Eight decimals are more precise than one-millionth precision. A true one-millionth
-scale would use 6 decimals; EURBT uses 8 because `0.00000001` is common in crypto
+scale would use 6 decimals; BT uses 8 because `0.00000001` is common in crypto
 systems and still keeps `888888.00000000` far below signed 64-bit limits.
 
 ## Why Not Float

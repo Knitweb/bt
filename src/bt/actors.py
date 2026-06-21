@@ -1,6 +1,6 @@
 """Transaction actor authorisation.
 
-EURBT accepts transactions from identified people, agents owned by identified
+BT accepts transactions from identified people, agents owned by identified
 people, or the VoteBank DAO. This keeps instant receiver UX tied to accountable
 actors instead of anonymous keys.
 """

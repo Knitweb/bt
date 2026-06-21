@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from eurbt.models import SignedOrder
-from eurbt.p2p import Envelope, PeerStore
+from bt.models import SignedOrder
+from bt.p2p import Envelope, PeerStore
 
 from .conftest import make_order
 

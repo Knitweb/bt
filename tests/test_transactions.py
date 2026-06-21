@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import pytest
 
-from eurbt.actors import AGENT, PERSON, VOTEBANK_DAO, Actor, ActorRegistry
-from eurbt.money import parse_units
-from eurbt.transactions import INSTANT_ACCEPTED, SignedTransfer, Transfer, receive_transfer
+from bt.actors import AGENT, PERSON, VOTEBANK_DAO, Actor, ActorRegistry
+from bt.money import parse_units
+from bt.transactions import INSTANT_ACCEPTED, SignedTransfer, Transfer, receive_transfer
 
 
 def test_identified_person_transfer_is_instant_for_identified_receiver(pair, buyer, seller):
