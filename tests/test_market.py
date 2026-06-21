@@ -129,3 +129,5 @@ def test_ingest_rejects_attestation_sender_issuer_mismatch(pair, buyer, seller, 
 
     with pytest.raises(ValueError, match="sender does not match attestation issuer"):
         market.ingest_envelope(forged, now=now)
+    # The forged attestation never reached the trust book: subject score is unchanged (0).
+    assert market.trust_book.score(buyer.peer_id, now=now) == 0
