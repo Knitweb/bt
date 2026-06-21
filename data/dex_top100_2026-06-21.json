@@ -1,0 +1,1945 @@
+{
+  "ranking_basis": "DeFiLlama category=Dexs sorted by total24h descending",
+  "rows": [
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Ethereum",
+        "OP Mainnet",
+        "Base",
+        "Arbitrum",
+        "Polygon",
+        "Blast",
+        "Zora",
+        "World Chain",
+        "Ink",
+        "Soneium",
+        "Avalanche",
+        "BSC",
+        "Unichain",
+        "Monad",
+        "X Layer"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/uniswap-v4.ts",
+      "module": "uniswap-v4",
+      "name": "Uniswap V4",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 1,
+      "serverless_score": 4,
+      "slug": "uniswap-v4",
+      "strict_true_p2p": false,
+      "total24h_usd": 545799190,
+      "total30d_usd": 25000035192
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Ethereum",
+        "Arbitrum",
+        "OP Mainnet",
+        "Polygon",
+        "Celo",
+        "ZKsync Era",
+        "Sei",
+        "Taiko",
+        "Scroll",
+        "Rootstock",
+        "Filecoin",
+        "Boba",
+        "Moonbeam",
+        "Manta",
+        "Mantle",
+        "Linea",
+        "BSC",
+        "Avalanche",
+        "Base",
+        "Polygon zkEVM",
+        "Blast",
+        "Gnosis",
+        "BOB",
+        "Lisk",
+        "Corn",
+        "Unichain",
+        "Hemi",
+        "Saga",
+        "LightLink",
+        "GOAT",
+        "XDC",
+        "Lens",
+        "Telos",
+        "World Chain",
+        "Nibiru",
+        "Plasma",
+        "Monad",
+        "Etherlink",
+        "Sonic",
+        "X Layer",
+        "Zora"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/uniswap-v3.ts",
+      "module": "uniswap-v3",
+      "name": "Uniswap V3",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 2,
+      "serverless_score": 4,
+      "slug": "uniswap-v3",
+      "strict_true_p2p": false,
+      "total24h_usd": 324345897,
+      "total30d_usd": 17287744742
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "BSC",
+        "Ethereum",
+        "Polygon zkEVM",
+        "ZKsync Era",
+        "Arbitrum",
+        "Linea",
+        "Base",
+        "opBNB",
+        "Solana",
+        "Monad"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/pancakeswap-v3.ts",
+      "module": "pancakeswap-v3",
+      "name": "PancakeSwap AMM V3",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 3,
+      "serverless_score": 4,
+      "slug": "pancakeswap-amm-v3",
+      "strict_true_p2p": false,
+      "total24h_usd": 308077004,
+      "total30d_usd": 18654144696
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Base"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/aerodrome-slipstream",
+      "module": "aerodrome-slipstream",
+      "name": "Aerodrome Slipstream",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 4,
+      "serverless_score": 4,
+      "slug": "aerodrome-slipstream",
+      "strict_true_p2p": false,
+      "total24h_usd": 289168981,
+      "total30d_usd": 16963273480
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Solana",
+        "Eclipse"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/orca",
+      "module": "orca",
+      "name": "Orca DEX",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 5,
+      "serverless_score": 4,
+      "slug": "orca-dex",
+      "strict_true_p2p": false,
+      "total24h_usd": 218278857,
+      "total30d_usd": 6685198437
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Solana"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/raydium",
+      "module": "raydium",
+      "name": "Raydium AMM",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 6,
+      "serverless_score": 4,
+      "slug": "raydium-amm",
+      "strict_true_p2p": false,
+      "total24h_usd": 186631320,
+      "total30d_usd": 4239480069
+    },
+    {
+      "architecture": "unverified_dex_like",
+      "chains": [
+        "Solana"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/bisonfi",
+      "module": "bisonfi",
+      "name": "BisonFi",
+      "note": "Insufficient public architecture signal in the volume snapshot; treat as not strict P2P until verified.",
+      "p2p_score": 1,
+      "rank": 7,
+      "serverless_score": 2,
+      "slug": "bisonfi",
+      "strict_true_p2p": false,
+      "total24h_usd": 175906287,
+      "total30d_usd": 7380755949
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "BSC",
+        "Base"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/pancakeswap-infinity.ts",
+      "module": "pancakeswap-infinity",
+      "name": "PancakeSwap Infinity",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 8,
+      "serverless_score": 4,
+      "slug": "pancakeswap-infinity",
+      "strict_true_p2p": false,
+      "total24h_usd": 145697745,
+      "total30d_usd": 4944984089
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Solana"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/meteora-dlmm.ts",
+      "module": "meteora-dlmm",
+      "name": "Meteora DLMM",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 9,
+      "serverless_score": 4,
+      "slug": "meteora-dlmm",
+      "strict_true_p2p": false,
+      "total24h_usd": 99272514,
+      "total30d_usd": 4200590337
+    },
+    {
+      "architecture": "onchain_or_ledger_clob",
+      "chains": [
+        "Solana"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/manifest-trade",
+      "module": "manifest-trade",
+      "name": "Manifest Trade",
+      "note": "Maker/taker orders settle through ledger or chain state; close to P2P but not direct peer negotiation.",
+      "p2p_score": 3,
+      "rank": 10,
+      "serverless_score": 4,
+      "slug": "manifest-trade",
+      "strict_true_p2p": false,
+      "total24h_usd": 94762149,
+      "total30d_usd": 5198832743
+    },
+    {
+      "architecture": "unverified_dex_like",
+      "chains": [
+        "Solana"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/factory/duneSolanaDex.ts",
+      "module": "goonfi",
+      "name": "GoonFi",
+      "note": "Insufficient public architecture signal in the volume snapshot; treat as not strict P2P until verified.",
+      "p2p_score": 1,
+      "rank": 11,
+      "serverless_score": 2,
+      "slug": "goonfi",
+      "strict_true_p2p": false,
+      "total24h_usd": 92759308,
+      "total30d_usd": 3295711996
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Ethereum",
+        "Arbitrum",
+        "Polygon",
+        "Base",
+        "Plasma"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/fluid-dex",
+      "module": "fluid-dex",
+      "name": "Fluid DEX",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 12,
+      "serverless_score": 4,
+      "slug": "fluid-dex",
+      "strict_true_p2p": false,
+      "total24h_usd": 86285242,
+      "total30d_usd": 5044661983
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Solana"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/pump-swap",
+      "module": "pump-swap",
+      "name": "PumpSwap",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 13,
+      "serverless_score": 4,
+      "slug": "pumpswap",
+      "strict_true_p2p": false,
+      "total24h_usd": 83843298,
+      "total30d_usd": 1542332565
+    },
+    {
+      "architecture": "onchain_or_ledger_clob",
+      "chains": [
+        "Hyperliquid L1"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/hyperliquid-spot",
+      "module": "hyperliquid-spot",
+      "name": "Hyperliquid Spot Orderbook",
+      "note": "Maker/taker orders settle through ledger or chain state; close to P2P but not direct peer negotiation.",
+      "p2p_score": 3,
+      "rank": 14,
+      "serverless_score": 4,
+      "slug": "hyperliquid-spot-orderbook",
+      "strict_true_p2p": false,
+      "total24h_usd": 81631494,
+      "total30d_usd": 6376616359
+    },
+    {
+      "architecture": "unverified_dex_like",
+      "chains": [
+        "Hyperliquid L1"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/factory/uniV3.ts",
+      "module": "prjx",
+      "name": "Project X",
+      "note": "Insufficient public architecture signal in the volume snapshot; treat as not strict P2P until verified.",
+      "p2p_score": 1,
+      "rank": 15,
+      "serverless_score": 2,
+      "slug": "project-x",
+      "strict_true_p2p": false,
+      "total24h_usd": 78599473,
+      "total30d_usd": 4903564885
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Solana",
+        "Base",
+        "BSC"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/tessera",
+      "module": "tessera",
+      "name": "Tessera V",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 16,
+      "serverless_score": 4,
+      "slug": "tessera-v",
+      "strict_true_p2p": false,
+      "total24h_usd": 65771904,
+      "total30d_usd": 1959113275
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Ethereum",
+        "Arbitrum",
+        "BSC",
+        "Polygon",
+        "Avalanche",
+        "Base",
+        "MegaETH",
+        "Hyperliquid L1",
+        "Monad"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/metric",
+      "module": "metric",
+      "name": "Metric",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 17,
+      "serverless_score": 4,
+      "slug": "metric",
+      "strict_true_p2p": false,
+      "total24h_usd": 55723366,
+      "total30d_usd": 2505583005
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Solana"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/solfi-v2",
+      "module": "solfi-v2",
+      "name": "SolFi V2",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 18,
+      "serverless_score": 4,
+      "slug": "solfi-v2",
+      "strict_true_p2p": false,
+      "total24h_usd": 51813978,
+      "total30d_usd": 2053206618
+    },
+    {
+      "architecture": "appchain_or_offchain_orderbook",
+      "chains": [
+        "Spark"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/flashnet",
+      "module": "flashnet",
+      "name": "Flashnet",
+      "note": "Orderbook-style venue with material API, sequencer, or exchange infrastructure dependency.",
+      "p2p_score": 1,
+      "rank": 19,
+      "serverless_score": 1,
+      "slug": "flashnet",
+      "strict_true_p2p": false,
+      "total24h_usd": 51812063,
+      "total30d_usd": 1832892709
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Ethereum",
+        "OP Mainnet",
+        "Gnosis",
+        "Avalanche",
+        "Polygon",
+        "Arbitrum",
+        "Fantom",
+        "Fraxtal",
+        "Celo",
+        "Base",
+        "Sonic",
+        "Hyperliquid L1",
+        "Plasma",
+        "Mantle",
+        "Ink",
+        "Unichain",
+        "Monad",
+        "Stable"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/curve",
+      "module": "curve",
+      "name": "Curve DEX",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 20,
+      "serverless_score": 4,
+      "slug": "curve-dex",
+      "strict_true_p2p": false,
+      "total24h_usd": 48343069,
+      "total30d_usd": 3716280415
+    },
+    {
+      "architecture": "unverified_dex_like",
+      "chains": [
+        "Solana"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/alphaq",
+      "module": "alphaq",
+      "name": "AlphaQ",
+      "note": "Insufficient public architecture signal in the volume snapshot; treat as not strict P2P until verified.",
+      "p2p_score": 1,
+      "rank": 21,
+      "serverless_score": 2,
+      "slug": "alphaq",
+      "strict_true_p2p": false,
+      "total24h_usd": 39252702,
+      "total30d_usd": 1422164323
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Tron"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/sunswap-v3",
+      "module": "sunswap-v3",
+      "name": "SUNSwap V3",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 22,
+      "serverless_score": 4,
+      "slug": "sunswap-v3",
+      "strict_true_p2p": false,
+      "total24h_usd": 35938902,
+      "total30d_usd": 1456104095
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "BSC",
+        "Ethereum",
+        "Aurora",
+        "Polygon",
+        "Arbitrum",
+        "Avalanche",
+        "OP Mainnet",
+        "Scroll",
+        "Linea",
+        "Base",
+        "Manta",
+        "Defi Oracle Meta"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/dodo",
+      "module": "dodo",
+      "name": "DODO AMM",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 23,
+      "serverless_score": 4,
+      "slug": "dodo-amm",
+      "strict_true_p2p": false,
+      "total24h_usd": 33563766,
+      "total30d_usd": 670731711
+    },
+    {
+      "architecture": "unverified_dex_like",
+      "chains": [
+        "Solana"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/humidifi",
+      "module": "humidifi",
+      "name": "HumidiFi",
+      "note": "Insufficient public architecture signal in the volume snapshot; treat as not strict P2P until verified.",
+      "p2p_score": 1,
+      "rank": 24,
+      "serverless_score": 2,
+      "slug": "humidifi",
+      "strict_true_p2p": false,
+      "total24h_usd": 32498440,
+      "total30d_usd": 1577937435
+    },
+    {
+      "architecture": "unverified_dex_like",
+      "chains": [
+        "Solana"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/factory/duneSolanaDex.ts",
+      "module": "scorch",
+      "name": "Scorch",
+      "note": "Insufficient public architecture signal in the volume snapshot; treat as not strict P2P until verified.",
+      "p2p_score": 1,
+      "rank": 25,
+      "serverless_score": 2,
+      "slug": "scorch",
+      "strict_true_p2p": false,
+      "total24h_usd": 31818947,
+      "total30d_usd": 2774211177
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Solana"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/factory/duneSolanaDex.ts",
+      "module": "aquifer",
+      "name": "Aquifer",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 26,
+      "serverless_score": 4,
+      "slug": "aquifer",
+      "strict_true_p2p": false,
+      "total24h_usd": 29775442,
+      "total30d_usd": 1286951342
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Starknet",
+        "Ethereum"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/ekubo",
+      "module": "ekubo",
+      "name": "Ekubo",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 27,
+      "serverless_score": 4,
+      "slug": "ekubo",
+      "strict_true_p2p": false,
+      "total24h_usd": 25760051,
+      "total30d_usd": 921092362
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Polygon",
+        "Base"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/quickswap-v2.ts",
+      "module": "quickswap-v2",
+      "name": "Quickswap Dex",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 28,
+      "serverless_score": 4,
+      "slug": "quickswap-dex",
+      "strict_true_p2p": false,
+      "total24h_usd": 24974696,
+      "total30d_usd": 872762600
+    },
+    {
+      "architecture": "intent_rfq_or_solver",
+      "chains": [
+        "Hyperliquid L1"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/nest",
+      "module": "nest",
+      "name": "nest CL",
+      "note": "Signed intent or RFQ style flow; settlement may be on-chain, but discovery/filling depends on specialized infrastructure.",
+      "p2p_score": 2,
+      "rank": 29,
+      "serverless_score": 2,
+      "slug": "nest-cl",
+      "strict_true_p2p": false,
+      "total24h_usd": 23310737,
+      "total30d_usd": 908125681
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "BSC",
+        "Ethereum",
+        "Polygon zkEVM",
+        "ZKsync Era",
+        "Arbitrum",
+        "Linea",
+        "Base",
+        "opBNB",
+        "Aptos",
+        "Monad"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/pancakeswap-v2.ts",
+      "module": "pancakeswap-v2",
+      "name": "PancakeSwap AMM",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 30,
+      "serverless_score": 4,
+      "slug": "pancakeswap-amm",
+      "strict_true_p2p": false,
+      "total24h_usd": 21913621,
+      "total30d_usd": 1241178221
+    },
+    {
+      "architecture": "aggregator_or_router",
+      "chains": [
+        "BSC",
+        "Ethereum",
+        "Polygon",
+        "Arbitrum",
+        "Avalanche",
+        "Mantle",
+        "Base",
+        "ZetaChain"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/native",
+      "module": "native",
+      "name": "Native Swap",
+      "note": "Routes to other liquidity; useful UX, but the route service is not a serverless P2P market.",
+      "p2p_score": 1,
+      "rank": 31,
+      "serverless_score": 2,
+      "slug": "native-swap",
+      "strict_true_p2p": false,
+      "total24h_usd": 21162699,
+      "total30d_usd": 1535306531
+    },
+    {
+      "architecture": "aggregator_or_router",
+      "chains": [
+        "Solana"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/factory/duneSolanaDex.ts",
+      "module": "jupiterz",
+      "name": "Jupiterz",
+      "note": "Routes to other liquidity; useful UX, but the route service is not a serverless P2P market.",
+      "p2p_score": 1,
+      "rank": 32,
+      "serverless_score": 2,
+      "slug": "jupiterz",
+      "strict_true_p2p": false,
+      "total24h_usd": 20791486,
+      "total30d_usd": 911834725
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Polygon"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/ramsesx-poly-cl.ts",
+      "module": "ramsesx-poly-cl",
+      "name": "RamsesX Polygon CL",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 33,
+      "serverless_score": 4,
+      "slug": "ramsesx-polygon-cl",
+      "strict_true_p2p": false,
+      "total24h_usd": 20719459,
+      "total30d_usd": 245371794
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Aptos"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/thalaswap-v3.ts",
+      "module": "thalaswap-v3",
+      "name": "ThalaSwap V3",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 34,
+      "serverless_score": 4,
+      "slug": "thalaswap-v3",
+      "strict_true_p2p": false,
+      "total24h_usd": 20192226,
+      "total30d_usd": 429384958
+    },
+    {
+      "architecture": "appchain_or_offchain_orderbook",
+      "chains": [
+        "edgeX L1"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/edgeX-spot",
+      "module": "edgeX-spot",
+      "name": "edgeX Spot",
+      "note": "Orderbook-style venue with material API, sequencer, or exchange infrastructure dependency.",
+      "p2p_score": 1,
+      "rank": 35,
+      "serverless_score": 1,
+      "slug": "edgex-spot",
+      "strict_true_p2p": false,
+      "total24h_usd": 17236560,
+      "total30d_usd": 1791240674
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Avalanche"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/pharaoh-v3.ts",
+      "module": "pharaoh-v3",
+      "name": "Pharaoh V3",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 36,
+      "serverless_score": 4,
+      "slug": "pharaoh-v3",
+      "strict_true_p2p": false,
+      "total24h_usd": 15823553,
+      "total30d_usd": 654309983
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Ethereum",
+        "Gnosis",
+        "Arbitrum",
+        "OP Mainnet",
+        "Avalanche",
+        "Base",
+        "Hyperliquid L1",
+        "Plasma",
+        "Monad"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/balancer-v3",
+      "module": "balancer-v3",
+      "name": "Balancer V3",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 37,
+      "serverless_score": 4,
+      "slug": "balancer-v3",
+      "strict_true_p2p": false,
+      "total24h_usd": 12578209,
+      "total30d_usd": 408176417
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Solana"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/meteora-damm-v2",
+      "module": "meteora-damm-v2",
+      "name": "Meteora DAMM V2",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 38,
+      "serverless_score": 4,
+      "slug": "meteora-damm-v2",
+      "strict_true_p2p": false,
+      "total24h_usd": 11731117,
+      "total30d_usd": 295671530
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Base"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/aerodrome",
+      "module": "aerodrome",
+      "name": "Aerodrome V1",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 39,
+      "serverless_score": 4,
+      "slug": "aerodrome-v1",
+      "strict_true_p2p": false,
+      "total24h_usd": 11366108,
+      "total30d_usd": 349250917
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Avalanche",
+        "Arbitrum",
+        "Monad"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/factory/joeLiquidityBook.ts",
+      "module": "traderjoe-lb-v2-2",
+      "name": "Joe V2.2",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 40,
+      "serverless_score": 4,
+      "slug": "joe-v2.2",
+      "strict_true_p2p": false,
+      "total24h_usd": 11195965,
+      "total30d_usd": 403101476
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "BSC"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/topaz-cl",
+      "module": "topaz-cl",
+      "name": "Topaz CL",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 41,
+      "serverless_score": 4,
+      "slug": "topaz-cl",
+      "strict_true_p2p": false,
+      "total24h_usd": 11116125,
+      "total30d_usd": 613245263
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Ethereum",
+        "Arbitrum",
+        "Polygon",
+        "Base",
+        "OP Mainnet",
+        "BSC",
+        "Avalanche",
+        "Zora",
+        "Blast",
+        "Unichain",
+        "Monad",
+        "X Layer",
+        "Tempo"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/uniswap-v2.ts",
+      "module": "uniswap-v2",
+      "name": "Uniswap V2",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 42,
+      "serverless_score": 4,
+      "slug": "uniswap-v2",
+      "strict_true_p2p": false,
+      "total24h_usd": 11010434,
+      "total30d_usd": 441409236
+    },
+    {
+      "architecture": "appchain_or_offchain_orderbook",
+      "chains": [
+        "Off Chain"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/aster-spot.ts",
+      "module": "aster-spot",
+      "name": "Aster Spot",
+      "note": "Orderbook-style venue with material API, sequencer, or exchange infrastructure dependency.",
+      "p2p_score": 1,
+      "rank": 43,
+      "serverless_score": 1,
+      "slug": "aster-spot",
+      "strict_true_p2p": false,
+      "total24h_usd": 9574644,
+      "total30d_usd": 465992926
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Sei"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/dragonswap-sei-v3",
+      "module": "dragonswap-sei-v3",
+      "name": "Saphyre V3",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 44,
+      "serverless_score": 4,
+      "slug": "saphyre-v3",
+      "strict_true_p2p": false,
+      "total24h_usd": 9368634,
+      "total30d_usd": 281030907
+    },
+    {
+      "architecture": "onchain_or_ledger_clob",
+      "chains": [
+        "Avalanche",
+        "Dexalot",
+        "Arbitrum",
+        "Base",
+        "BSC"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/dexalot",
+      "module": "dexalot",
+      "name": "Dexalot DEX",
+      "note": "Maker/taker orders settle through ledger or chain state; close to P2P but not direct peer negotiation.",
+      "p2p_score": 3,
+      "rank": 45,
+      "serverless_score": 4,
+      "slug": "dexalot-dex",
+      "strict_true_p2p": false,
+      "total24h_usd": 9365942,
+      "total30d_usd": 446444427
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Near"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/ref-finance",
+      "module": "ref-finance",
+      "name": "Rhea Dex",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 46,
+      "serverless_score": 4,
+      "slug": "rhea-dex",
+      "strict_true_p2p": false,
+      "total24h_usd": 9173266,
+      "total30d_usd": 816918481
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Hyperliquid L1"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/ramses-hl-cl.ts",
+      "module": "ramses-hl-cl",
+      "name": "Ramses HL",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 47,
+      "serverless_score": 4,
+      "slug": "ramses-hl",
+      "strict_true_p2p": false,
+      "total24h_usd": 8804411,
+      "total30d_usd": 528701132
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "OP Mainnet",
+        "Lisk",
+        "Fraxtal",
+        "Mode",
+        "Ink",
+        "Soneium",
+        "Unichain",
+        "Swellchain",
+        "Celo"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/velodrome-slipstream",
+      "module": "velodrome-slipstream",
+      "name": "Velodrome V3",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 48,
+      "serverless_score": 4,
+      "slug": "velodrome-v3",
+      "strict_true_p2p": false,
+      "total24h_usd": 8511937,
+      "total30d_usd": 465726542
+    },
+    {
+      "architecture": "onchain_or_ledger_clob",
+      "chains": [
+        "Monad"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/kuru-clob.ts",
+      "module": "kuru-clob",
+      "name": "Kuru CLOB",
+      "note": "Maker/taker orders settle through ledger or chain state; close to P2P but not direct peer negotiation.",
+      "p2p_score": 3,
+      "rank": 49,
+      "serverless_score": 4,
+      "slug": "kuru-clob",
+      "strict_true_p2p": false,
+      "total24h_usd": 8348761,
+      "total30d_usd": 475192533
+    },
+    {
+      "architecture": "intent_rfq_or_solver",
+      "chains": [
+        "Solana"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/byreal",
+      "module": "byreal",
+      "name": "Byreal",
+      "note": "Signed intent or RFQ style flow; settlement may be on-chain, but discovery/filling depends on specialized infrastructure.",
+      "p2p_score": 2,
+      "rank": 50,
+      "serverless_score": 2,
+      "slug": "byreal",
+      "strict_true_p2p": false,
+      "total24h_usd": 8288529,
+      "total30d_usd": 401485511
+    },
+    {
+      "architecture": "unverified_dex_like",
+      "chains": [
+        "Vaulta",
+        "MultiversX"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/paycash",
+      "module": "paycash",
+      "name": "PayCash",
+      "note": "Insufficient public architecture signal in the volume snapshot; treat as not strict P2P until verified.",
+      "p2p_score": 1,
+      "rank": 51,
+      "serverless_score": 2,
+      "slug": "paycash",
+      "strict_true_p2p": false,
+      "total24h_usd": 7463191,
+      "total30d_usd": 227358148
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Ethereum",
+        "BSC"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/lista-dex",
+      "module": "lista-dex",
+      "name": "Lista DEX",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 52,
+      "serverless_score": 4,
+      "slug": "lista-dex",
+      "strict_true_p2p": false,
+      "total24h_usd": 7124061,
+      "total30d_usd": 554464914
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Hyperliquid L1"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/liquidcore.ts",
+      "module": "liquidcore",
+      "name": "LiquidCore",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 53,
+      "serverless_score": 4,
+      "slug": "liquidcore",
+      "strict_true_p2p": false,
+      "total24h_usd": 6820145,
+      "total30d_usd": 338018708
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Aptos",
+        "Sui"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/cetus",
+      "module": "cetus",
+      "name": "Cetus CLMM",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 54,
+      "serverless_score": 4,
+      "slug": "cetus-clmm",
+      "strict_true_p2p": false,
+      "total24h_usd": 6658064,
+      "total30d_usd": 448868351
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Avalanche"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/blackhole-CL.ts",
+      "module": "blackhole-CL",
+      "name": "Blackhole CLMM",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 55,
+      "serverless_score": 4,
+      "slug": "blackhole-clmm",
+      "strict_true_p2p": false,
+      "total24h_usd": 6549528,
+      "total30d_usd": 586895038
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Ethereum",
+        "Blast",
+        "BSC",
+        "Hyperliquid L1"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/ring-dex.ts",
+      "module": "ring-dex",
+      "name": "Ring Swap",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 56,
+      "serverless_score": 4,
+      "slug": "ring-swap",
+      "strict_true_p2p": false,
+      "total24h_usd": 5948572,
+      "total30d_usd": 265686134
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Gala"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/galaswap-v3.ts",
+      "module": "galaswap-v3",
+      "name": "Gala Swap",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 57,
+      "serverless_score": 4,
+      "slug": "gala-swap",
+      "strict_true_p2p": false,
+      "total24h_usd": 5873607,
+      "total30d_usd": 57186054
+    },
+    {
+      "architecture": "onchain_or_ledger_clob",
+      "chains": [
+        "Sui"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/deepbookv3-sui",
+      "module": "deepbookv3-sui",
+      "name": "DeepBook V3",
+      "note": "Maker/taker orders settle through ledger or chain state; close to P2P but not direct peer negotiation.",
+      "p2p_score": 3,
+      "rank": 58,
+      "serverless_score": 4,
+      "slug": "deepbook-v3",
+      "strict_true_p2p": false,
+      "total24h_usd": 5871782,
+      "total30d_usd": 540749479
+    },
+    {
+      "architecture": "intent_rfq_or_solver",
+      "chains": [
+        "Ethereum"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/brine",
+      "module": "brine",
+      "name": "TanX.fi",
+      "note": "Signed intent or RFQ style flow; settlement may be on-chain, but discovery/filling depends on specialized infrastructure.",
+      "p2p_score": 2,
+      "rank": 59,
+      "serverless_score": 2,
+      "slug": "tanx.fi",
+      "strict_true_p2p": false,
+      "total24h_usd": 5759428,
+      "total30d_usd": 180925823
+    },
+    {
+      "architecture": "unverified_dex_like",
+      "chains": [
+        "Base",
+        "BSC"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/elfomofi",
+      "module": "elfomofi",
+      "name": "ElfomoFi",
+      "note": "Insufficient public architecture signal in the volume snapshot; treat as not strict P2P until verified.",
+      "p2p_score": 1,
+      "rank": 60,
+      "serverless_score": 2,
+      "slug": "elfomofi",
+      "strict_true_p2p": false,
+      "total24h_usd": 5662689,
+      "total30d_usd": 219551535
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Sui"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/bluefin-amm",
+      "module": "bluefin-amm",
+      "name": "Bluefin Spot",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 61,
+      "serverless_score": 4,
+      "slug": "bluefin-spot",
+      "strict_true_p2p": false,
+      "total24h_usd": 5623681,
+      "total30d_usd": 380914115
+    },
+    {
+      "architecture": "unverified_dex_like",
+      "chains": [
+        "Solana"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/archer-exchange.ts",
+      "module": "archer-exchange",
+      "name": "Archer Exchange",
+      "note": "Insufficient public architecture signal in the volume snapshot; treat as not strict P2P until verified.",
+      "p2p_score": 1,
+      "rank": 62,
+      "serverless_score": 2,
+      "slug": "archer-exchange",
+      "strict_true_p2p": false,
+      "total24h_usd": 5201930,
+      "total30d_usd": 89465778
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Hyperliquid L1"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/hyperswap-v3",
+      "module": "hyperswap-v3",
+      "name": "HyperSwap V3",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 63,
+      "serverless_score": 4,
+      "slug": "hyperswap-v3",
+      "strict_true_p2p": false,
+      "total24h_usd": 4898879,
+      "total30d_usd": 472400947
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Polygon"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/w-dex",
+      "module": "w-dex",
+      "name": "W-DEX",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 64,
+      "serverless_score": 4,
+      "slug": "w-dex",
+      "strict_true_p2p": false,
+      "total24h_usd": 4747866,
+      "total30d_usd": 67531088
+    },
+    {
+      "architecture": "intent_rfq_or_solver",
+      "chains": [
+        "Ethereum"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/angstrom",
+      "module": "angstrom",
+      "name": "Angstrom",
+      "note": "Signed intent or RFQ style flow; settlement may be on-chain, but discovery/filling depends on specialized infrastructure.",
+      "p2p_score": 2,
+      "rank": 65,
+      "serverless_score": 2,
+      "slug": "angstrom",
+      "strict_true_p2p": false,
+      "total24h_usd": 4389665,
+      "total30d_usd": 241906819
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Ethereum"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/fermiswap",
+      "module": "fermiswap",
+      "name": "FermiSwap",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 66,
+      "serverless_score": 4,
+      "slug": "fermiswap",
+      "strict_true_p2p": false,
+      "total24h_usd": 4289635,
+      "total30d_usd": 170987719
+    },
+    {
+      "architecture": "cross_chain_amm_or_appchain",
+      "chains": [
+        "Chainflip"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/chainflip",
+      "module": "chainflip",
+      "name": "Chainflip AMM",
+      "note": "Cross-chain liquidity uses validator/vault infrastructure; decentralized, but not direct trader-to-trader P2P.",
+      "p2p_score": 1,
+      "rank": 67,
+      "serverless_score": 3,
+      "slug": "chainflip-amm",
+      "strict_true_p2p": false,
+      "total24h_usd": 3893481,
+      "total30d_usd": 359951326
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Polygon",
+        "Dogechain",
+        "Polygon zkEVM",
+        "Manta",
+        "Soneium",
+        "Immutable zkEVM"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/quickswap-v3.ts",
+      "module": "quickswap-v3",
+      "name": "Quickswap V3",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 68,
+      "serverless_score": 4,
+      "slug": "quickswap-v3",
+      "strict_true_p2p": false,
+      "total24h_usd": 3477049,
+      "total30d_usd": 209977179
+    },
+    {
+      "architecture": "onchain_or_ledger_clob",
+      "chains": [
+        "XRPL"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/xrpl-dex",
+      "module": "xrpl-dex",
+      "name": "XRPL DEX",
+      "note": "Maker/taker orders settle through ledger or chain state; close to P2P but not direct peer negotiation.",
+      "p2p_score": 3,
+      "rank": 69,
+      "serverless_score": 4,
+      "slug": "xrpl-dex",
+      "strict_true_p2p": false,
+      "total24h_usd": 3397467,
+      "total30d_usd": 192920788
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Solana"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/factory/alliumSolanaDex.ts",
+      "module": "solfi",
+      "name": "SolFi V1",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 70,
+      "serverless_score": 4,
+      "slug": "solfi-v1",
+      "strict_true_p2p": false,
+      "total24h_usd": 3208058,
+      "total30d_usd": 128740317
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Arbitrum",
+        "ApeChain",
+        "Gravity by Galxe",
+        "Rari",
+        "ReyaChain",
+        "Gnosis",
+        "Sanko"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/camelot-v3",
+      "module": "camelot-v3",
+      "name": "Camelot V3",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 71,
+      "serverless_score": 4,
+      "slug": "camelot-v3",
+      "strict_true_p2p": false,
+      "total24h_usd": 3106319,
+      "total30d_usd": 230393136
+    },
+    {
+      "architecture": "cross_chain_amm_or_appchain",
+      "chains": [
+        "Osmosis"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/osmosis",
+      "module": "osmosis",
+      "name": "Osmosis DEX",
+      "note": "Cross-chain liquidity uses validator/vault infrastructure; decentralized, but not direct trader-to-trader P2P.",
+      "p2p_score": 1,
+      "rank": 72,
+      "serverless_score": 3,
+      "slug": "osmosis-dex",
+      "strict_true_p2p": false,
+      "total24h_usd": 2942025,
+      "total30d_usd": 94975648
+    },
+    {
+      "architecture": "appchain_or_offchain_orderbook",
+      "chains": [
+        "ValueChain"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/sodex-spot",
+      "module": "sodex-spot",
+      "name": "SoDEX Spot",
+      "note": "Orderbook-style venue with material API, sequencer, or exchange infrastructure dependency.",
+      "p2p_score": 1,
+      "rank": 73,
+      "serverless_score": 1,
+      "slug": "sodex-spot",
+      "strict_true_p2p": false,
+      "total24h_usd": 2894402,
+      "total30d_usd": 72527501
+    },
+    {
+      "architecture": "aggregator_or_router",
+      "chains": [
+        "BSC",
+        "Avalanche",
+        "Fantom",
+        "Polygon",
+        "Arbitrum",
+        "OP Mainnet",
+        "ZKsync Era",
+        "Polygon zkEVM",
+        "Linea",
+        "Base",
+        "Mantle",
+        "Sonic",
+        "Berachain",
+        "Solana",
+        "Hyperliquid L1",
+        "Monad"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/woofi",
+      "module": "woofi",
+      "name": "WOOFi Swap",
+      "note": "Routes to other liquidity; useful UX, but the route service is not a serverless P2P market.",
+      "p2p_score": 1,
+      "rank": 74,
+      "serverless_score": 2,
+      "slug": "woofi-swap",
+      "strict_true_p2p": false,
+      "total24h_usd": 2787647,
+      "total30d_usd": 52246200
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "TON"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/ston",
+      "module": "ston",
+      "name": "STON.fi",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 75,
+      "serverless_score": 4,
+      "slug": "ston.fi",
+      "strict_true_p2p": false,
+      "total24h_usd": 2674908,
+      "total30d_usd": 167524668
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Sui"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/turbos",
+      "module": "turbos",
+      "name": "Turbos",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 76,
+      "serverless_score": 4,
+      "slug": "turbos",
+      "strict_true_p2p": false,
+      "total24h_usd": 2587057,
+      "total30d_usd": 195572907
+    },
+    {
+      "architecture": "unverified_dex_like",
+      "chains": [
+        "Solana"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/factory/duneSolanaDex.ts",
+      "module": "whalestreet",
+      "name": "Whalestreet",
+      "note": "Insufficient public architecture signal in the volume snapshot; treat as not strict P2P until verified.",
+      "p2p_score": 1,
+      "rank": 77,
+      "serverless_score": 2,
+      "slug": "whalestreet",
+      "strict_true_p2p": false,
+      "total24h_usd": 2574758,
+      "total30d_usd": 263367006
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Flare"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/factory/uniSubgraph.ts",
+      "module": "sparkdex-v4",
+      "name": "SparkDEX V4",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 78,
+      "serverless_score": 4,
+      "slug": "sparkdex-v4",
+      "strict_true_p2p": false,
+      "total24h_usd": 2486176,
+      "total30d_usd": 82757939
+    },
+    {
+      "architecture": "intent_rfq_or_solver",
+      "chains": [
+        "Ethereum"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/tokenlon-dex.ts",
+      "module": "tokenlon-dex",
+      "name": "Tokenlon AMM",
+      "note": "Signed intent or RFQ style flow; settlement may be on-chain, but discovery/filling depends on specialized infrastructure.",
+      "p2p_score": 2,
+      "rank": 79,
+      "serverless_score": 2,
+      "slug": "tokenlon-amm",
+      "strict_true_p2p": false,
+      "total24h_usd": 2410914,
+      "total30d_usd": 161395505
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Moonriver",
+        "Arbitrum Nova",
+        "BSC",
+        "Avalanche",
+        "Polygon",
+        "Arbitrum",
+        "Fuse",
+        "Fantom",
+        "OP Mainnet",
+        "Ethereum",
+        "Gnosis",
+        "Polygon zkEVM",
+        "Boba",
+        "ThunderCore",
+        "Base",
+        "CORE",
+        "Blast",
+        "Bittorrent",
+        "Kava",
+        "Linea",
+        "Metis",
+        "Scroll",
+        "Filecoin",
+        "Rootstock",
+        "Hemi",
+        "Sonic",
+        "Katana",
+        "ZetaChain"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/sushiswap-v3.ts",
+      "module": "sushiswap-v3",
+      "name": "SushiSwap V3",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 80,
+      "serverless_score": 4,
+      "slug": "sushiswap-v3",
+      "strict_true_p2p": false,
+      "total24h_usd": 2336067,
+      "total30d_usd": 245820472
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Hyperliquid L1"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/kittenswap-algebra",
+      "module": "kittenswap-algebra",
+      "name": "Kittenswap Algebra",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 81,
+      "serverless_score": 4,
+      "slug": "kittenswap-algebra",
+      "strict_true_p2p": false,
+      "total24h_usd": 2039752,
+      "total30d_usd": 102268173
+    },
+    {
+      "architecture": "onchain_or_ledger_clob",
+      "chains": [
+        "zkLighter"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/lighter-spot",
+      "module": "lighter-spot",
+      "name": "Lighter Spot",
+      "note": "Maker/taker orders settle through ledger or chain state; close to P2P but not direct peer negotiation.",
+      "p2p_score": 3,
+      "rank": 82,
+      "serverless_score": 4,
+      "slug": "lighter-spot",
+      "strict_true_p2p": false,
+      "total24h_usd": 1903766,
+      "total30d_usd": 228677228
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Hedera"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/saucerswap-v2",
+      "module": "saucerswap-v2",
+      "name": "SaucerSwap V2",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 83,
+      "serverless_score": 4,
+      "slug": "saucerswap-v2",
+      "strict_true_p2p": false,
+      "total24h_usd": 1875031,
+      "total30d_usd": 92839877
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "BSC"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/factory/uniV2.ts",
+      "module": "thena-integral",
+      "name": "THENA INTEGRAL",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 84,
+      "serverless_score": 4,
+      "slug": "thena-integral",
+      "strict_true_p2p": false,
+      "total24h_usd": 1867855,
+      "total30d_usd": 87416036
+    },
+    {
+      "architecture": "onchain_or_ledger_clob",
+      "chains": [
+        "Canton"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/temple",
+      "module": "temple",
+      "name": "Lightspeed",
+      "note": "Maker/taker orders settle through ledger or chain state; close to P2P but not direct peer negotiation.",
+      "p2p_score": 3,
+      "rank": 85,
+      "serverless_score": 4,
+      "slug": "lightspeed",
+      "strict_true_p2p": false,
+      "total24h_usd": 1756345,
+      "total30d_usd": 1765156
+    },
+    {
+      "architecture": "onchain_or_ledger_clob",
+      "chains": [
+        "XPR Network"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/proton-dex",
+      "module": "proton-dex",
+      "name": "MetalX Dex",
+      "note": "Maker/taker orders settle through ledger or chain state; close to P2P but not direct peer negotiation.",
+      "p2p_score": 3,
+      "rank": 86,
+      "serverless_score": 4,
+      "slug": "metalx-dex",
+      "strict_true_p2p": false,
+      "total24h_usd": 1737346,
+      "total30d_usd": 57826713
+    },
+    {
+      "architecture": "onchain_or_ledger_clob",
+      "chains": [
+        "Stellar"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/aqua-network",
+      "module": "aqua-network",
+      "name": "Aquarius Stellar",
+      "note": "Maker/taker orders settle through ledger or chain state; close to P2P but not direct peer negotiation.",
+      "p2p_score": 3,
+      "rank": 87,
+      "serverless_score": 4,
+      "slug": "aquarius-stellar",
+      "strict_true_p2p": false,
+      "total24h_usd": 1664692,
+      "total30d_usd": 112132087
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Avalanche",
+        "Monad"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/pangolin-v3",
+      "module": "pangolin-v3",
+      "name": "Pangolin V3",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 88,
+      "serverless_score": 4,
+      "slug": "pangolin-v3",
+      "strict_true_p2p": false,
+      "total24h_usd": 1606555,
+      "total30d_usd": 69777785
+    },
+    {
+      "architecture": "unverified_dex_like",
+      "chains": [
+        "Etherlink",
+        "Base",
+        "Monad"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/hanji",
+      "module": "hanji",
+      "name": "Hanji Protocol",
+      "note": "Insufficient public architecture signal in the volume snapshot; treat as not strict P2P until verified.",
+      "p2p_score": 1,
+      "rank": 89,
+      "serverless_score": 2,
+      "slug": "hanji-protocol",
+      "strict_true_p2p": false,
+      "total24h_usd": 1415889,
+      "total30d_usd": 93033201
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Tron"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/sunswap-v2",
+      "module": "sunswap-v2",
+      "name": "SUNSwap V2",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 90,
+      "serverless_score": 4,
+      "slug": "sunswap-v2",
+      "strict_true_p2p": false,
+      "total24h_usd": 1393366,
+      "total30d_usd": 107719054
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Avalanche"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/pumpspace-v3",
+      "module": "pumpspace-v3",
+      "name": "PumpSpace V3",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 91,
+      "serverless_score": 4,
+      "slug": "pumpspace-v3",
+      "strict_true_p2p": false,
+      "total24h_usd": 1343719,
+      "total30d_usd": 59746901
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Solana"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/meteora",
+      "module": "meteora",
+      "name": "Meteora DAMM V1",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 92,
+      "serverless_score": 4,
+      "slug": "meteora-damm-v1",
+      "strict_true_p2p": false,
+      "total24h_usd": 1294100,
+      "total30d_usd": 41178154
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Ronin"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/factory/uniV2.ts",
+      "module": "katana",
+      "name": "Katana DEX",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 93,
+      "serverless_score": 4,
+      "slug": "katana-dex",
+      "strict_true_p2p": false,
+      "total24h_usd": 1163941,
+      "total30d_usd": 12281121
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Hydration"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/hydration-dex",
+      "module": "hydration-dex",
+      "name": "Hydration DEX",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 94,
+      "serverless_score": 4,
+      "slug": "hydration-dex",
+      "strict_true_p2p": false,
+      "total24h_usd": 1147129,
+      "total30d_usd": 96229713
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Berachain"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/kodiak-v3.ts",
+      "module": "kodiak-v3",
+      "name": "Kodiak V3",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 95,
+      "serverless_score": 4,
+      "slug": "kodiak-v3",
+      "strict_true_p2p": false,
+      "total24h_usd": 1106237,
+      "total30d_usd": 62839095
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "PulseChain"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/factory/uniV2.ts",
+      "module": "pulsex-v1",
+      "name": "PulseX V1",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 96,
+      "serverless_score": 4,
+      "slug": "pulsex-v1",
+      "strict_true_p2p": false,
+      "total24h_usd": 1104830,
+      "total30d_usd": 48428588
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "PulseChain"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/factory/uniV2.ts",
+      "module": "pulsex-v2",
+      "name": "PulseX V2",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 97,
+      "serverless_score": 4,
+      "slug": "pulsex-v2",
+      "strict_true_p2p": false,
+      "total24h_usd": 1070860,
+      "total30d_usd": 46750775
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Flare"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/factory/uniSubgraph.ts",
+      "module": "sparkdex-v3-1",
+      "name": "SparkDEX V3.1",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 98,
+      "serverless_score": 4,
+      "slug": "sparkdex-v3.1",
+      "strict_true_p2p": false,
+      "total24h_usd": 1067906,
+      "total30d_usd": 55054082
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Soneium",
+        "Base",
+        "Somnia"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/quickswap-v4.ts",
+      "module": "quickswap-v4",
+      "name": "Quickswap V4",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 99,
+      "serverless_score": 4,
+      "slug": "quickswap-v4",
+      "strict_true_p2p": false,
+      "total24h_usd": 1064016,
+      "total30d_usd": 62535914
+    },
+    {
+      "architecture": "onchain_amm_or_pool",
+      "chains": [
+        "Hyperliquid L1"
+      ],
+      "methodology_url": "https://github.com/DefiLlama/dimension-adapters/blob/master/dexs/hybra-v4.ts",
+      "module": "hybra-v4",
+      "name": "Hybra V4",
+      "note": "Good serverless settlement properties, but traders interact with pools/contracts rather than direct peers.",
+      "p2p_score": 1,
+      "rank": 100,
+      "serverless_score": 4,
+      "slug": "hybra-v4",
+      "strict_true_p2p": false,
+      "total24h_usd": 1037267,
+      "total30d_usd": 63679885
+    }
+  ],
+  "score_scale": {
+    "p2p_score": "0=no user P2P; 5=direct peer discovery/negotiation/settlement coordination",
+    "serverless_score": "0=central service; 5=no privileged host or matching server"
+  },
+  "snapshot_date": "2026-06-21",
+  "source": "https://api.llama.fi/overview/dexs",
+  "strict_true_p2p_reference": {
+    "architecture": "direct_p2p_fiat_crypto",
+    "name": "Bisq",
+    "note": "Reference model outside the DeFiLlama top-100: desktop clients trade directly over a P2P network, with no central website or order server.",
+    "p2p_score": 5,
+    "rank": null,
+    "serverless_score": 5,
+    "source": "https://bisq.wiki/Frequently_asked_questions",
+    "strict_true_p2p": true
+  }
+}
