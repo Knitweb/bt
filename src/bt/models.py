@@ -43,7 +43,7 @@ class Asset:
             symbol=str(value["symbol"]),
             chain=str(value["chain"]),
             address=str(value.get("address", "")),
-            decimals=int(value.get("decimals", 18)),
+            decimals=int(value.get("decimals", BT_DECIMALS)),
         )
 
 
