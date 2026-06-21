@@ -5,7 +5,8 @@ from __future__ import annotations
 import argparse
 import json
 
-from .actors import Actor, AGENT, PERSON
+from .actors import Actor, AGENT, PERSON, VOTEBANK_DAO
+from .basket import eurbt_genesis_spec
 from .keys import Keypair
 from .market import EurbtMarket
 from .models import BUY, SELL, Asset, Order, Pair, SignedOrder
@@ -18,6 +19,7 @@ def build_demo() -> dict[str, object]:
     buyer = Keypair.generate()
     seller = Keypair.generate()
     auditor = Keypair.generate()
+    votebank = Keypair.generate()
 
     btc = Asset("BTC", "bitcoin", decimals=8)
     eurbt = Asset("EURBT", "ethereum", address="demo:eurbt", decimals=8)
@@ -25,6 +27,8 @@ def build_demo() -> dict[str, object]:
     market = EurbtMarket(pair)
     market.register_actor(Actor("person:buyer", PERSON, buyer.peer_id, identified=True))
     market.register_actor(Actor("agent:seller", AGENT, seller.peer_id, owner_person_id="person:seller-owner", identified=True))
+    market.register_actor(Actor("dao:vbank", VOTEBANK_DAO, votebank.peer_id, identified=True))
+    basket = eurbt_genesis_spec(votebank, market.actor_registry, now)
 
     for subject, note in (
         (buyer.peer_id, "buyer has completed small euro settlements before"),
@@ -77,6 +81,8 @@ def build_demo() -> dict[str, object]:
     plans = [market.settlement_plan(trade).to_dict() for trade in trades]
     return {
         "pair": pair.symbol,
+        "basket": basket.spec.to_dict(),
+        "basket_explanation": basket.spec.explain(),
         "trades": [trade.to_dict() for trade in trades],
         "settlement_plans": plans,
         "buyer_trust": market.explain_peer(buyer.peer_id, now=now + 3),

@@ -1,6 +1,14 @@
 """EURBT DEX protocol core."""
 
 from .actors import Actor, ActorRegistry
+from .basket import (
+    BasketComponent,
+    BasketSpec,
+    KnowledgeClaim,
+    SignedBasketSpec,
+    SignedKnowledgeClaim,
+    eurbt_genesis_spec,
+)
 from .keys import Keypair
 from .market import EurbtMarket
 from .models import Asset, Order, Pair, SignedOrder, Trade
@@ -14,8 +22,11 @@ __all__ = [
     "Actor",
     "ActorRegistry",
     "Attestation",
+    "BasketComponent",
+    "BasketSpec",
     "Envelope",
     "EurbtMarket",
+    "KnowledgeClaim",
     "Keypair",
     "Order",
     "Pair",
@@ -23,11 +34,14 @@ __all__ = [
     "SettlementPlan",
     "Receipt",
     "SignedAttestation",
+    "SignedBasketSpec",
+    "SignedKnowledgeClaim",
     "SignedTransfer",
     "SignedOrder",
     "Trade",
     "Transfer",
     "TrustBook",
+    "eurbt_genesis_spec",
     "plan_settlement",
     "receive_transfer",
 ]

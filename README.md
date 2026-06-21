@@ -26,6 +26,7 @@ building toward a serverless euro DEX.
 
 - `docs/DEX_RESEARCH.md` explains the top-100 DEX snapshot and classification.
 - `docs/INTEGER_TRANSACTIONS.md` explains the integer base and actor transaction policy.
+- `docs/BASKET_POLICY.md` explains the EUR anchor plus trade, crypto, and commodity basket.
 - `data/dex_top100_2026-06-21.json` stores the generated top-100 matrix.
 
 ## Website

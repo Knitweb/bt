@@ -13,6 +13,8 @@ EURBT separates the DEX into four layers:
 6. **Settlement adapters**: matched trades produce explicit settlement plans; chain or
    payment integrations execute those plans later.
 
+The basket policy is implemented in `src/eurbt/basket.py`.
+
 ## Why Not Just AMM
 
 AMMs are highly serverless at the settlement layer, but they are not user-to-user P2P:
