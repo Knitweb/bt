@@ -22,6 +22,7 @@ MESSAGE_TYPES = {
     "settlement-plan",
     "trade",
     "transfer",
+    "vbank-weight-point",
 }
 
 

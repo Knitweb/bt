@@ -15,6 +15,21 @@ Every valid EURBT basket spec must include:
 Inflation/HICP style data can be added as an additional component, but it cannot
 replace the four required components.
 
+## Dynamic vBank Weights
+
+Component weights are not hardcoded policy. They are derived from a vBank time series.
+Each time-series point contains:
+
+- observed timestamp;
+- one weight per required component;
+- participation ppm;
+- confidence ppm;
+- source, usually a vBank result, election, poll, or DAO record.
+
+The EURBT engine applies recency, participation, and confidence influence, then
+normalises the result to exactly `1_000_000` ppm. Fresh high-participation vBank
+points therefore steer the basket more than older or weakly-supported points.
+
 ## Integer Rules
 
 - Values use 8-decimal atoms.
@@ -22,13 +37,13 @@ replace the four required components.
 - Weights must sum to exactly `1_000_000`.
 - The basket target is a deterministic integer weighted average.
 
-Example genesis weights:
+Default seed time-series points currently derive approximately:
 
 | Component | Weight |
 | --- | ---: |
-| EUR anchor | 380000 ppm |
+| EUR anchor | 391051 ppm |
 | Fiat trade | 240000 ppm |
-| Crypto trade | 180000 ppm |
+| Crypto trade | 168949 ppm |
 | Commodities | 200000 ppm |
 
 ## Knowledge Claims
@@ -48,4 +63,3 @@ Expired or invalidly signed claims cannot be used to build basket components.
 
 Basket specs can only be signed by the VoteBank DAO actor. Identified people and
 owned agents may transact, but they cannot update the monetary basket policy.
-

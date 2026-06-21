@@ -19,6 +19,7 @@ from .money import BT_SCALE, format_units, validate_atoms
 
 
 WEIGHT_SCALE = 1_000_000
+DEFAULT_WEIGHT_WINDOW_SECONDS = 30 * 86_400
 EUR_ANCHOR = "eur_anchor"
 FIAT_TRADE = "fiat_trade"
 CRYPTO_TRADE = "crypto_trade"
@@ -38,6 +39,14 @@ def validate_weight_ppm(value: int, *, field: str = "weight_ppm", allow_zero: bo
     return value
 
 
+def validate_weight_input(value: int, *, field: str = "weight") -> int:
+    if isinstance(value, bool) or not isinstance(value, int):
+        raise TypeError(f"{field} must be an integer")
+    if value < 0:
+        raise ValueError(f"{field} must be non-negative")
+    return value
+
+
 def weighted_average_atoms(weighted_values: tuple[tuple[int, int], ...]) -> int:
     if not weighted_values:
         raise ValueError("at least one weighted value is required")
@@ -46,6 +55,115 @@ def weighted_average_atoms(weighted_values: tuple[tuple[int, int], ...]) -> int:
         raise ValueError("weights must sum to 1_000_000 ppm")
     numerator = sum(value_atoms * weight for value_atoms, weight in weighted_values)
     return (numerator + WEIGHT_SCALE // 2) // WEIGHT_SCALE
+
+
+def normalise_weights(raw_weights: dict[str, int]) -> dict[str, int]:
+    if set(raw_weights) != REQUIRED_COMPONENTS:
+        missing = REQUIRED_COMPONENTS - set(raw_weights)
+        extra = set(raw_weights) - REQUIRED_COMPONENTS
+        details = []
+        if missing:
+            details.append(f"missing: {', '.join(sorted(missing))}")
+        if extra:
+            details.append(f"extra: {', '.join(sorted(extra))}")
+        raise ValueError("weights must cover required components (" + "; ".join(details) + ")")
+    for component_type, value in raw_weights.items():
+        validate_weight_input(value, field=f"{component_type}_weight")
+    total = sum(raw_weights.values())
+    if total <= 0:
+        raise ValueError("weight total must be positive")
+    scaled: dict[str, int] = {}
+    remainders: list[tuple[int, str]] = []
+    for component_type in sorted(raw_weights):
+        numerator = raw_weights[component_type] * WEIGHT_SCALE
+        scaled[component_type] = numerator // total
+        remainders.append((numerator % total, component_type))
+    remainder = WEIGHT_SCALE - sum(scaled.values())
+    for _, component_type in sorted(remainders, reverse=True)[:remainder]:
+        scaled[component_type] += 1
+    return scaled
+
+
+@dataclass(frozen=True)
+class VBankWeightPoint:
+    """One vBank time-series point for EURBT basket weights."""
+
+    point_id: str
+    observed_at: int
+    weights_ppm: dict[str, int]
+    participation_ppm: int
+    confidence_ppm: int
+    source: str
+
+    def __post_init__(self) -> None:
+        if not self.point_id:
+            raise ValueError("point_id is required")
+        if isinstance(self.observed_at, bool) or not isinstance(self.observed_at, int):
+            raise TypeError("observed_at must be an integer")
+        for component_type, weight in self.weights_ppm.items():
+            validate_weight_ppm(weight, field=f"{component_type}_weight_ppm", allow_zero=True)
+        normalise_weights(dict(self.weights_ppm))
+        validate_weight_ppm(self.participation_ppm, field="participation_ppm")
+        validate_weight_ppm(self.confidence_ppm, field="confidence_ppm")
+        if not self.source:
+            raise ValueError("source is required")
+
+    def normalised_weights(self) -> dict[str, int]:
+        return normalise_weights(dict(self.weights_ppm))
+
+    def time_factor_ppm(self, now: int, window_seconds: int = DEFAULT_WEIGHT_WINDOW_SECONDS) -> int:
+        if window_seconds <= 0:
+            raise ValueError("window_seconds must be positive")
+        age = max(0, now - self.observed_at)
+        if age >= window_seconds:
+            return 1
+        # Linear recency decay. Fresh samples carry full time weight; older samples
+        # inside the window taper toward 1 ppm instead of disappearing abruptly.
+        return max(1, ((window_seconds - age) * WEIGHT_SCALE) // window_seconds)
+
+    def influence_ppm(self, now: int, window_seconds: int = DEFAULT_WEIGHT_WINDOW_SECONDS) -> int:
+        return max(
+            1,
+            (self.participation_ppm * self.confidence_ppm * self.time_factor_ppm(now, window_seconds))
+            // (WEIGHT_SCALE * WEIGHT_SCALE),
+        )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "confidence_ppm": self.confidence_ppm,
+            "observed_at": self.observed_at,
+            "participation_ppm": self.participation_ppm,
+            "point_id": self.point_id,
+            "source": self.source,
+            "weights_ppm": self.normalised_weights(),
+        }
+
+    @classmethod
+    def from_dict(cls, value: dict[str, Any]) -> "VBankWeightPoint":
+        return cls(
+            point_id=str(value["point_id"]),
+            observed_at=int(value["observed_at"]),
+            weights_ppm={str(key): int(weight) for key, weight in dict(value["weights_ppm"]).items()},
+            participation_ppm=int(value["participation_ppm"]),
+            confidence_ppm=int(value["confidence_ppm"]),
+            source=str(value["source"]),
+        )
+
+
+def derive_weights_from_vbank_series(
+    points: tuple[VBankWeightPoint, ...],
+    *,
+    now: int,
+    window_seconds: int = DEFAULT_WEIGHT_WINDOW_SECONDS,
+) -> dict[str, int]:
+    if not points:
+        raise ValueError("at least one vBank weight point is required")
+    totals = {component_type: 0 for component_type in REQUIRED_COMPONENTS}
+    for point in points:
+        influence = point.influence_ppm(now, window_seconds)
+        for component_type, weight in point.normalised_weights().items():
+            totals[component_type] += weight * influence
+    return normalise_weights(totals)
 
 
 @dataclass(frozen=True)
@@ -353,14 +471,45 @@ def eurbt_genesis_claims(issuer: Keypair, now: int) -> tuple[SignedKnowledgeClai
     return tuple(signed)
 
 
-def eurbt_genesis_spec(votebank: Keypair, registry: ActorRegistry, now: int) -> SignedBasketSpec:
+def default_vbank_weight_series(now: int) -> tuple[VBankWeightPoint, ...]:
+    return (
+        VBankWeightPoint(
+            point_id="vbank:eurbt:genesis:baseline",
+            observed_at=now - 14 * 86_400,
+            weights_ppm={
+                EUR_ANCHOR: 420_000,
+                FIAT_TRADE: 240_000,
+                CRYPTO_TRADE: 140_000,
+                COMMODITY: 200_000,
+            },
+            participation_ppm=720_000,
+            confidence_ppm=850_000,
+            source="vbank://eurbt/genesis/baseline",
+        ),
+        VBankWeightPoint(
+            point_id="vbank:eurbt:genesis:latest",
+            observed_at=now,
+            weights_ppm={
+                EUR_ANCHOR: 380_000,
+                FIAT_TRADE: 240_000,
+                CRYPTO_TRADE: 180_000,
+                COMMODITY: 200_000,
+            },
+            participation_ppm=900_000,
+            confidence_ppm=950_000,
+            source="vbank://eurbt/genesis/latest",
+        ),
+    )
+
+
+def eurbt_genesis_spec(
+    votebank: Keypair,
+    registry: ActorRegistry,
+    now: int,
+    vbank_series: tuple[VBankWeightPoint, ...] | None = None,
+) -> SignedBasketSpec:
     claims = eurbt_genesis_claims(votebank, now)
-    weights = {
-        EUR_ANCHOR: 380_000,
-        FIAT_TRADE: 240_000,
-        CRYPTO_TRADE: 180_000,
-        COMMODITY: 200_000,
-    }
+    weights = derive_weights_from_vbank_series(vbank_series or default_vbank_weight_series(now), now=now)
     components = tuple(
         component_from_claim(
             claim,
@@ -380,4 +529,3 @@ def eurbt_genesis_spec(votebank: Keypair, registry: ActorRegistry, now: int) -> 
         created_at=now,
     )
     return SignedBasketSpec.sign(spec, votebank, registry)
-

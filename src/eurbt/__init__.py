@@ -7,6 +7,9 @@ from .basket import (
     KnowledgeClaim,
     SignedBasketSpec,
     SignedKnowledgeClaim,
+    VBankWeightPoint,
+    default_vbank_weight_series,
+    derive_weights_from_vbank_series,
     eurbt_genesis_spec,
 )
 from .keys import Keypair
@@ -41,6 +44,9 @@ __all__ = [
     "Trade",
     "Transfer",
     "TrustBook",
+    "VBankWeightPoint",
+    "default_vbank_weight_series",
+    "derive_weights_from_vbank_series",
     "eurbt_genesis_spec",
     "plan_settlement",
     "receive_transfer",

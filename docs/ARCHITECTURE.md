@@ -13,7 +13,8 @@ EURBT separates the DEX into four layers:
 6. **Settlement adapters**: matched trades produce explicit settlement plans; chain or
    payment integrations execute those plans later.
 
-The basket policy is implemented in `src/eurbt/basket.py`.
+The basket policy is implemented in `src/eurbt/basket.py`. Weights are derived from
+vBank time-series points instead of fixed config.
 
 ## Why Not Just AMM
 
