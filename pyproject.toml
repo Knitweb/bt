@@ -11,7 +11,7 @@ readme = "README.md"
 license = { text = "Proprietary" }
 authors = [{ name = "Knitweb" }]
 dependencies = [
-  "cryptography>=42",
+  "cryptography>=48.0.1",
 ]
 
 [project.scripts]
