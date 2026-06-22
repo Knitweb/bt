@@ -4,7 +4,7 @@ import pytest
 
 from bt.money import parse_units
 from bt.keys import Keypair
-from bt.models import BUY, SELL, Asset, Order, Pair
+from bt.models import BUY, Asset, Order, Pair
 
 
 @pytest.fixture
